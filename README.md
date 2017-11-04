@@ -1,0 +1,2 @@
+# bitwatcher
+Bitcoin watcher
