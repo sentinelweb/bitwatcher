@@ -34,7 +34,7 @@ class TradeApiInteractor(val mapper: TradesMapper = TradesMapper()) {
                 val type = mapTradeType(it.type)
                 if (type != TradeType.UNKNOWN) {
                     result.add(Trade(
-                            Instant.ofEpochMilli(it.timestamp.time),
+                            it.timestamp,
                             it.id,
                             type,
                             it.originalAmount,

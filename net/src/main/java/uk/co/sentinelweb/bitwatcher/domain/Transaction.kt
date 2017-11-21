@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.domain
 
 import java.math.BigDecimal
 import java.time.Instant
+import java.util.*
 
 enum class TransactionType {
     DEPOSIT,
@@ -18,7 +19,7 @@ enum class TransactionStatus {
 
 data class Transaction(
         val type: TransactionType,
-        val date: Instant,
+        val date: Date,
         val amount: BigDecimal,
         val currencyCode: String,
         val balance: BigDecimal,

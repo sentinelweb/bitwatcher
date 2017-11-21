@@ -33,7 +33,7 @@ class TransactionApiInteractor(val mapper: TradesMapper = TradesMapper()) {
                 val type = mapOrderType(it.type)
                 result.add(Transaction(
                         type,
-                        Instant.ofEpochMilli(it.date.time),
+                        it.date,
                         it.amount,
                         it.currency.currencyCode,
                         it.balance,
