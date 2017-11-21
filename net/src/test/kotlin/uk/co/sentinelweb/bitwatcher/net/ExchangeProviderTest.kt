@@ -24,8 +24,7 @@ class ExchangeProviderTest {
 
     @Test
     fun getExchnage() {
-
-        sut.exchnage.marketDataService.getTicker(CurrencyPair.BTC_USD);
+        sut.exchange.marketDataService.getTicker(CurrencyPair.BTC_USD);
 
     }
 
