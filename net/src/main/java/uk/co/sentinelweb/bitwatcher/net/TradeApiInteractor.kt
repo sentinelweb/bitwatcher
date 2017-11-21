@@ -1,21 +1,21 @@
 package uk.co.sentinelweb.bitwatcher.net
 
-import io.reactivex.Observable
 import io.reactivex.Single
 import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
-import uk.co.sentinelweb.bitwatcher.domain.OrderType
+import uk.co.sentinelweb.bitwatcher.domain.Trade
+import uk.co.sentinelweb.bitwatcher.domain.TradeType
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
 import java.time.Instant
 import java.util.concurrent.Callable
 
-class TxApiInteractor(val mapper:TxMapper = TxMapper()) {
+class TradeApiInteractor(val mapper: TradesMapper = TradesMapper()) {
 
-    fun getTransactions(exProvider:ExchangeProvider):Single<List<Transaction>> {
-        return Single.fromCallable(object : Callable<List<Transaction>> {
-            override fun call(): List<Transaction> {
+    fun getUserTrades(exProvider:ExchangeProvider):Single<List<Trade>> {
+        return Single.fromCallable(object : Callable<List<Trade>> {
+            override fun call(): List<Trade> {
                 System.err.println("getting trades ...")
                 val bitstampTradeHistoryParams = BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 100)
                 bitstampTradeHistoryParams.pageNumber = 0
@@ -27,13 +27,13 @@ class TxApiInteractor(val mapper:TxMapper = TxMapper()) {
     }
 
 
-    class TxMapper() {
-        fun map(trades:List<UserTrade>) : List<Transaction> {
-            val result = mutableListOf<Transaction>()
+    class TradesMapper() {
+        fun map(trades:List<UserTrade>) : List<Trade> {
+            val result = mutableListOf<Trade>()
             trades.forEach {
-                val type = mapOrderType(it.type)
-                if (type != OrderType.UNKNOWN) {
-                    result.add(Transaction(
+                val type = mapTradeType(it.type)
+                if (type != TradeType.UNKNOWN) {
+                    result.add(Trade(
                             Instant.ofEpochMilli(it.timestamp.time),
                             it.id,
                             type,
@@ -49,12 +49,12 @@ class TxApiInteractor(val mapper:TxMapper = TxMapper()) {
             return result.toList()
         }
 
-        fun mapOrderType (t:Order.OrderType):OrderType {
+        fun mapTradeType(t:Order.OrderType): TradeType {
             when (t){
-                Order.OrderType.BID -> return OrderType.BUY
-                Order.OrderType.ASK -> return OrderType.SELL
+                Order.OrderType.BID -> return TradeType.BID
+                Order.OrderType.ASK -> return TradeType.ASK
             }
-            return OrderType.UNKNOWN
+            return TradeType.UNKNOWN
         }
     }
 }

@@ -1,19 +1,18 @@
 package uk.co.sentinelweb.bitwatcher.net
 
 import io.reactivex.observers.TestObserver
-import io.reactivex.schedulers.TestScheduler
-import org.hamcrest.CoreMatchers
 import org.hamcrest.core.Is
 import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import uk.co.sentinelweb.bitwatcher.domain.Trade
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
 
-class TxApiInteractorTest {
-    lateinit var sut: TxApiInteractor
+class TradeApiInteractorTest {
+    lateinit var sut: TradeApiInteractor
     lateinit var provider: ExchangeProvider
-    val observer = TestObserver<List<Transaction>>()
+    val observer = TestObserver<List<Trade>>()
 
     @Before
     fun setUp() {
@@ -22,12 +21,12 @@ class TxApiInteractorTest {
         val user = System.getProperty("BITSTAMP_USER")
 
         provider = ExchangeProvider(key, secret, user)
-        sut = TxApiInteractor()
+        sut = TradeApiInteractor()
     }
 
     @Test
     fun getTransactions() {
-        val transactionsObservable = sut.getTransactions(provider)
+        val transactionsObservable = sut.getUserTrades(provider)
         transactionsObservable
                 .subscribe(observer)
 
