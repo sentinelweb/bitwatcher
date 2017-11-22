@@ -4,10 +4,17 @@ import android.view.View
 
 
 class TradePresenter(val view: TradeContract.View) : TradeContract.Presenter {
+    override fun init() {
 
-        override fun view(): View {
-            return view as View
-        }
+    }
+
+    override fun destroy() {
+
+    }
+
+    override fun view(): View {
+        return view as View
+    }
 
     override fun onStart() {
 

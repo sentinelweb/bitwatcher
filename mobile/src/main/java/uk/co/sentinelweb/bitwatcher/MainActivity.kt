@@ -33,10 +33,21 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         false
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()// TODO use lifecycle componets
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.onStop()// TODO use lifecycle componets
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         presenter = MainPresenter(this);
+        presenter.onCreate()// TODO use lifecycle componets
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         pager.adapter = object : PagerAdapter() {
@@ -48,6 +59,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
             override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
                 presenter.removePagePresenter(position)
+                container?.removeView(container.getChildAt(0))
             }
 
             override fun isViewFromObject(view: View?, `object`: Any?): Boolean {

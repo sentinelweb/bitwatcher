@@ -16,7 +16,6 @@ class PagerFactory() {
                 val homeView = HomeView(container?.context)
                 container?.addView(homeView)
                 val homePresenter = HomePresenter(homeView)
-                homePresenter.loadData() // TODO intinalise properly
                 return homePresenter
             }
             1 -> {

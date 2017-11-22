@@ -1,17 +1,20 @@
 package uk.co.sentinelweb.bitwatcher
 
-import android.util.SparseArray
 import uk.co.sentinelweb.bitwatcher.pages.PagePresenter
 
-class MainPresenter(val view:MainContract.View):MainContract.Presenter {
-    private val presenters: SparseArray<PagePresenter> = SparseArray()
+class MainPresenter(val view:MainContract.View) : MainContract.Presenter {
+    // TODo fix this
+    private val presenters: MutableMap<Int, PagePresenter> = mutableMapOf()
+
 
     override fun addPagePresenter(position: Int, presenter: PagePresenter) {
-        presenters.setValueAt(position, presenter)
+        presenter.init()
+        presenters[position]=presenter
     }
 
     override fun removePagePresenter(position: Int) {
-        presenters.removeAt(position)
+        presenters[position]?.destroy()
+        presenters.remove(position)
     }
 
     override fun onCreate() {
@@ -19,14 +22,14 @@ class MainPresenter(val view:MainContract.View):MainContract.Presenter {
     }
 
     override fun onStart() {
-        for (i in 0 .. presenters.size()) {
-            presenters[presenters.keyAt(i)].onStart()
+        for (key in presenters.keys) {
+            presenters[key]?.onStart()
         }
     }
 
     override fun onStop() {
-        for (i in 0 .. presenters.size()) {
-            presenters[presenters.keyAt(i)].onStop()
+        for (key in presenters.keys) {
+            presenters[key]?.onStop()
         }
     }
 }

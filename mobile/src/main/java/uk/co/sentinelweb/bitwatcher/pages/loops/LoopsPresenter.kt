@@ -4,6 +4,13 @@ import android.view.View
 
 
 class LoopsPresenter(val view: LoopsContract.View) : LoopsContract.Presenter {
+    override fun init() {
+
+    }
+
+    override fun destroy() {
+
+    }
 
     override fun view(): View {
         return view as View
