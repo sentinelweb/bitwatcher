@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.view.PagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import uk.co.sentinelweb.bitwatcher.pages.PagePresenter
 import uk.co.sentinelweb.bitwatcher.pages.PagerFactory
 
 class MainActivity : AppCompatActivity(), MainContract.View {
-    private lateinit var presenter:MainContract.Presenter;
+    private lateinit var presenter: MainContract.Presenter;
     private val pagerFactory = PagerFactory()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -53,11 +54,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         pager.adapter = object : PagerAdapter() {
             override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
                 val pagePresenter = pagerFactory.createPagePresenter(container, position)
-                presenter.addPagePresenter(position,pagePresenter)
+                presenter.addPagePresenter(position, pagePresenter)
+                Log.d("MainActivity","add item ${position}")
                 return pagePresenter.view()
             }
 
             override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
+                Log.d("MainActivity","remove item ${position}")
                 presenter.removePagePresenter(position)
                 container?.removeView(container.getChildAt(0))
             }
