@@ -1,5 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.pages.home
 
+import android.util.Log
 import android.view.View
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,7 +42,8 @@ class HomePresenter(
                 .getTicker()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t -> homeView.setData(HomeModel("${t.last} ${t.toCurrencyCode}")) })
+                .subscribe({ t -> homeView.setData(HomeModel("${t.last} ${t.toCurrencyCode}")) },
+                        {e -> Log.d("HomePresenter","error updating ticker data",e)})
 
     }
 

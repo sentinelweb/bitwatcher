@@ -12,9 +12,11 @@ class MainPresenter(val view:MainContract.View) : MainContract.Presenter {
         presenters[position]=presenter
     }
 
-    override fun removePagePresenter(position: Int) {
-        presenters[position]?.destroy()
+    override fun removePagePresenter(position: Int): PagePresenter? {
+        val pagePresenter = presenters[position]
+        pagePresenter?.destroy()
         presenters.remove(position)
+        return pagePresenter
     }
 
     override fun onCreate() {

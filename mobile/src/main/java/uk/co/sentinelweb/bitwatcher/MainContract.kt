@@ -9,7 +9,7 @@ interface MainContract {
         fun onStart()// TODO use lifecycle components
         fun onStop()// TODO use lifecycle components
         fun addPagePresenter(position:Int, presenter:PagePresenter)
-        fun removePagePresenter(position:Int)
+        fun removePagePresenter(position:Int):PagePresenter?
     }
 
     interface View {
