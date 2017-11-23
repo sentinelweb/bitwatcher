@@ -4,6 +4,7 @@ import io.reactivex.Single
 import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.account.FundingRecord
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
 import uk.co.sentinelweb.bitwatcher.domain.TransactionStatus
 import uk.co.sentinelweb.bitwatcher.domain.TransactionType
@@ -35,7 +36,7 @@ class TransactionApiInteractor(val mapper: TradesMapper = TradesMapper()) {
                         type,
                         it.date,
                         it.amount,
-                        it.currency.currencyCode,
+                        CurrencyCode.lookup(it.currency.currencyCode)!!,
                         it.balance,
                         it.description,
                         mapStatus(it.status),

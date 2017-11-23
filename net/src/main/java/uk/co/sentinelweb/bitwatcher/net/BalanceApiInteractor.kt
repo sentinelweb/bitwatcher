@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw
 import uk.co.sentinelweb.bitwatcher.domain.Balance
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import java.util.concurrent.Callable
 
 class BalanceApiInteractor(val mapper:BalanceMapper = BalanceMapper()) {
@@ -23,7 +24,11 @@ class BalanceApiInteractor(val mapper:BalanceMapper = BalanceMapper()) {
         fun map(balances: MutableCollection<BitstampBalance.Balance>): List<Balance> {
             val mutableListOf = mutableListOf<Balance>()
             for (xbalance in balances) {
-                mutableListOf.add(Balance(xbalance.currency, xbalance.balance, xbalance.available, xbalance.reserved))
+                mutableListOf.add(Balance(
+                        CurrencyCode.lookup(xbalance.currency)!!,
+                        xbalance.balance,
+                        xbalance.available,
+                        xbalance.reserved))
             }
             return mutableListOf.toList()
         }

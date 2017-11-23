@@ -6,15 +6,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.net.TickerDataApiInteractor
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 class HomePresenter(
         val homeView: HomeContract.View,
         val tickerDataApiInteractor: TickerDataApiInteractor = TickerDataApiInteractor()
 ) : HomeContract.Presenter {
-
+    val model: HomeModel = HomeModel("BTC", "ETH")
     private val subscription = CompositeDisposable()
 
     override fun destroy() {
@@ -39,11 +39,23 @@ class HomePresenter(
 
     override fun loadData() {
         tickerDataApiInteractor
-                .getTicker()
+                .getTicker(CurrencyCode.BTC, CurrencyCode.USD)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t -> homeView.setData(HomeModel("${t.last} ${t.toCurrencyCode}")) },
-                        {e -> Log.d("HomePresenter","error updating ticker data",e)})
+                .subscribe({ t ->
+                    model.btcPriceText = "${t.last} ${t.currencyCode}-${t.baseCurrencyCode}";
+                    homeView.setData(model)
+                },
+                        { e -> Log.d("HomePresenter", "error updating ticker data", e) })
+        tickerDataApiInteractor
+                .getTicker(CurrencyCode.ETH, CurrencyCode.USD)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t ->
+                    model.ethPriceText = "${t.last} ${t.currencyCode}-${t.baseCurrencyCode}";
+                    homeView.setData(model)
+                },
+                        { e -> Log.d("HomePresenter", "error updating ticker data", e) })
 
     }
 

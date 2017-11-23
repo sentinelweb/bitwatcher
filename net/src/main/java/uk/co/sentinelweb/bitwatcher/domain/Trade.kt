@@ -12,8 +12,8 @@ data class Trade(val date: Date,
                        val type: TradeType,
                        val price: BigDecimal,
                        val amount: BigDecimal,
-                       val currencyCodeFrom:String,
-                       val currencyCodeTo:String,
+                       val currencyCodeFrom:CurrencyCode,
+                       val currencyCodeTo:CurrencyCode,
                        val feesAmount:BigDecimal,
                        val feesCurrencyCode: String)
 

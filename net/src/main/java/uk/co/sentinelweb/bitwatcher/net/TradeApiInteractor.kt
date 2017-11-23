@@ -5,6 +5,7 @@ import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.Trade
 import uk.co.sentinelweb.bitwatcher.domain.TradeType
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
@@ -39,8 +40,8 @@ class TradeApiInteractor(val mapper: TradesMapper = TradesMapper()) {
                             type,
                             it.originalAmount,
                             it.price,
-                            it.currencyPair.base.currencyCode,
-                            it.currencyPair.counter.currencyCode,
+                            CurrencyCode.lookup(it.currencyPair.base.currencyCode)!!,
+                            CurrencyCode.lookup(it.currencyPair.counter.currencyCode)!!,
                             it.feeAmount,
                             it.feeCurrency.currencyCode
                     ))

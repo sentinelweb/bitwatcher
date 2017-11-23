@@ -21,7 +21,7 @@ data class Transaction(
         val type: TransactionType,
         val date: Date,
         val amount: BigDecimal,
-        val currencyCode: String,
+        val currencyCode: CurrencyCode,
         val balance: BigDecimal,
         val description: String,
         val status: TransactionStatus,
