@@ -1,6 +1,6 @@
-package uk.co.sentinelweb.bitwatcher.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.pages.loops
 
-import uk.co.sentinelweb.bitwatcher.pages.PagePresenter
+import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
 interface LoopsContract {
 

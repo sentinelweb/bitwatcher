@@ -1,6 +1,6 @@
-package uk.co.sentinelweb.bitwatcher.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.pages.home
 
-import uk.co.sentinelweb.bitwatcher.pages.PagePresenter
+import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
 interface HomeContract {
 

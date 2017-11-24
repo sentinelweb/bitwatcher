@@ -1,9 +1,8 @@
-package uk.co.sentinelweb.bitwatcher.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.pages.trade
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-
 import uk.co.sentinelweb.bitwatcher.R
 
 class TradeView(context: Context?): FrameLayout(context), TradeContract.View {

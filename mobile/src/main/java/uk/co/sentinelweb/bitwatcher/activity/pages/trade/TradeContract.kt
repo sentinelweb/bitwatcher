@@ -1,7 +1,6 @@
-package uk.co.sentinelweb.bitwatcher.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.pages.trade
 
-import uk.co.sentinelweb.bitwatcher.pages.PagePresenter
-import uk.co.sentinelweb.bitwatcher.pages.trade.TradeModel
+import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
 interface TradeContract {
 

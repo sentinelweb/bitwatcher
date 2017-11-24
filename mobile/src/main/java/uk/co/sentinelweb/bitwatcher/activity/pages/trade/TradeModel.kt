@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.pages.trade
 
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
 
