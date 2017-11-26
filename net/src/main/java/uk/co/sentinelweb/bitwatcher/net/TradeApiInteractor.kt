@@ -8,19 +8,17 @@ import org.knowm.xchange.dto.trade.UserTrade
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.Trade
 import uk.co.sentinelweb.bitwatcher.domain.TradeType
-import uk.co.sentinelweb.bitwatcher.domain.Transaction
-import java.time.Instant
 import java.util.concurrent.Callable
 
-class TradeApiInteractor(val mapper: TradesMapper = TradesMapper()) {
+class TradeApiInteractor(val service:BitstampService,val mapper: TradesMapper = TradesMapper()) {
 
-    fun getUserTrades(exProvider:ExchangeProvider):Single<List<Trade>> {
+    fun getUserTrades():Single<List<Trade>> {
         return Single.fromCallable(object : Callable<List<Trade>> {
             override fun call(): List<Trade> {
                 System.err.println("getting trades ...")
                 val bitstampTradeHistoryParams = BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 100)
                 bitstampTradeHistoryParams.pageNumber = 0
-                val trades = exProvider.exchange.tradeService.getTradeHistory(bitstampTradeHistoryParams)
+                val trades = service.tradeService.getTradeHistory(bitstampTradeHistoryParams)
                 System.err.println("got trades:${trades.userTrades.size}")
                 return mapper.map(trades.userTrades.toList())
             }

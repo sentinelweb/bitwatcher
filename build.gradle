@@ -5,6 +5,9 @@ buildscript {
     ext.xchange_version = '4.3.0'
     ext.rx_version = '2.1.5'
     ext.dagger_version = '2.12'
+    ext.play_services = '11.6.0'
+    ext.lifecycle = '1.0.3'
+    ext.lifecycle_compiler = '1.0.0'
 
     ext.junit_version = '4.12'
     ext.mockito_version = '2.10.0'

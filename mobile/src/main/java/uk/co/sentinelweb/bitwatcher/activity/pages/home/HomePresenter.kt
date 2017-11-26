@@ -27,12 +27,12 @@ class HomePresenter @Inject constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        startTimerInterval()
+        init()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
-        subscription.clear()
+        cleanup()
     }
 
     override fun cleanup() {
@@ -44,24 +44,30 @@ class HomePresenter @Inject constructor(
     }
 
     override fun loadData() {
-        tickerDataApiInteractor
-                .getTicker(CurrencyCode.BTC, CurrencyCode.USD)
+        subscription.add(tickerDataApiInteractor
+                .getTickers(listOf(CurrencyCode.BTC, CurrencyCode.ETH), listOf(CurrencyCode.USD, CurrencyCode.EUR))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t ->
-                    model.btcPriceText = "${t.last} ${t.currencyCode}-${t.baseCurrencyCode}"
+                    when (t.currencyCode) {
+                        CurrencyCode.ETH ->
+                            when (t.baseCurrencyCode) {
+                                CurrencyCode.USD -> model.ethUsdPriceText = t.last.toString()
+                                CurrencyCode.EUR -> model.ethEurPriceText = t.last.toString()
+                                else -> {}
+                            }
+                        CurrencyCode.BTC ->
+                            when (t.baseCurrencyCode) {
+                                CurrencyCode.USD -> model.btcUsdPriceText = t.last.toString()
+                                CurrencyCode.EUR -> model.btcEurPriceText = t.last.toString()
+                                else -> {}
+                            }
+                        else -> {}
+                    }
                     homeView.setData(model)
-                },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) })
-        tickerDataApiInteractor
-                .getTicker(CurrencyCode.ETH, CurrencyCode.USD)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t ->
-                    model.ethPriceText = "${t.last} ${t.currencyCode}-${t.baseCurrencyCode}"
-                    homeView.setData(model)
-                },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) })
+                }, { e -> Log.d("HomePresenter", "error updating ticker data", e) })
+        )
+
 
     }
 

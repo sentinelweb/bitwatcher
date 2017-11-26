@@ -7,14 +7,12 @@ import uk.co.sentinelweb.bitwatcher.domain.Balance
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import java.util.concurrent.Callable
 
-class BalanceApiInteractor(val mapper:BalanceMapper = BalanceMapper()) {
+class BalanceApiInteractor(val service:BitstampService, val mapper:BalanceMapper = BalanceMapper()) {
 
-    fun getAccountBalance(provider : ExchangeProvider): Observable<List<Balance>> {
+    fun getAccountBalance(): Observable<List<Balance>> {
         return Observable.fromCallable(object : Callable<List<Balance>> {
             override fun call(): List<Balance> {
-                val accountService = provider.exchange.getAccountService()
-
-                val balances = (accountService as BitstampAccountServiceRaw).bitstampBalance.balances
+                val balances = (service.accountService as BitstampAccountServiceRaw).bitstampBalance.balances
                 return mapper.map(balances)
             }
         })

@@ -11,15 +11,15 @@ import uk.co.sentinelweb.bitwatcher.domain.TransactionType
 import java.time.Instant
 import java.util.concurrent.Callable
 
-class TransactionApiInteractor(val mapper: TradesMapper = TradesMapper()) {
+class TransactionApiInteractor(val service:BitstampService,val mapper: TradesMapper = TradesMapper()) {
 
-    fun getTransactions(exProvider: ExchangeProvider): Single<List<Transaction>> {
+    fun getTransactions(): Single<List<Transaction>> {
         return Single.fromCallable(object : Callable<List<Transaction>> {
             override fun call(): List<Transaction> {
                 System.err.println("getting transactions ...")
                 val bitstampTradeHistoryParams = BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 100)
                 bitstampTradeHistoryParams.pageNumber = 0
-                val trades = exProvider.exchange.accountService.getFundingHistory(bitstampTradeHistoryParams)
+                val trades = service.accountService.getFundingHistory(bitstampTradeHistoryParams)
                 System.err.println("got transactions:${trades.size}")
                 return mapper.map(trades.toList())
             }

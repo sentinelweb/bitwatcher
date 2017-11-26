@@ -12,8 +12,15 @@ class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
     }
 
     override fun setData(model: HomeModel) {
-        btc_price_text.text = model.btcPriceText
-        eth_price_text.text = model.ethPriceText
+        btc_usd_ticker_text.text = model.btcUsdPriceText
+        eth_usd_ticker_text.text = model.ethUsdPriceText
+        bch_usd_ticker_text.text = model.bchUsdPriceText
+        btc_gbp_ticker_text.text = model.btcGbpPriceText
+        eth_gbp_ticker_text.text = model.ethGbpPriceText
+        bch_gbp_ticker_text.text = model.bchGbpPriceText
+        btc_eur_ticker_text.text = model.btcEurPriceText
+        eth_eur_ticker_text.text = model.ethEurPriceText
+        bch_eur_ticker_text.text = model.bchEurPriceText
     }
 
 }

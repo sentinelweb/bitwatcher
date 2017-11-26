@@ -1,34 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffaaaa">
+    android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/btc_price_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="1000 USD"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:weightSum="4">
+            <TextView
+                style="@style/Ticker.Header"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/btc_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="BTC"/>
+            <TextView
+                android:id="@+id/eth_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="ETH"/>
+            <TextView
+                android:id="@+id/bch_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="BCH"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:weightSum="4">
+            <TextView
+                android:id="@+id/usd_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="USD"/>
+            <TextView
+                android:id="@+id/btc_usd_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/eth_usd_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/bch_usd_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/eth_price_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="1000 USD"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="?android:attr/colorControlActivated"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btc_price_text" />
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="4">
+            <TextView
+                android:id="@+id/gbb_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="GBP"/>
+            <TextView
+                android:id="@+id/btc_gbp_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/eth_gbp_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/bch_gbp_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="4">
+            <TextView
+                android:id="@+id/eur_header_text"
+                style="@style/Ticker.Header"
+                android:layout_weight="1"
+                android:text="EUR"/>
+            <TextView
+                android:id="@+id/btc_eur_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/eth_eur_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/bch_eur_ticker_text"
+                style="@style/Ticker.Value"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

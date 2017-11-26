@@ -9,5 +9,5 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun provideTickerDataApiInteractor(): TickerDataApiInteractor = TickerDataApiInteractor()
+    fun provideTickerDataApiInteractor(): TickerDataApiInteractor = TickerDataApiInteractor(GUEST)
 }
