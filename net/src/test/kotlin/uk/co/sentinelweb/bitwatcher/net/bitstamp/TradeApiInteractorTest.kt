@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net
+package uk.co.sentinelweb.bitwatcher.net.bitstamp
 
 import io.reactivex.observers.TestObserver
 import org.hamcrest.core.Is
@@ -7,11 +7,11 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import uk.co.sentinelweb.bitwatcher.domain.Trade
-import uk.co.sentinelweb.bitwatcher.domain.Transaction
+import uk.co.sentinelweb.bitwatcher.net.ExchangeDataProvider
 
 class TradeApiInteractorTest {
     lateinit var sut: TradeApiInteractor
-    lateinit var provider: ExchangeProvider
+    lateinit var dataProvider: ExchangeDataProvider
     val observer = TestObserver<List<Trade>>()
 
     @Before
@@ -20,13 +20,13 @@ class TradeApiInteractorTest {
         val secret = System.getProperty("TX_SECRET")
         val user = System.getProperty("BITSTAMP_USER")
 
-        provider = ExchangeProvider(key, secret, user)
+        dataProvider = ExchangeDataProvider(key, secret, user)
         sut = TradeApiInteractor()
     }
 
     @Test
     fun getTransactions() {
-        val transactionsObservable = sut.getUserTrades(provider)
+        val transactionsObservable = sut.getUserTrades(dataProvider)
         transactionsObservable
                 .subscribe(observer)
 

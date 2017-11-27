@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net
+package uk.co.sentinelweb.bitwatcher.net.bitstamp
 
 import io.reactivex.Single
 import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
@@ -6,12 +6,12 @@ import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.account.FundingRecord
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
-import uk.co.sentinelweb.bitwatcher.domain.TransactionStatus
-import uk.co.sentinelweb.bitwatcher.domain.TransactionType
-import java.time.Instant
+import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionStatus.*
+import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType.DEPOSIT
+import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType.WITHDRAWL
 import java.util.concurrent.Callable
 
-class TransactionApiInteractor(val service:BitstampService,val mapper: TradesMapper = TradesMapper()) {
+class TransactionApiInteractor(val service: BitstampService, val mapper: TradesMapper = TradesMapper()) {
 
     fun getTransactions(): Single<List<Transaction>> {
         return Single.fromCallable(object : Callable<List<Transaction>> {
@@ -46,21 +46,21 @@ class TransactionApiInteractor(val service:BitstampService,val mapper: TradesMap
             return result.toList()
         }
 
-        private fun mapStatus(status: FundingRecord.Status?): TransactionStatus {
+        private fun mapStatus(status: FundingRecord.Status?): Transaction.Companion.TransactionStatus {
             when (status) {
-                FundingRecord.Status.PROCESSING -> return TransactionStatus.PROCESSING
-                FundingRecord.Status.CANCELLED -> return TransactionStatus.CANCELLED
-                FundingRecord.Status.COMPLETE -> return TransactionStatus.COMPLETE
-                FundingRecord.Status.FAILED -> return TransactionStatus.FAILED
-                else -> return TransactionStatus.UNKNOWN
+                FundingRecord.Status.PROCESSING -> return PROCESSING
+                FundingRecord.Status.CANCELLED -> return CANCELLED
+                FundingRecord.Status.COMPLETE -> return COMPLETE
+                FundingRecord.Status.FAILED -> return FAILED
+                else -> return UNKNOWN
             }
         }
 
 
-        fun mapOrderType(t: FundingRecord.Type): TransactionType {
+        fun mapOrderType(t: FundingRecord.Type): Transaction.Companion.TransactionType {
             when (t) {
-                FundingRecord.Type.DEPOSIT -> return TransactionType.DEPOSIT
-                FundingRecord.Type.WITHDRAWAL -> return TransactionType.WITHDRAWL
+                FundingRecord.Type.DEPOSIT -> return DEPOSIT
+                FundingRecord.Type.WITHDRAWAL -> return WITHDRAWL
             }
         }
     }

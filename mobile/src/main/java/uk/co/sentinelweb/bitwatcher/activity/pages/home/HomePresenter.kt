@@ -9,13 +9,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TickerDataApiInteractor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 
 class HomePresenter @Inject constructor(
         val homeView: HomeContract.View,
-        val tickerDataApiInteractor: TickerDataApiInteractor
+        @Named(NetModule.BITSTAMP) val tickerBitstampInteractor: TickerDataApiInteractor,
+        @Named(NetModule.COINFLOOR) val tickerCoinfloorInteractor: TickerDataApiInteractor
 ) : HomeContract.Presenter {
 
     val model: HomeModel = HomeModel("BTC", "ETH")
@@ -44,35 +47,58 @@ class HomePresenter @Inject constructor(
     }
 
     override fun loadData() {
-        subscription.add(tickerDataApiInteractor
-                .getTickers(listOf(CurrencyCode.BTC, CurrencyCode.ETH), listOf(CurrencyCode.USD, CurrencyCode.EUR))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t ->
-                    when (t.currencyCode) {
-                        CurrencyCode.ETH ->
-                            when (t.baseCurrencyCode) {
-                                CurrencyCode.USD -> model.ethUsdPriceText = t.last.toString()
-                                CurrencyCode.EUR -> model.ethEurPriceText = t.last.toString()
-                                else -> {}
+        val tickers = Observable.merge(
+                tickerBitstampInteractor.getTickers(
+                        listOf(CurrencyCode.BTC, CurrencyCode.ETH),
+                        listOf(CurrencyCode.USD, CurrencyCode.EUR)),
+                tickerCoinfloorInteractor.getTickers(
+                        listOf(CurrencyCode.BTC, CurrencyCode.BCH),
+                        listOf(CurrencyCode.USD, CurrencyCode.GBP))
+        )
+        subscription.add(
+                tickers
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ t ->
+                            when (t.currencyCode) {
+                                CurrencyCode.ETH ->
+                                    when (t.baseCurrencyCode) {
+                                        CurrencyCode.USD -> model.ethUsdPriceText = t.last.toString()
+                                        CurrencyCode.EUR -> model.ethEurPriceText = t.last.toString()
+                                        CurrencyCode.GBP -> model.ethGbpPriceText = t.last.toString()
+                                        else -> {
+                                        }
+                                    }
+                                CurrencyCode.BTC ->
+                                    when (t.baseCurrencyCode) {
+                                        CurrencyCode.USD -> model.btcUsdPriceText = t.last.toString()
+                                        CurrencyCode.EUR -> model.btcEurPriceText = t.last.toString()
+                                        CurrencyCode.GBP -> model.btcGbpPriceText = t.last.toString()
+                                        else -> {
+                                        }
+                                    }
+                                CurrencyCode.BCH ->
+                                    when (t.baseCurrencyCode) {
+                                        CurrencyCode.USD -> model.bchUsdPriceText = t.last.toString()
+                                        CurrencyCode.EUR -> model.bchEurPriceText = t.last.toString()
+                                        CurrencyCode.GBP -> model.bchGbpPriceText = t.last.toString()
+                                        else -> {
+                                        }
+                                    }
+                                else -> {
+                                }
                             }
-                        CurrencyCode.BTC ->
-                            when (t.baseCurrencyCode) {
-                                CurrencyCode.USD -> model.btcUsdPriceText = t.last.toString()
-                                CurrencyCode.EUR -> model.btcEurPriceText = t.last.toString()
-                                else -> {}
-                            }
-                        else -> {}
-                    }
-                    homeView.setData(model)
-                }, { e -> Log.d("HomePresenter", "error updating ticker data", e) })
+                            homeView.setData(model)
+                        }, { e -> Log.d("HomePresenter", "error updating ticker data", e) })
         )
 
 
     }
 
     private fun startTimerInterval() {
-        subscription.add(Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe({ _ -> loadData() }))
+        subscription.add(Observable.interval(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ _ -> loadData() }))
     }
 
 }

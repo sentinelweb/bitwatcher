@@ -12,19 +12,21 @@ data class Transaction(
         val balance: BigDecimal,
         val description: String,
         val status: TransactionStatus,
-        val fee: BigDecimal
+        val fee: BigDecimal ) {
+    companion object {
 
-)
+        enum class TransactionType {
+            DEPOSIT,
+            WITHDRAWL
+        }
 
-enum class TransactionType {
-    DEPOSIT,
-    WITHDRAWL
+        enum class TransactionStatus {
+            PROCESSING,
+            COMPLETE,
+            CANCELLED,
+            FAILED,
+            UNKNOWN
+        }
+    }
 }
 
-enum class TransactionStatus {
-    PROCESSING,
-    COMPLETE,
-    CANCELLED,
-    FAILED,
-    UNKNOWN
-}

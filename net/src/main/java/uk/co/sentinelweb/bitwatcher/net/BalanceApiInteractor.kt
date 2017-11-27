@@ -5,9 +5,10 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampBalance
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw
 import uk.co.sentinelweb.bitwatcher.domain.Balance
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import java.util.concurrent.Callable
 
-class BalanceApiInteractor(val service:BitstampService, val mapper:BalanceMapper = BalanceMapper()) {
+class BalanceApiInteractor(val service: BitstampService, val mapper:BalanceMapper = BalanceMapper()) {
 
     fun getAccountBalance(): Observable<List<Balance>> {
         return Observable.fromCallable(object : Callable<List<Balance>> {

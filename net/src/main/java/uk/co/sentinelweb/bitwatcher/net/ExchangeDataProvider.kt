@@ -4,8 +4,11 @@ import org.knowm.xchange.Exchange
 import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.bitstamp.BitstampExchange
 
-val GUEST_PROVIDER:ExchangeProvider = ExchangeProvider("","","")
-class ExchangeProvider(val key: String, val secret: String, val user: String) {
+
+class ExchangeDataProvider(val key: String, val secret: String, val user: String) {
+    companion object {
+        val GUEST_DATA_PROVIDER: ExchangeDataProvider = ExchangeDataProvider("","","")
+    }
     val exchange: Exchange
         get() = createBitstampExchange(key, secret, user)
 

@@ -1,13 +1,12 @@
 package uk.co.sentinelweb.bitwatcher.net
 
-import com.nhaarman.mockito_kotlin.mock
 import org.junit.Before
 import org.junit.Test
 import org.knowm.xchange.currency.CurrencyPair
 
-class ExchangeProviderTest {
+class ExchangeDataProviderTest {
 
-    lateinit var sut: ExchangeProvider
+    lateinit var sut: ExchangeDataProvider
 
 //    private val key: String = mock()
 //    private val secret: String = mock()
@@ -19,7 +18,7 @@ class ExchangeProviderTest {
         val secret = System.getProperty("BAL_SECRET")
         val user = System.getProperty("BITSTAMP_USER")
 
-        sut = ExchangeProvider(key, secret, user)
+        sut = ExchangeDataProvider(key, secret, user)
     }
 
     @Test

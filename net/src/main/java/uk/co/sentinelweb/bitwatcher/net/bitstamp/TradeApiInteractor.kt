@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net
+package uk.co.sentinelweb.bitwatcher.net.bitstamp
 
 import io.reactivex.Single
 import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
@@ -7,10 +7,10 @@ import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.Trade
-import uk.co.sentinelweb.bitwatcher.domain.TradeType
+import uk.co.sentinelweb.bitwatcher.domain.Trade.Companion.TradeType.*
 import java.util.concurrent.Callable
 
-class TradeApiInteractor(val service:BitstampService,val mapper: TradesMapper = TradesMapper()) {
+class TradeApiInteractor(val service: BitstampService, val mapper: TradesMapper = TradesMapper()) {
 
     fun getUserTrades():Single<List<Trade>> {
         return Single.fromCallable(object : Callable<List<Trade>> {
@@ -31,7 +31,7 @@ class TradeApiInteractor(val service:BitstampService,val mapper: TradesMapper = 
             val result = mutableListOf<Trade>()
             trades.forEach {
                 val type = mapTradeType(it.type)
-                if (type != TradeType.UNKNOWN) {
+                if (type != UNKNOWN) {
                     result.add(Trade(
                             it.timestamp,
                             it.id,
@@ -48,12 +48,12 @@ class TradeApiInteractor(val service:BitstampService,val mapper: TradesMapper = 
             return result.toList()
         }
 
-        fun mapTradeType(t:Order.OrderType): TradeType {
+        fun mapTradeType(t:Order.OrderType): Trade.Companion.TradeType {
             when (t){
-                Order.OrderType.BID -> return TradeType.BID
-                Order.OrderType.ASK -> return TradeType.ASK
+                Order.OrderType.BID -> return BID
+                Order.OrderType.ASK -> return ASK
             }
-            return TradeType.UNKNOWN
+            return UNKNOWN
         }
     }
 }

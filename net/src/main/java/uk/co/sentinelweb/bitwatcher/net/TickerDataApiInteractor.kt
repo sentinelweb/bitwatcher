@@ -7,7 +7,7 @@ import uk.co.sentinelweb.bitwatcher.domain.TickerData
 import java.util.concurrent.Callable
 
 
-class TickerDataApiInteractor(val service:BitstampService,val mapper: TickerMapper = TickerMapper()) {
+class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMapper = TickerMapper()) {
 
     fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerData> {
         return Observable.fromCallable(object : Callable<TickerData> {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.page_home.view.*
+import kotlinx.android.synthetic.main.ticker_grid.view.*
 import uk.co.sentinelweb.bitwatcher.R
 
 class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
