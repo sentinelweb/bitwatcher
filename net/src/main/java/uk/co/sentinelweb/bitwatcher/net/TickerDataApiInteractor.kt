@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import org.knowm.xchange.dto.marketdata.Ticker
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.TickerData
+import java.util.*
 import java.util.concurrent.Callable
 
 
@@ -32,7 +33,7 @@ class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMap
     class TickerMapper {
         fun map(ticker: Ticker): TickerData {
             return TickerData(
-                    ticker.timestamp,
+                    ticker.timestamp ?: Date(),
                     ticker.last,
                     CurrencyCode.lookup(ticker.currencyPair.base.currencyCode)!!,
                     CurrencyCode.lookup(ticker.currencyPair.counter.currencyCode)!!)

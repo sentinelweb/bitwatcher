@@ -8,12 +8,12 @@
     </style>
 
     <style name="Ticker.Header">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Large</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
         <item name="android:textColor">#888</item>
     </style>
 
     <style name="Ticker.Value">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Large</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">-</item>
     </style>

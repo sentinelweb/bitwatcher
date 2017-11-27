@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         // disallow swiping of view pager to satisfy bottom nav ui pattern
-        pager.setOnTouchListener(null)
+        pager.setOnTouchListener({_,_ -> true})
 
         pager.adapter = pagesAdapter
     }

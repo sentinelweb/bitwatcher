@@ -21,12 +21,12 @@ class TradeApiInteractorTest {
         val user = System.getProperty("BITSTAMP_USER")
 
         dataProvider = ExchangeDataProvider(key, secret, user)
-        sut = TradeApiInteractor()
+        sut = TradeApiInteractor(BitstampService(dataProvider))
     }
 
     @Test
     fun getTransactions() {
-        val transactionsObservable = sut.getUserTrades(dataProvider)
+        val transactionsObservable = sut.getUserTrades()
         transactionsObservable
                 .subscribe(observer)
 
