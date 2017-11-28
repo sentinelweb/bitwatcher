@@ -3,4 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_loops">Loops</string>
     <string name="title_trade">Trade</string>
+    <string name="btc_code">BTC</string>
+    <string name="bch_code">BCH</string>
+    <string name="eth_code">ETH</string>
+    <string name="usd_code">USD</string>
+    <string name="eur_code">EUR</string>
+    <string name="gbp_code">GBP</string>
 </resources>

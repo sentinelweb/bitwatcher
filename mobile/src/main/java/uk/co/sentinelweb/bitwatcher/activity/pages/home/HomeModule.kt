@@ -13,6 +13,10 @@ class HomeModule {
     @PageScope
     fun provideView(activity: MainActivity) : HomeContract.View = HomeView(activity)
 
+    @Provides
+    @PageScope
+    fun provideModel() : HomeState = HomeState()
+
     @Module
     interface Bindings {
         @Binds

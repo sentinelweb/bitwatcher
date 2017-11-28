@@ -8,24 +8,22 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerData
-import uk.co.sentinelweb.bitwatcher.domain.Transaction
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TickerDataApiInteractor
-import uk.co.sentinelweb.bitwatcher.net.gdax.GdaxService
-import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
 class HomePresenter @Inject constructor(
         val homeView: HomeContract.View,
+        val state: HomeState,
         @Named(NetModule.BITSTAMP) val tickerBitstampInteractor: TickerDataApiInteractor,
-        @Named(NetModule.COINFLOOR) val tickerCoinfloorInteractor: TickerDataApiInteractor
+        @Named(NetModule.COINFLOOR) val tickerCoinfloorInteractor: TickerDataApiInteractor,
+        @Named(NetModule.KRAKEN) val tickerKrakenInteractor: Observable<TickerDataApiInteractor>,
+        val tickerModelMapper: TickerStateMapper
 ) : HomeContract.Presenter {
 
-    val model: HomeModel = HomeModel("BTC", "ETH")
     private val subscription = CompositeDisposable()
 
     override fun init() {
@@ -51,55 +49,26 @@ class HomePresenter @Inject constructor(
     }
 
     override fun loadData() {
-        val tickers = Observable.merge(
-                tickerBitstampInteractor.getTickers(
-                        listOf(CurrencyCode.BTC, CurrencyCode.ETH),
-                        listOf(CurrencyCode.USD, CurrencyCode.EUR)),
-                tickerCoinfloorInteractor.getTickers(
-                        listOf(CurrencyCode.BTC, CurrencyCode.BCH),
-                        listOf(CurrencyCode.GBP))
+        val tickers = Observable.mergeDelayError(
+                tickerBitstampInteractor.getTickers(listOf(BTC, ETH), listOf(USD, EUR)),
+                tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)),
+                Observable.mergeDelayError(
+                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, EUR) },
+                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
+                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
+                )
         )
 
         tickers.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t ->
-                    when (t.currencyCode) {
-                        CurrencyCode.ETH ->
-                            when (t.baseCurrencyCode) {
-                                CurrencyCode.USD -> model.ethUsdPriceText = t.last.toString()
-                                CurrencyCode.EUR -> model.ethEurPriceText = t.last.toString()
-                                CurrencyCode.GBP -> model.ethGbpPriceText = t.last.toString()
-                                else -> {
-                                }
-                            }
-                        CurrencyCode.BTC ->
-                            when (t.baseCurrencyCode) {
-                                CurrencyCode.USD -> model.btcUsdPriceText = t.last.toString()
-                                CurrencyCode.EUR -> model.btcEurPriceText = t.last.toString()
-                                CurrencyCode.GBP -> model.btcGbpPriceText = t.last.toString()
-                                else -> {
-                                }
-                            }
-                        CurrencyCode.BCH ->
-                            when (t.baseCurrencyCode) {
-                                CurrencyCode.USD -> model.bchUsdPriceText = t.last.toString()
-                                CurrencyCode.EUR -> model.bchEurPriceText = t.last.toString()
-                                CurrencyCode.GBP -> model.bchGbpPriceText = t.last.toString()
-                                else -> {
-                                }
-                            }
-                        else -> {
-                        }
-                    }
-                    homeView.setData(model)
-                }, { e -> Log.d("HomePresenter", "error updating ticker data", e) }
+                .map { t -> tickerModelMapper.map(t, state.tickerState) }
+                .subscribe({ state -> homeView.updateTickerState(state) },
+                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }
                 )
-
-
     }
 
     private fun startTimerInterval() {
-        subscription.add(Observable.interval(1, TimeUnit.SECONDS)
+        subscription.add(Observable.interval(10, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ _ -> loadData() }))
     }

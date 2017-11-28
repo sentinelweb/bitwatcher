@@ -14,7 +14,7 @@ class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMap
         return Observable.fromCallable(object : Callable<TickerData> {
             override fun call(): TickerData {
                 val lookup = CurrencyPairLookup.lookup(currencyCode, baseCurrencyCode)!!
-                val ticker = service.marketDataService.getTicker(lookup);
+                val ticker = service.marketDataService.getTicker(lookup)
                 return mapper.map(ticker)
             }
         })
@@ -27,7 +27,7 @@ class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMap
                 observables.add(getTicker(code,base))
             }
         }
-        return Observable.merge(observables)
+        return Observable.mergeDelayError(observables)
     }
 
     class TickerMapper {
