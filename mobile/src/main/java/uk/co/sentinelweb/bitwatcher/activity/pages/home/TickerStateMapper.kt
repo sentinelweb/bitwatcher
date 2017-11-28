@@ -9,8 +9,8 @@ import javax.inject.Inject
 class TickerStateMapper @Inject constructor() {
     fun BigDecimal.dp(scale: Int = 2): String = this.setScale(scale, RoundingMode.HALF_EVEN).toDouble().toString()
 
-    fun map(t: TickerData, state: HomeState.TickerState): HomeState.TickerState {
-        when (t.currencyCode) {
+    fun map(t: TickerData?, state: HomeState.TickerState): HomeState.TickerState {
+        when (t?.currencyCode) {
             CurrencyCode.ETH ->
                 when (t.baseCurrencyCode) {
                     CurrencyCode.USD -> state.ethUsdPriceText = t.last.dp(2)

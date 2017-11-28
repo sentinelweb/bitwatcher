@@ -9,6 +9,6 @@ interface HomeContract {
     }
 
     interface Presenter : PagePresenter{
-        fun loadData()
+
     }
 }

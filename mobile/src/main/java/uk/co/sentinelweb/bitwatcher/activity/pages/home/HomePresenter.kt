@@ -24,6 +24,19 @@ class HomePresenter @Inject constructor(
         val tickerModelMapper: TickerStateMapper
 ) : HomeContract.Presenter {
 
+    private val tickersObservable = Observable.mergeDelayError(
+            tickerBitstampInteractor.getTickers(listOf(BTC, ETH), listOf(USD, EUR)),
+            tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)),
+            Observable.mergeDelayError(
+                    tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, EUR) },
+                    tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
+                    tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
+            ))
+            .subscribeOn(Schedulers.io())
+            .onErrorResumeNext({t:Throwable -> null})
+            .map { t -> tickerModelMapper.map(t, state.tickerState) }
+            .observeOn(AndroidSchedulers.mainThread())
+
     private val subscription = CompositeDisposable()
 
     override fun init() {
@@ -48,29 +61,13 @@ class HomePresenter @Inject constructor(
         return homeView as View
     }
 
-    override fun loadData() {
-        val tickers = Observable.mergeDelayError(
-                tickerBitstampInteractor.getTickers(listOf(BTC, ETH), listOf(USD, EUR)),
-                tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)),
-                Observable.mergeDelayError(
-                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, EUR) },
-                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
-                        tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
-                )
-        )
-
-        tickers.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { t -> tickerModelMapper.map(t, state.tickerState) }
-                .subscribe({ state -> homeView.updateTickerState(state) },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }
-                )
-    }
-
     private fun startTimerInterval() {
-        subscription.add(Observable.interval(10, TimeUnit.SECONDS)
+        subscription
+                .add(Observable.interval(10, TimeUnit.SECONDS)
+                .flatMap { tickersObservable }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ _ -> loadData() }))
+                .subscribe({ state -> homeView.updateTickerState(state) },
+                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
     }
 
 }
