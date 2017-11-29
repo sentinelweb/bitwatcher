@@ -48,6 +48,17 @@ dependencies {
     implementation "android.arch.lifecycle:runtime:$lifecycle"
     kapt "android.arch.lifecycle:compiler:$lifecycle_compiler"
 
+    // room + live data
+    implementation "android.arch.persistence.room:runtime:$lifecycle_room"
+    kapt "android.arch.persistence.room:compiler:$lifecycle_room"
+    testImplementation "android.arch.persistence.room:testing:$lifecycle_room"
+    implementation "android.arch.persistence.room:rxjava2:$lifecycle_room"
+
+    // lifecycle - not sure if i'll use these
+//    kapt "android.arch.lifecycle:reactivestreams:$lifecycle_room"
+//    testImplementation "android.arch.core:core-testing:1.0.0"
+//    implementation "android.arch.lifecycle:extensions:$lifecycle_extensions"
+
     // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxandroid
     implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.0.1'
 

@@ -26,16 +26,15 @@ class HomePresenter @Inject constructor(
 
     private val tickersObservable = Observable.mergeDelayError(
             tickerBitstampInteractor.getTickers(listOf(BTC, ETH), listOf(USD, EUR)),
-            tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)),
+            tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)), // TODO crashing issue here when connection timing out
             Observable.mergeDelayError(
                     tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, EUR) },
                     tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
                     tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
             ))
-            .subscribeOn(Schedulers.io())
-            .onErrorResumeNext({t:Throwable -> null})
+            .onErrorResumeNext({ t: Throwable -> null })
             .map { t -> tickerModelMapper.map(t, state.tickerState) }
-            .observeOn(AndroidSchedulers.mainThread())
+
 
     private val subscription = CompositeDisposable()
 
@@ -64,10 +63,11 @@ class HomePresenter @Inject constructor(
     private fun startTimerInterval() {
         subscription
                 .add(Observable.interval(10, TimeUnit.SECONDS)
-                .flatMap { tickersObservable }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ state -> homeView.updateTickerState(state) },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+                        .flatMap ({ l -> tickersObservable })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ state -> homeView.updateTickerState(state) },
+                                { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
     }
 
 }
