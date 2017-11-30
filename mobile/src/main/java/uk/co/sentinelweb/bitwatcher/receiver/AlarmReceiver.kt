@@ -7,42 +7,33 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
-import uk.co.sentinelweb.bitwatcher.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.database.mapper.TickerDomainToEntityMapper
-import uk.co.sentinelweb.bitwatcher.database.test.DbInitialiser
-import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
-import uk.co.sentinelweb.bitwatcher.receiver.AlarmReceiver.Companion.REQUEST_CODE
+import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AlarmReceiver() : BroadcastReceiver() {
     companion object {
         val REQUEST_CODE = 4245342
-        val INTERVAL_SECS = 5
+        val INTERVAL_SECS = 5*60
     }
 
-    @Inject lateinit var tickersInteractor: TickerMergeInteractor
-    @Inject lateinit var db: BitwatcherDatabase
-    @Inject lateinit var entityMapper: TickerDomainToEntityMapper
+    @Inject lateinit var orchestrator:TickerDataOrchestrator
+
 
     val subscription = CompositeDisposable()
 
     override fun onReceive(context: Context, intent: Intent) {
         (context.applicationContext as BitwatcherApplication).component.inject(this)
-        //Log.d("AlarmReceiver","got alarm @ ${System.currentTimeMillis()}")
+        Log.d("AlarmReceiver","got alarm @ ${System.currentTimeMillis()}")
+
         subscription
-                .add(tickersInteractor.getMergedTickers()
-                        .filter({t -> t != null})
-                        .map { domain -> entityMapper.map(domain) }
+                .add(orchestrator.downloadTickerToDatabase()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ entity -> db.tickerDao().updateTicker(entity.currencyCode, entity.baseCode, entity.amount, entity.dateStamp) },
+                        .subscribe({ entity -> Log.d("HomePresenter", "updated ticker data") },
                                 { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
     }
 
@@ -55,7 +46,7 @@ class AlarmReceiver() : BroadcastReceiver() {
         cal.add(Calendar.SECOND, startInSec)
 
         val am = c.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-        am?.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), repeatSec * 1000L,
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), repeatSec * 1000L,
                 pendingIntent)
     }
 
@@ -64,6 +55,6 @@ class AlarmReceiver() : BroadcastReceiver() {
         val pendingIntent =
                 PendingIntent.getBroadcast(c, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         val am = c.getSystemService(Activity.ALARM_SERVICE) as AlarmManager
-        am?.cancel(pendingIntent)
+        am.cancel(pendingIntent)
     }
 }

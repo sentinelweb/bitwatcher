@@ -16,6 +16,9 @@ interface TickerDao {
     @Query("SELECT * From ticker_data")
     fun flowAllTickers(): Flowable<List<TickerEntity>>
 
+    @Query("SELECT count(*) From ticker_data")
+    fun count(): Int
+
     @Query("Update ticker_data  " +
             "SET amount = :amount,  dateStamp = :dateStamp " +
             "WHERE currencyCode = :currencyCode AND baseCode = :baseCode " +
