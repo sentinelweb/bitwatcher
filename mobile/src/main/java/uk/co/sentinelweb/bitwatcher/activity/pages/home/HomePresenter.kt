@@ -8,9 +8,12 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import uk.co.sentinelweb.bitwatcher.database.BitwatcherDatabase
+import uk.co.sentinelweb.bitwatcher.database.entities.FullAccount
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TickerDataApiInteractor
+import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
@@ -21,7 +24,8 @@ class HomePresenter @Inject constructor(
         @Named(NetModule.BITSTAMP) val tickerBitstampInteractor: TickerDataApiInteractor,
         @Named(NetModule.COINFLOOR) val tickerCoinfloorInteractor: TickerDataApiInteractor,
         @Named(NetModule.KRAKEN) val tickerKrakenInteractor: Observable<TickerDataApiInteractor>,
-        val tickerModelMapper: TickerStateMapper
+        val tickerModelMapper: TickerStateMapper,
+        val db:BitwatcherDatabase
 ) : HomeContract.Presenter {
 
     private val tickersObservable = Observable.mergeDelayError(
@@ -38,8 +42,23 @@ class HomePresenter @Inject constructor(
 
     private val subscription = CompositeDisposable()
 
+    private val fullAccountsObservable = Observable.fromCallable(object : Callable<List<FullAccount>> {
+        override fun call(): List<FullAccount> {
+            return db.fullAccountDao().loadFullAccounts()
+        }
+    })
+
     override fun init() {
         startTimerInterval()
+        subscription.add(db.fullAccountDao()
+                .flowFullAccounts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({list -> homeView.setAccounts(list)}))
+//        subscription.add(fullAccountsObservable
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({list -> homeView.setAccounts(list)}))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -68,6 +87,15 @@ class HomePresenter @Inject constructor(
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ state -> homeView.updateTickerState(state) },
                                 { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+
+//        subscription
+//                .add(Observable.interval(10, TimeUnit.SECONDS)
+//                        .flatMap ({ l -> fullAccountsObservable })
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({list -> homeView.setAccounts(list)},
+//                                { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+
     }
 
 }

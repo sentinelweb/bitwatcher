@@ -46,6 +46,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     implementation "com.google.android.gms:play-services-wearable:$play_services"
     implementation "android.arch.lifecycle:runtime:$lifecycle"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_compiler" // seem to be needed by
     kapt "android.arch.lifecycle:compiler:$lifecycle_compiler"
 
     // room + live data
