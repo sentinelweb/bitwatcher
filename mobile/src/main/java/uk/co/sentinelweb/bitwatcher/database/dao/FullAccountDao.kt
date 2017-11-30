@@ -4,15 +4,15 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Transaction
 import io.reactivex.Flowable
-import uk.co.sentinelweb.bitwatcher.database.entities.FullAccount
+import uk.co.sentinelweb.bitwatcher.database.entities.FullAccountView
 
 @Dao
 abstract class FullAccountDao {
-    @Query("SELECT id, name from Account")
+    @Query("SELECT id, name from account")
     @Transaction
-    abstract fun flowFullAccounts(): Flowable<List<FullAccount>>
+    abstract fun flowFullAccounts(): Flowable<List<FullAccountView>>
 
-    @Query("SELECT id, name from Account")
+    @Query("SELECT id, name from account")
     @Transaction
-    abstract fun loadFullAccounts(): List<FullAccount>
+    abstract fun loadFullAccounts(): List<FullAccountView>
 }

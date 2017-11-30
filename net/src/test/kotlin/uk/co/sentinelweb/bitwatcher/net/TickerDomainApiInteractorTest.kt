@@ -3,17 +3,16 @@ package uk.co.sentinelweb.bitwatcher.net
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerData
+import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import uk.co.sentinelweb.bitwatcher.net.coinfloor.CoinfloorService
 import kotlin.test.assertNotNull
 
 
-class TickerDataApiInteractorTest {
+class TickerDomainApiInteractorTest {
 
     lateinit var sut: TickerDataApiInteractor
 
@@ -29,7 +28,7 @@ class TickerDataApiInteractorTest {
 
         val tickerObservable = sut.getTicker(CurrencyCode.BTC, CurrencyCode.GBP)
 
-        val testObserver = TestObserver<TickerData>()
+        val testObserver = TestObserver<TickerDomain>()
         tickerObservable.subscribe(testObserver)
 
         assertThat(testObserver.events.size, `is`(3))
@@ -42,7 +41,7 @@ class TickerDataApiInteractorTest {
 
         val tickerObservable = sut.getTicker(CurrencyCode.BTC, CurrencyCode.USD)
 
-        val testObserver = TestObserver<TickerData>()
+        val testObserver = TestObserver<TickerDomain>()
         tickerObservable.subscribe(testObserver)
 
         assertThat(testObserver.events.size, `is`(3))
