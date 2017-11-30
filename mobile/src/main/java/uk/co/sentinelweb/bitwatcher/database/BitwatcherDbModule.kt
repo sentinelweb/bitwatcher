@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
+import uk.co.sentinelweb.bitwatcher.database.test.DbInitialiser
 import javax.inject.Singleton
 
 @Module
@@ -18,7 +19,7 @@ class BitwatcherDbModule {
 
     @Provides
     @Singleton
-    fun provideDbInitialiser(db:BitwatcherDatabase):DbInitialiser {
+    fun provideDbInitialiser(db:BitwatcherDatabase): DbInitialiser {
         return DbInitialiser(db);
     }
 }

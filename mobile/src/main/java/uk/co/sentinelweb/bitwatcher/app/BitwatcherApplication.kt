@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.app
 
 import android.app.Application
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.database.DbInitialiser
+import uk.co.sentinelweb.bitwatcher.database.test.DbInitialiser
 import javax.inject.Inject
 
 class BitwatcherApplication : Application() {

@@ -3,11 +3,11 @@ package uk.co.sentinelweb.bitwatcher.database.entities
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "account" )
+@Entity(tableName = "account")
 data class Account constructor(
-    @PrimaryKey
-    var id: String = "",
-    var name: String = ""
+        @PrimaryKey(autoGenerate = true)
+        val id: Long?,// TODO better way to autoincrement?
+        val name: String
 )
 
 //,

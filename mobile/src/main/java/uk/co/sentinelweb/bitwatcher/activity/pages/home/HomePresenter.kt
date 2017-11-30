@@ -55,10 +55,6 @@ class HomePresenter @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({list -> homeView.setAccounts(list)}))
-//        subscription.add(fullAccountsObservable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({list -> homeView.setAccounts(list)}))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
