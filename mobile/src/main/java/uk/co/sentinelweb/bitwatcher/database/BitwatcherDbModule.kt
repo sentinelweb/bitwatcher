@@ -15,6 +15,8 @@ class BitwatcherDbModule {
     fun provideInMemoryDb(app:BitwatcherApplication):BitwatcherDatabase {
         return Room.inMemoryDatabaseBuilder<BitwatcherDatabase>(app, BitwatcherDatabase::class.java)
                 .build();
+        // filesystem db (basic):
+        // Room.databaseBuilder(app, BitwatcherDatabase::class.java, "BitwatcherDatabase.db") .build()
     }
 
     @Provides

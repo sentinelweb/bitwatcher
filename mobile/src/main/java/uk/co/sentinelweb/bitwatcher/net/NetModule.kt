@@ -8,6 +8,7 @@ import io.reactivex.subjects.BehaviorSubject
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import uk.co.sentinelweb.bitwatcher.net.coinfloor.CoinfloorService
 import uk.co.sentinelweb.bitwatcher.net.gdax.GdaxService
+import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
 import uk.co.sentinelweb.bitwatcher.net.kraken.KrakenService
 import java.util.concurrent.Callable
 import javax.inject.Named
@@ -53,4 +54,13 @@ class NetModule {
                 return TickerDataApiInteractor(GdaxService.Companion.GUEST)
             }
         })
+
+    @Provides
+    @Singleton
+    fun provideMergedInteractor(@Named(BITSTAMP) tickerBitstampInteractor: TickerDataApiInteractor,
+                                @Named(COINFLOOR) tickerCoinfloorInteractor: TickerDataApiInteractor,
+                                @Named(KRAKEN) tickerKrakenInteractor: Observable<TickerDataApiInteractor>): TickerMergeInteractor
+            = TickerMergeInteractor(tickerBitstampInteractor, tickerCoinfloorInteractor, tickerKrakenInteractor)
+
+
 }

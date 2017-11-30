@@ -3,16 +3,16 @@ package uk.co.sentinelweb.bitwatcher.net
 import io.reactivex.Observable
 import org.knowm.xchange.dto.marketdata.Ticker
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerData
+import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import java.util.*
 import java.util.concurrent.Callable
 
 
 class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMapper = TickerMapper()) {
 
-    fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerData> {
-        return Observable.fromCallable(object : Callable<TickerData> {
-            override fun call(): TickerData {
+    fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerDomain> {
+        return Observable.fromCallable(object : Callable<TickerDomain> {
+            override fun call(): TickerDomain {
                 val lookup = CurrencyPairLookup.lookup(currencyCode, baseCurrencyCode)!!
                 val ticker = service.marketDataService.getTicker(lookup)
                 return mapper.map(ticker)
@@ -20,8 +20,8 @@ class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMap
         })
     }
 
-    fun getTickers(currencyCodes: List<CurrencyCode>, baseCurrencyCodes: List<CurrencyCode>): Observable<TickerData> {
-        val observables: MutableList<Observable<TickerData>> = mutableListOf<Observable<TickerData>>()
+    fun getTickers(currencyCodes: List<CurrencyCode>, baseCurrencyCodes: List<CurrencyCode>): Observable<TickerDomain> {
+        val observables: MutableList<Observable<TickerDomain>> = mutableListOf<Observable<TickerDomain>>()
         for (base in baseCurrencyCodes) {
             for (code in currencyCodes) {
                 observables.add(getTicker(code,base))
@@ -31,8 +31,8 @@ class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMap
     }
 
     class TickerMapper {
-        fun map(ticker: Ticker): TickerData {
-            return TickerData(
+        fun map(ticker: Ticker): TickerDomain {
+            return TickerDomain(
                     ticker.timestamp ?: Date(),
                     ticker.last,
                     CurrencyCode.lookup(ticker.currencyPair.base.currencyCode)!!,

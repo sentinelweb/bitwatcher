@@ -1,13 +1,12 @@
 package uk.co.sentinelweb.bitwatcher.database.entities
 
 import android.arch.persistence.room.Relation
-import android.arch.persistence.room.Transaction
 
-class FullAccount {
+class FullAccountView {
     var id: Long = 0
     var name: String = ""
-    @Relation(parentColumn = "id", entityColumn = "account_id", entity = PositionItem::class)
-    var balances: List<PositionItem> = listOf()
+    @Relation(parentColumn = "id", entityColumn = "account_id", entity = PositionItemEntity::class)
+    var balances: List<PositionItemEntity> = listOf()
 
     override fun toString(): String {
         return "fullaccount(${id} ${name} ${balances.size})"

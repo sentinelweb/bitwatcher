@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.page_home.view.*
 import kotlinx.android.synthetic.main.ticker_grid.view.*
 import uk.co.sentinelweb.bitwatcher.R
-import uk.co.sentinelweb.bitwatcher.database.entities.FullAccount
+import uk.co.sentinelweb.bitwatcher.database.entities.FullAccountView
 
 class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
 
@@ -27,7 +27,7 @@ class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
         bch_eur_ticker_text.text = state.bchEurPriceText
     }
 
-    override fun setAccounts(list: List<FullAccount>) {
+    override fun setAccounts(list: List<FullAccountView>) {
         account.text = list.toString()
     }
 }
