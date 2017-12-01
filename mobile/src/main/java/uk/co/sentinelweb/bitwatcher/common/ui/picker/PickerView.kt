@@ -74,7 +74,7 @@ class PickerView<T>(view: View) : PickerContract.View<T> {
 
     private fun changeTextSize(tv: TextView, @DimenRes newSizeResource: Int) {
         val newSize = context.resources.getDimensionPixelSize(newSizeResource)
-        val animator = ValueAnimator.ofFloat(tv.textSize, newSize)
+        val animator = ValueAnimator.ofFloat(tv.textSize, newSize.toFloat())
         animator.duration = SIZE_ANIM_DURATION.toLong()
         animator.addUpdateListener(TextSizeAnimationListener(tv))
         animator.start()
