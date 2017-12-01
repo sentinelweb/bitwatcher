@@ -1,9 +1,9 @@
 package uk.co.sentinelweb.bitwatcher.orchestrator
 
 import io.reactivex.Observable
-import uk.co.sentinelweb.bitwatcher.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.database.entities.TickerEntity
-import uk.co.sentinelweb.bitwatcher.database.mapper.TickerDomainToEntityMapper
+import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
+import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
+import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
 import javax.inject.Inject
 

@@ -2,8 +2,8 @@ package uk.co.sentinelweb.bitwatcher.app
 
 import android.app.Application
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.database.test.DbInitialiser
-import uk.co.sentinelweb.bitwatcher.database.test.DbMemoryInitialiser
+import uk.co.sentinelweb.bitwatcher.common.database.test.DbInitialiser
+import uk.co.sentinelweb.bitwatcher.common.database.test.DbMemoryInitialiser
 import uk.co.sentinelweb.bitwatcher.receiver.AlarmReceiver
 import javax.inject.Inject
 

@@ -9,4 +9,8 @@
     <string name="usd_code">USD</string>
     <string name="eur_code">EUR</string>
     <string name="gbp_code">GBP</string>
+    <string name="label_account_name">Name</string>
+    <string name="label_account_balance">Balance</string>
+    <string name="label_account_currency">Currency</string>
+    <string name="title_edit_account">Edit Account</string>
 </resources>
