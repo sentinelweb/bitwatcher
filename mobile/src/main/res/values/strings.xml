@@ -14,4 +14,5 @@
     <string name="label_account_balance">Balance</string>
     <string name="label_account_currency">Currency</string>
     <string name="title_edit_account">Edit Account</string>
+    <string name="title_select_type">Select Type</string>
 </resources>

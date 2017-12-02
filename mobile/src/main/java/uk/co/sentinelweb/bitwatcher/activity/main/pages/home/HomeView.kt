@@ -30,6 +30,6 @@ class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
 
     override fun setAccounts(list: List<FullAccountView>) {
         account.text = list.toString()
-        account.setOnClickListener({v -> context.startActivity(EditAccountActivity.launch(context, list.get(0).id))})
+        account.setOnClickListener({v -> context.startActivity(EditAccountActivity.getLaunchIntent(context, list.get(0).id))})
     }
 }

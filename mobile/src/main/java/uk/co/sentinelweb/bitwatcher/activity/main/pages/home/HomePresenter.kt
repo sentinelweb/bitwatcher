@@ -25,7 +25,9 @@ class HomePresenter @Inject constructor(
         private val db: BitwatcherDatabase,
         private val orchestrator: TickerDataOrchestrator
 ) : HomeContract.Presenter {
-
+    companion object {
+        val TAG = HomePresenter::class.java.simpleName
+    }
     private val subscription = CompositeDisposable()
 
     override fun init() {
@@ -61,18 +63,18 @@ class HomePresenter @Inject constructor(
                 .flatMap({ l -> orchestrator.downloadTickerToDatabase() })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe({ t -> Log.d("HomePresenter", "updated ticker data ${t.currencyCode}->${t.baseCode} = ${t.amount}") },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+                .subscribe({ t -> Log.d(TAG, "updated ticker data ${t.currencyCode}->${t.baseCode} = ${t.amount}") },
+                        { e -> Log.d(TAG, "error updating ticker data", e) }))
 
         subscription.add(db.tickerDao()
                 .flowAllTickers()
                 .flatMap({ entities -> Flowable.fromIterable(tickerEntityMapper.map(entities)) })
-                .doOnNext { t-> Log.d("HomePresenter","dbf: got value for ${t.currencyCode}->${t.baseCurrencyCode} = ${t.last}") }
+                //.doOnNext { t-> Log.d(TAG,"dbf: got value for ${t.currencyCode}->${t.baseCurrencyCode} = ${t.last}") }
                 .map { t -> tickerModelMapper.map(t, state.tickerState) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ state -> homeView.updateTickerState(state) },
-                        { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+                        { e -> Log.d(TAG, "error updating ticker data", e) }))
 
     }
 

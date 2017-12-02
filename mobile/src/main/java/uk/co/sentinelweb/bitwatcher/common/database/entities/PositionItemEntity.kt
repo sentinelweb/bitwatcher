@@ -16,6 +16,8 @@ data class PositionItemEntity constructor(
         val id: Long?,
         val currencyCode: CurrencyCode,
         val amount: BigDecimal,
+        val available: BigDecimal,
+        val reserved: BigDecimal,
         @ColumnInfo(name = "account_id")
         val accountId: Long
 )

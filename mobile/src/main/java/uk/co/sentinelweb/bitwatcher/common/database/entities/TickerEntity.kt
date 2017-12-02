@@ -19,5 +19,5 @@ data class TickerEntity constructor(
         val currencyCode: CurrencyCode,
         val baseCode: CurrencyCode,
         val amount: BigDecimal,
-        val dateStamp:Date
+        val dateStamp: Date
 )

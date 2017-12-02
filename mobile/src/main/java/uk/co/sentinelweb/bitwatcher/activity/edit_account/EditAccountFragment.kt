@@ -1,25 +1,23 @@
 package uk.co.sentinelweb.bitwatcher.activity.edit_account
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import uk.co.sentinelweb.bitwatcher.R
-
 import kotlinx.android.synthetic.main.fragment_edit_account.*
-import uk.co.sentinelweb.bitwatcher.common.ui.picker.PickerItemModel
-import uk.co.sentinelweb.bitwatcher.common.ui.picker.PickerPresenterFactory
-import uk.co.sentinelweb.bitwatcher.common.ui.picker.PickerView
+import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import uk.co.sentinelweb.bitwatcher.domain.AccountType
 import javax.inject.Inject
 
-class EditAccountFragment: Fragment(), EditAccountContract.View {
+class EditAccountFragment : Fragment(), EditAccountContract.View {
 
-    @Inject lateinit var pickerPresenterFactory: PickerPresenterFactory
+
+    @Inject lateinit var fragmentPresenter: EditAccountFragmentPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,27 +28,19 @@ class EditAccountFragment: Fragment(), EditAccountContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_edit_account, container,false)
+        return inflater.inflate(R.layout.fragment_edit_account, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        type_edit.setOnClickListener({v -> showTypeDialog()})
-    }
-
-    private fun showTypeDialog() {
-        val recyclerView = RecyclerView(context)
-        val pickerPresenter = pickerPresenterFactory.createPresenter(PickerView<AccountType>(recyclerView))
-        val models = mutableListOf<PickerItemModel<AccountType>>()
-        for (accountType in AccountType.values()) {
-            models.add(PickerItemModel(accountType.toString(), accountType))
-        }
-        pickerPresenter.bindData(models)
-        AlertDialog.Builder(context)
-                .setTitle("Select Type")
-                .setView(recyclerView)
-                .create()
-                .show()
+        type_text.setOnClickListener({ _ -> fragmentPresenter.onTypeChangeClick() })
+        (activity.applicationContext as BitwatcherApplication)
+                .component
+                .editAccountBuilder()
+                .editAccountFragment(this)
+                .build()
+                .inject(this)
+        fragmentPresenter.initialise(arguments.getLong(EditAccountActivity.EXTRA_ACCOUNT_ID))
     }
 
     override fun onDetach() {
@@ -59,5 +49,22 @@ class EditAccountFragment: Fragment(), EditAccountContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun createAndShowTypeDialog(){
+        val items = arrayOfNulls<CharSequence>(AccountType.values().size)
+        AccountType.values().forEachIndexed { index, type ->items[index]=type.toString() }
+        AlertDialog.Builder(context)
+                .setTitle(getString(R.string.title_select_type))
+                .setItems(items, { d:DialogInterface, idx:Int -> fragmentPresenter.onTypeSelected(idx) })
+                .create()
+                .show()
+
+    }
+
+    override fun updateState(state: EditAccountState) {
+        type_text.setText(state.type?.toString())
+        name_edit.setText(state.name)
+
     }
 }

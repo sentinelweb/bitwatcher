@@ -13,7 +13,7 @@ class DbMemoryInitialiser @Inject constructor(val db: BitwatcherMemoryDatabase) 
     fun init(): Single<Boolean> {
         return Single.fromCallable({
             db.accountDao().insertAccount(AccountEntity(null, "Bitstamp", AccountType.GHOST))
-            db.positionItemDao().insertPositionItem(PositionItemEntity(null, CurrencyCode.BTC, BigDecimal("3.6789"), 1))
+            db.positionItemDao().insertPositionItem(PositionItemEntity(null, CurrencyCode.BTC, BigDecimal("3.6789"), BigDecimal("3.6789"), BigDecimal("3.6789"), 1))
             true
         })
 
