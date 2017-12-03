@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.net.interactor
 
 import io.reactivex.Observable
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
+import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TickerDataApiInteractor
 import javax.inject.Inject
@@ -23,6 +23,6 @@ class TickerMergeInteractor @Inject constructor(
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
                 ))
-                .onErrorResumeNext({ t: Throwable -> null })
+                .onErrorResumeNext({ _: Throwable -> null })
     }
 }

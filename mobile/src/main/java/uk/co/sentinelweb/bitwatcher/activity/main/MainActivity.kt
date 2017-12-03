@@ -6,7 +6,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.sentinelweb.bitwatcher.R
-import uk.co.sentinelweb.bitwatcher.activity.pages.PagesAdapter
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagesAdapter
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import javax.inject.Inject
 

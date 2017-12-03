@@ -12,11 +12,13 @@ interface AccountDao {
     fun getAllAccounts(): Flowable<List<AccountEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAccount(a: AccountEntity)
+    fun insertAccount(a: AccountEntity):Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAccount(a: AccountEntity)
 
     @Query("DELETE FROM account")
     fun deleteAll()
+
+
 }

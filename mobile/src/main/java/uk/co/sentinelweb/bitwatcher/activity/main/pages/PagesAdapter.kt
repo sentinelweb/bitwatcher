@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages
+package uk.co.sentinelweb.bitwatcher.activity.main.pages
 
 import android.support.v4.view.PagerAdapter
 import android.util.Log
@@ -8,8 +8,8 @@ import uk.co.sentinelweb.bitwatcher.activity.main.MainContract
 import javax.inject.Inject
 
 class PagesAdapter @Inject constructor(
-        val presenter: MainContract.Presenter,
-        val pagesFactory: PagesFactory
+        private val presenter: MainContract.Presenter,
+        private val pagesFactory: PagesFactory
 ) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup?, position: Int): Any? {

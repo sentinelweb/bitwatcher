@@ -6,7 +6,7 @@ import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
-        val view: MainContract.View
+        private val view: MainContract.View
 ) : MainContract.Presenter {
 
     private val presenters: MutableMap<Int, PagePresenter> = mutableMapOf()

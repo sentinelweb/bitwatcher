@@ -1,13 +1,12 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
+import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeState
+import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
-import java.math.BigDecimal
-import java.math.RoundingMode
 import javax.inject.Inject
 
 class TickerStateMapper @Inject constructor() {
-    fun BigDecimal.dp(scale: Int = 2): String = this.setScale(scale, RoundingMode.HALF_EVEN).toDouble().toString()
 
     fun map(t: TickerDomain?, state: HomeState.TickerState): HomeState.TickerState {
         when (t?.currencyCode) {

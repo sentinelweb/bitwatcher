@@ -33,7 +33,7 @@ class AlarmReceiver() : BroadcastReceiver() {
                 .add(orchestrator.downloadTickerToDatabase()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ entity -> Log.d("HomePresenter", "updated ticker data") },
+                        .subscribe({ _ -> Log.d("HomePresenter", "updated ticker data") },
                                 { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
     }
 

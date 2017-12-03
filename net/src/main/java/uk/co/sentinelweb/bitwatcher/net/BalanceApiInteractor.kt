@@ -3,16 +3,16 @@ package uk.co.sentinelweb.bitwatcher.net
 import io.reactivex.Observable
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw
-import uk.co.sentinelweb.bitwatcher.domain.Balance
+import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import java.util.concurrent.Callable
 
-class BalanceApiInteractor(val service: BitstampService, val mapper:BalanceMapper = BalanceMapper()) {
+class BalanceApiInteractor(private val service: BitstampService, private val mapper:BalanceMapper = BalanceMapper()) {
 
-    fun getAccountBalance(): Observable<List<Balance>> {
-        return Observable.fromCallable(object : Callable<List<Balance>> {
-            override fun call(): List<Balance> {
+    fun getAccountBalance(): Observable<List<BalanceDomain>> {
+        return Observable.fromCallable(object : Callable<List<BalanceDomain>> {
+            override fun call(): List<BalanceDomain> {
                 val balances = (service.accountService as BitstampAccountServiceRaw).bitstampBalance.balances
                 return mapper.map(balances)
             }
@@ -20,10 +20,11 @@ class BalanceApiInteractor(val service: BitstampService, val mapper:BalanceMappe
     }
 
     class BalanceMapper {
-        fun map(balances: MutableCollection<BitstampBalance.Balance>): List<Balance> {
-            val mutableListOf = mutableListOf<Balance>()
+        fun map(balances: MutableCollection<BitstampBalance.Balance>): List<BalanceDomain> {
+            val mutableListOf = mutableListOf<BalanceDomain>()
             for (xbalance in balances) {
-                mutableListOf.add(Balance(
+                mutableListOf.add(BalanceDomain(
+                        null,
                         CurrencyCode.lookup(xbalance.currency)!!,
                         xbalance.balance,
                         xbalance.available,

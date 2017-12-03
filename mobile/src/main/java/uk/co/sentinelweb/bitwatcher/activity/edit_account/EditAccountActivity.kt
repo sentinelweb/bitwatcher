@@ -25,6 +25,8 @@ class EditAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_with_fragment)
-        EditAccountFragment().addWithExtras(this, R.id.activity_root)
+        if (savedInstanceState == null) {
+            EditAccountFragment().addWithExtras(this, R.id.activity_root)
+        }
     }
 }

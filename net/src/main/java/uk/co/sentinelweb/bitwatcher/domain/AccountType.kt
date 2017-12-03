@@ -1,5 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.domain
 
-public enum class AccountType {
-    BITSTAMP, KRAKEN, GHOST, WALLET
+enum class AccountType {
+    INITIAL, BITSTAMP, KRAKEN, GHOST, WALLET;
+    companion object {
+        private const val serialVersionUID: Long = 4563645846293123423
+    }
 }

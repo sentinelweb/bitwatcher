@@ -1,12 +1,13 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.view.View
+import uk.co.sentinelweb.bitwatcher.activity.pages.loops.LoopsContract
 import javax.inject.Inject
 
 
-class LoopsPresenter @Inject constructor(val view: LoopsContract.View) : LoopsContract.Presenter {
+class LoopsPresenter @Inject constructor(private val view: LoopsContract.View) : LoopsContract.Presenter {
 
     override fun init() {
 

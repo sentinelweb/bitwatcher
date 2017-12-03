@@ -7,7 +7,7 @@ import org.knowm.xchange.service.trade.TradeService
 import uk.co.sentinelweb.bitwatcher.net.ExchangeDataProvider
 import uk.co.sentinelweb.bitwatcher.net.ExchangeService
 
-class BitstampService (val dataProvider: ExchangeDataProvider):ExchangeService{
+class BitstampService (private val dataProvider: ExchangeDataProvider):ExchangeService{
     companion object {
         val GUEST: BitstampService = BitstampService(ExchangeDataProvider.GUEST_DATA_PROVIDER)
     }

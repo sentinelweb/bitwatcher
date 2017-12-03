@@ -9,7 +9,7 @@ import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class DbMemoryInitialiser @Inject constructor(val db: BitwatcherMemoryDatabase) {
+class DbMemoryInitialiser @Inject constructor(private val db: BitwatcherMemoryDatabase) {
     fun init(): Single<Boolean> {
         return Single.fromCallable({
             db.accountDao().insertAccount(AccountEntity(null, "Bitstamp", AccountType.GHOST))

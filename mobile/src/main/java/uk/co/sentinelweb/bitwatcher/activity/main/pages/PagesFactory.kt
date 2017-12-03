@@ -1,13 +1,14 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages
+package uk.co.sentinelweb.bitwatcher.activity.main.pages
 
 import android.view.ViewGroup
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivity
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivityComponent
+import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 import javax.inject.Inject
 
 class PagesFactory @Inject constructor(
-        val mainActivityComponent: MainActivityComponent,
-        val mainActivity: MainActivity) {
+        private val mainActivityComponent: MainActivityComponent,
+        private val mainActivity: MainActivity) {
 
 
     fun createPagePresenter(container:ViewGroup?, position:Int): PagePresenter {

@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
@@ -9,6 +9,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeContract
+import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeState
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherMemoryDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerEntityToDomainListMapper
@@ -60,7 +62,7 @@ class HomePresenter @Inject constructor(
     private fun startTimerInterval() {
 
         subscription.add(Observable.interval(20, TimeUnit.SECONDS)
-                .flatMap({ l -> orchestrator.downloadTickerToDatabase() })
+                .flatMap({ _ -> orchestrator.downloadTickerToDatabase() })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({ t -> Log.d(TAG, "updated ticker data ${t.currencyCode}->${t.baseCode} = ${t.amount}") },

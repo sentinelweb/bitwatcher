@@ -21,4 +21,3 @@ fun Fragment.addWithExtras(a: AppCompatActivity, id:Int) {
     this.putExtras(a)
     this.add(a, id)
 }
-//fun BigDecimal.dp(scale: Int = 2): String =

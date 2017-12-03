@@ -9,7 +9,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class DbInitialiser @Inject constructor(val db: BitwatcherDatabase) {
+class DbInitialiser @Inject constructor(private val db: BitwatcherDatabase) {
     fun init(): Single<Boolean> {
         return Single.fromCallable({
             if (db.tickerDao().count() == 0) {

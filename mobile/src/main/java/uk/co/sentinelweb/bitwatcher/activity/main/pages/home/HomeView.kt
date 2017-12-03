@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import kotlinx.android.synthetic.main.page_home.view.*
 import kotlinx.android.synthetic.main.ticker_grid.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity
+import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeContract
+import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeState
 import uk.co.sentinelweb.bitwatcher.common.database.entities.FullAccountView
 
-class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
+class HomeView(context: Context?): FrameLayout(context), HomeContract.View {
 
 
     init {
@@ -30,6 +32,6 @@ class HomeView( context: Context?): FrameLayout(context), HomeContract.View {
 
     override fun setAccounts(list: List<FullAccountView>) {
         account.text = list.toString()
-        account.setOnClickListener({v -> context.startActivity(EditAccountActivity.getLaunchIntent(context, list.get(0).id))})
+        account.setOnClickListener({_ -> context.startActivity(EditAccountActivity.getLaunchIntent(context, list.get(0).id))})
     }
 }

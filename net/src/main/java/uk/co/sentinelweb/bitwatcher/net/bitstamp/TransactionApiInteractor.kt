@@ -11,7 +11,7 @@ import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType
 import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType.WITHDRAWL
 import java.util.concurrent.Callable
 
-class TransactionApiInteractor(val service: BitstampService, val mapper: TradesMapper = TradesMapper()) {
+class TransactionApiInteractor(private val service: BitstampService, private val mapper: TransactonMapper = TransactonMapper()) {
 
     fun getTransactions(): Single<List<Transaction>> {
         return Single.fromCallable(object : Callable<List<Transaction>> {
@@ -27,7 +27,7 @@ class TransactionApiInteractor(val service: BitstampService, val mapper: TradesM
     }
 
 
-    class TradesMapper() {
+    class TransactonMapper() {
         fun map(trades: List<FundingRecord>): List<Transaction> {
             val result = mutableListOf<Transaction>()
             trades.forEach {

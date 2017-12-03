@@ -15,4 +15,10 @@
     <string name="label_account_currency">Currency</string>
     <string name="title_edit_account">Edit Account</string>
     <string name="title_select_type">Select Type</string>
+    <string name="title_select_currency">Select currency</string>
+    <string name="done">Done</string>
+    <string name="dash">-</string>
+    <string name="contentdesc_delete_balance">Delete balance</string>
+    <string name="editaccount_header_balances">Balances</string>
+    <string name="contentdesc_add_balance">Add balance</string>
 </resources>

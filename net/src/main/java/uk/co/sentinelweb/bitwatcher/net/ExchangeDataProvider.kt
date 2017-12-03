@@ -5,7 +5,7 @@ import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.bitstamp.BitstampExchange
 
 
-class ExchangeDataProvider(val key: String, val secret: String, val user: String) {
+class ExchangeDataProvider(private val key: String, private val secret: String, private val user: String) {
     companion object {
         val GUEST_DATA_PROVIDER: ExchangeDataProvider = ExchangeDataProvider("","","")
     }

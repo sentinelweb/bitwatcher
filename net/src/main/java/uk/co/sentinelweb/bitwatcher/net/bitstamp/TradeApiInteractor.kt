@@ -10,7 +10,7 @@ import uk.co.sentinelweb.bitwatcher.domain.Trade
 import uk.co.sentinelweb.bitwatcher.domain.Trade.Companion.TradeType.*
 import java.util.concurrent.Callable
 
-class TradeApiInteractor(val service: BitstampService, val mapper: TradesMapper = TradesMapper()) {
+class TradeApiInteractor(private val service: BitstampService, private val mapper: TradesMapper = TradesMapper()) {
 
     fun getUserTrades():Single<List<Trade>> {
         return Single.fromCallable(object : Callable<List<Trade>> {
@@ -52,8 +52,8 @@ class TradeApiInteractor(val service: BitstampService, val mapper: TradesMapper 
             when (t){
                 Order.OrderType.BID -> return BID
                 Order.OrderType.ASK -> return ASK
+                else -> return UNKNOWN
             }
-            return UNKNOWN
         }
     }
 }

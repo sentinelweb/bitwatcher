@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivity
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.HomePresenter
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.HomeView
 import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
 
 @Module(includes = arrayOf(HomeModule.Bindings::class))
@@ -21,7 +23,7 @@ class HomeModule {
     interface Bindings {
         @Binds
         @PageScope
-        fun bindPresenter(presenter:HomePresenter):HomeContract.Presenter
+        fun bindPresenter(presenter: HomePresenter):HomeContract.Presenter
 
     }
 }

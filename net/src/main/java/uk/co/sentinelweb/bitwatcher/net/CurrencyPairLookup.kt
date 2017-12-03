@@ -21,7 +21,7 @@ class CurrencyPairLookup {
             return LOOKUP.get(getKey(cur,base))
         }
 
-        fun getKey(cur:CurrencyCode, base:CurrencyCode) : String {
+        private fun getKey(cur:CurrencyCode, base:CurrencyCode) : String {
             return cur.toString() + base.toString()
         }
     }

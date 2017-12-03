@@ -8,7 +8,7 @@ import java.util.*
 import java.util.concurrent.Callable
 
 
-class TickerDataApiInteractor(val service:ExchangeService, val mapper: TickerMapper = TickerMapper()) {
+class TickerDataApiInteractor(private val service:ExchangeService, private val mapper: TickerMapper = TickerMapper()) {
 
     fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerDomain> {
         return Observable.fromCallable(object : Callable<TickerDomain> {

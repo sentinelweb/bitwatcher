@@ -2,7 +2,6 @@ package uk.co.sentinelweb.bitwatcher.common.database.converter
 
 import android.arch.persistence.room.TypeConverter
 import uk.co.sentinelweb.bitwatcher.domain.AccountType
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 
 class AccountTypeConverter {
 
@@ -13,6 +12,6 @@ class AccountTypeConverter {
 
     @TypeConverter
     fun fromDb(str:String):AccountType {
-        return AccountType.valueOf(str)!!
+        return AccountType.valueOf(str)
     }
 }
