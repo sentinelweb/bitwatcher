@@ -39,7 +39,6 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         setHasOptionsMenu(true)
     }
 
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
     }

@@ -26,6 +26,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:maxLength="@integer/validation_account_name_max_length"
+            android:importantForAutofill="noExcludeDescendants"
         />
 
     </android.support.design.widget.TextInputLayout>

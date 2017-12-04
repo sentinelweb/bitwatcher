@@ -48,6 +48,7 @@ dependencies {
     implementation "android.arch.lifecycle:runtime:$lifecycle"
     annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_compiler" // seem to be needed by
     kapt "android.arch.lifecycle:compiler:$lifecycle_compiler"
+    implementation "com.google.android.gms:play-services-vision:$play_services"
 
     // room + live data
     implementation "android.arch.persistence.room:runtime:$lifecycle_room"

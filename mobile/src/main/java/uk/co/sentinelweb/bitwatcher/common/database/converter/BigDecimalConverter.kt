@@ -4,7 +4,9 @@ import android.arch.persistence.room.TypeConverter
 import java.math.BigDecimal
 
 class BigDecimalConverter {
-
+    companion object {
+        const val DEFUALT_SCALE = 6
+    }
     @TypeConverter
     fun toDb(number:BigDecimal):String {
         return number.toString()
@@ -13,7 +15,7 @@ class BigDecimalConverter {
     @TypeConverter
     fun fromDb(str:String):BigDecimal {
         try {
-            return BigDecimal(str)
+            return BigDecimal(str).setScale(DEFUALT_SCALE)
         } catch (nfex:NumberFormatException) {
             return BigDecimal.ZERO
         }
