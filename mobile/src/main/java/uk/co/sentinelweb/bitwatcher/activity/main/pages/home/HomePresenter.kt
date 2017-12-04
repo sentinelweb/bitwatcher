@@ -13,6 +13,7 @@ import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
+import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
 import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
 import uk.co.sentinelweb.bitwatcher.domain.AccountType
 import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
@@ -33,7 +34,9 @@ class HomePresenter @Inject constructor(
         private val db: BitwatcherDatabase,
         private val orchestrator: TickerDataOrchestrator,
         private val orchestratorAccount: AccountSaveOrchestrator,
-        private val accountDomainMapper: AccountEntityToDomainMapper
+        private val accountDomainMapper: AccountEntityToDomainMapper,
+        private val preferences: BitwatcherPreferences
+
 ) : HomeContract.Presenter, AccountRowContract.Interactions {
 
     companion object {
@@ -45,6 +48,9 @@ class HomePresenter @Inject constructor(
 
     override fun init() {
         view.setPresenter(this)
+        state.displayCurrency = preferences.getSelectedCurrency()?:CurrencyCode.GBP
+        view.setDisplayCurrency(state.displayCurrency.toString())
+        state.displayRealItems = preferences.getViewRealItems()
         startTimerInterval()
         subscriptions.add(db.fullAccountDao()
                 .flowFullAccounts()
@@ -85,6 +91,7 @@ class HomePresenter @Inject constructor(
 
     override fun onCurrencySelected(code: String) {
         state.displayCurrency = CurrencyCode.lookup(code)!!
+        preferences.saveSelectedCurrency(state.displayCurrency)
         view.setDisplayCurrency(state.displayCurrency.toString())
         updateAccounts()
         updateTotals()
@@ -155,6 +162,7 @@ class HomePresenter @Inject constructor(
 
     override fun onDisplayRealAccountToggle() {
         state.displayRealItems = !state.displayRealItems
+        preferences.saveViewRealItems(state.displayRealItems)
         view.setDisplayRealAccounts(state.displayRealItems)
         state.accounts.forEach{ account ->
             val rowPresenter = accountRowPresenters.get(account.id!!)

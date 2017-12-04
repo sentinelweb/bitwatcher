@@ -47,6 +47,7 @@
         android:id="@+id/home_accounts_title_divider"
         style="@style/DividerHorizontal"
         android:layout_below="@id/home_accounts_add_button"
+        android:layout_marginBottom="8dp"
     />
     <FrameLayout
         android:id="@+id/home_accounts_real_container"
@@ -105,6 +106,7 @@
         android:id="@+id/home_accounts_list_divider"
         style="@style/DividerHorizontal"
         android:layout_below="@id/home_accounts_ghost_container"
+        android:layout_marginTop="8dp"
     />
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"

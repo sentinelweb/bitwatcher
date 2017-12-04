@@ -14,12 +14,18 @@
         android:layout_toStartOf="@id/currency_edit_button"
         tools:ignore="RtlHardcoded">
 
+        <!-- java.lang.NullPointerException: Attempt to invoke virtual method 'void android.view.View.getBoundsOnScreen(android.graphics.Rect)' on a null object reference at android.app.assist.AssistStructure$WindowNode.<init>-->
+        <!-- https://stackoverflow.com/questions/45898228/android-attempt-to-invoke-virtual-method-void-android-view-view-getboundsonsc -->
+        <!-- solution : android:importantForAutofill="noExcludeDescendants"-->
+
         <android.support.design.widget.TextInputEditText
             android:id="@+id/balance_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/label_account_balance"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:importantForAutofill="noExcludeDescendants"
+        />
 
     </android.support.design.widget.TextInputLayout>
 

@@ -1,6 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.app
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -17,6 +19,12 @@ class BitwatcherAppModule {
     @Singleton
     fun provideAlarmReceiver() : AlarmReceiver{
         return AlarmReceiver()
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferences(app:BitwatcherApplication) : SharedPreferences{
+        return PreferenceManager.getDefaultSharedPreferences(app)
     }
 
     @Module
