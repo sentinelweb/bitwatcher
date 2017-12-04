@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    >
+
+    <CheckBox
+        android:id="@+id/account_row_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Kraken"
+        android:textAppearance="@style/TotalLabel"
+    />
+    <TextView
+        android:id="@+id/account_row_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="100000 GBP"
+        android:textAppearance="@style/Total"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/account_row_overflow_button"
+        tools:ignore="RtlHardcoded,RtlSymmetry"/>
+    <ImageView
+        android:id="@+id/account_row_overflow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_more_vert_black_24dp"
+        android:tint="@color/grey_500"
+        android:contentDescription="@string/contentdesc_options"/>
+    <TextView
+        android:id="@+id/account_row_balances_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1.5643 BTC \u00b7 2.678 ETH \u00b7 200 BCH \u00b7 150000 USD"
+        android:paddingLeft="32dp"
+        android:paddingStart="32dp"
+        android:textColor="@color/grey_500"
+        app:layout_constraintTop_toBottomOf="@+id/account_row_checkbox"
+        tools:ignore="RtlHardcoded,RtlSymmetry"/>
+    <View
+        android:id="@+id/home_accounts_list_divider"
+        style="@style/DividerHorizontal"
+        android:background="@color/grey_200"
+        app:layout_constraintTop_toBottomOf="@id/account_row_balances_text"
+        android:layout_marginTop="8dp"
+    />
+</android.support.constraint.ConstraintLayout>

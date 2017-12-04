@@ -5,4 +5,6 @@
     <color name="colorAccent">@color/green_600</color>
 
     <color name="colorError">@color/red_400</color>
+    <color name="colorRealAcct">@color/grey_800</color>
+    <color name="colorGhostAcct">@color/grey_600</color>
 </resources>

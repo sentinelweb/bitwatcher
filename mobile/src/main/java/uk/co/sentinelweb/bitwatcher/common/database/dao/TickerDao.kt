@@ -16,6 +16,9 @@ interface TickerDao {
     @Query("SELECT * From ticker_data")
     fun flowAllTickers(): Flowable<List<TickerEntity>>
 
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
+    fun flowTicker(code:String, base:String): Flowable<TickerEntity>
+
     @Query("SELECT count(*) From ticker_data")
     fun count(): Int
 

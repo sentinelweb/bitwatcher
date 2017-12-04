@@ -2,20 +2,20 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account.view
 
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
-import kotlinx.android.synthetic.main.view_position_edit.view.*
+import kotlinx.android.synthetic.main.edit_account_position_view.view.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 
 class BalanceItemView(context: Context?) : RelativeLayout(context), BalanceItemContract.View {
     private lateinit var presenter: BalanceItemContract.Presenter
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_position_edit, this, true)
+        LayoutInflater.from(context).inflate(R.layout.edit_account_position_view, this, true)
     }
 
     override fun setPresenter(p: BalanceItemContract.Presenter) {
@@ -42,14 +42,13 @@ class BalanceItemView(context: Context?) : RelativeLayout(context), BalanceItemC
     }
 
     override fun showCurrencySelector(currencies: Array<String>) {
-        val items = arrayOfNulls<CharSequence>(currencies.size)
-        currencies.forEachIndexed { index, type -> items[index] = type }
-        AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.title_select_currency))
-                .setItems(items, { _: DialogInterface, idx: Int -> presenter.onCurrencyChanged(currencies.get(idx)) })
-                .create()
-                .show()
+        CurrencySelector.showCurrencySelector(
+                context,
+                currencies,
+                { _: DialogInterface, idx: Int -> presenter.onCurrencyChanged(currencies.get(idx)) })
     }
+
+
 
 
 }

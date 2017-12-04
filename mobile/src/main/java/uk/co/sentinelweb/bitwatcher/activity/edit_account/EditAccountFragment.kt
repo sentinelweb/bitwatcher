@@ -13,8 +13,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import kotlinx.android.synthetic.main.fragment_edit_account.*
+import kotlinx.android.synthetic.main.edit_account_fragment.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity.Companion.EXTRA_ACCOUNT_ID
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemPresenter
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemView
@@ -44,7 +45,7 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_edit_account, container, false)
+        return inflater.inflate(R.layout.edit_account_fragment, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -61,7 +62,8 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
             Log.d(TAG, "restoring account : ${restoreState}")
             fragmentPresenter.restoreState(restoreState)
         } else {
-            fragmentPresenter.initialise(arguments.getLong(EditAccountActivity.EXTRA_ACCOUNT_ID))
+            val id = if (arguments.containsKey(EXTRA_ACCOUNT_ID)) arguments.getLong(EXTRA_ACCOUNT_ID) else null
+            fragmentPresenter.initialise(id)
         }
         balances_add_button.setOnClickListener({ fragmentPresenter.addBalance() })
         name_edit.addTextChangedListener(object : TextWatcher {

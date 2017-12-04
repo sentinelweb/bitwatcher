@@ -11,7 +11,7 @@ import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherMemoryDatabase
+import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 class EditAccountFragmentPresenter @Inject constructor(
         private val view: EditAccountContract.View,
-        private val dbMem: BitwatcherMemoryDatabase,
+        private val db: BitwatcherDatabase,
         private val accountDomainMapper: AccountEntityToDomainMapper,
         private val nameValidator: NameValidator,
         private val accountValidator: AccountValidator,
@@ -43,7 +43,7 @@ class EditAccountFragmentPresenter @Inject constructor(
     override fun initialise(id: Long?) {
         state = EditAccountState(id)
         if (id != null) {
-            subscription.add(dbMem.fullAccountDao()
+            subscription.add(db.fullAccountDao()
                     .singleFullAccount(id)
                     .map { entity -> accountDomainMapper.mapFull(entity) }
                     .subscribeOn(Schedulers.io())

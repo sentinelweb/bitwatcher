@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
 import dagger.Subcomponent
 import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
@@ -7,7 +7,7 @@ import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
 @PageScope
 interface HomeComponent {
 
-    fun provideHomePresenter():HomeContract.Presenter
+    fun provideHomePresenter(): HomeContract.Presenter
 
     @Subcomponent.Builder
     interface Builder {

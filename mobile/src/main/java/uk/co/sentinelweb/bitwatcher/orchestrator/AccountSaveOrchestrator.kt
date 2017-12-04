@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.orchestrator
 
 import io.reactivex.Single
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherMemoryDatabase
+import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.PositionDomainToEntityMapper
@@ -10,10 +10,11 @@ import java.util.concurrent.Callable
 import javax.inject.Inject
 
 // TODO convert to proper Rx chain
+// TODO try to setup foreign keys and cascading deletion for positionItems
 class AccountSaveOrchestrator @Inject constructor(
         private val accountEntityMapper: AccountDomainToEntityMapper,
         private val positionEntityMapper: PositionDomainToEntityMapper,
-        private val dbMem: BitwatcherMemoryDatabase,
+        private val db: BitwatcherDatabase,
         private val accountDomainMapper: AccountEntityToDomainMapper
 
 ) {
@@ -21,12 +22,12 @@ class AccountSaveOrchestrator @Inject constructor(
     fun save(account: AccountDomain): Single<Boolean> {
 //        val accountUpdate: Single<AccountEntity>
 //        if (account.id == null) {
-//            accountUpdate = dbMem.accountDao()
+//            accountUpdate = db.accountDao()
 //                    .insertAccountSingle(accountEntityMapper.map(account))
 //                    .flatMap { id -> account.id = id;Single.just(accountEntityMapper.map(account)) }
 //
 //        } else {
-//            accountUpdate = dbMem.accountDao()
+//            accountUpdate = db.accountDao()
 //                    .updateAccountCompletable(accountEntityMapper.map(account))
 //                    .andThen(Single.just(account))
 //        }
@@ -36,24 +37,44 @@ class AccountSaveOrchestrator @Inject constructor(
             override fun call(): Boolean {
                 val accountId:Long
                 if (account.id == null) {
-                    accountId = dbMem.accountDao().insertAccount(accountEntityMapper.map(account))
+                    accountId = db.accountDao().insertAccount(accountEntityMapper.map(account))
                 } else {
-                    dbMem.accountDao().updateAccount(accountEntityMapper.map(account))
+                    db.accountDao().updateAccount(accountEntityMapper.map(account))
                     accountId = account.id!!
                 }
-                val idDeleteList = (dbMem.positionItemDao().getAllPositionsIdsForAccount(accountId)).toMutableList()
+                val idDeleteList = (db.positionItemDao().getAllPositionsIdsForAccount(accountId)).toMutableList()
                 account.balances.forEach({ balance ->
                     if (balance.id == null) {
-                        dbMem.positionItemDao().insertPositionItem(positionEntityMapper.map(balance, accountId))
+                        db.positionItemDao().insertPositionItem(positionEntityMapper.map(balance, accountId))
                     } else {
-                        dbMem.positionItemDao().updatePositionItem(positionEntityMapper.map(balance, accountId))
+                        db.positionItemDao().updatePositionItem(positionEntityMapper.map(balance, accountId))
                         idDeleteList.remove(balance.id!!)
                     }
                 })
-                dbMem.positionItemDao().deleteIds(idDeleteList)
+                db.positionItemDao().deleteIds(idDeleteList)
                 return true
             }
 
+        })
+    }
+
+    fun delete(account: AccountDomain): Single<Boolean> {
+        return Single.fromCallable(object : Callable<Boolean> {
+            override fun call(): Boolean {
+                val id = account.id
+                if (id != null) {
+                    db.accountDao().delete(id)
+                    val posIdList = mutableListOf<Long>()
+                    account.balances.forEach { position ->
+                        val posId = position.id
+                        if (posId != null) {
+                            posIdList.add(posId)
+                        }
+                    }
+                    db.positionItemDao().deleteIds(posIdList)
+                }
+                return true
+            }
         })
     }
 }

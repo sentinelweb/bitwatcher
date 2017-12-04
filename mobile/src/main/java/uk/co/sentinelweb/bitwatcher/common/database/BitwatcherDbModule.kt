@@ -5,18 +5,17 @@ import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import uk.co.sentinelweb.bitwatcher.common.database.test.DbInitialiser
-import uk.co.sentinelweb.bitwatcher.common.database.test.DbMemoryInitialiser
 import javax.inject.Singleton
 
 @Module
 class BitwatcherDbModule {
 
-    @Provides
-    @Singleton
-    fun provideInMemoryDb(app:BitwatcherApplication): BitwatcherMemoryDatabase {
-        return Room.inMemoryDatabaseBuilder<BitwatcherMemoryDatabase>(app, BitwatcherMemoryDatabase::class.java)
-                .build()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideInMemoryDb(app:BitwatcherApplication): BitwatcherMemoryDatabase {
+//        return Room.inMemoryDatabaseBuilder<BitwatcherMemoryDatabase>(app, BitwatcherMemoryDatabase::class.java)
+//                .build()
+//    }
 
     @Provides
     @Singleton
@@ -25,11 +24,11 @@ class BitwatcherDbModule {
                 .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideDbMemInitialiser(db: BitwatcherMemoryDatabase): DbMemoryInitialiser {
-        return DbMemoryInitialiser(db)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideDbMemInitialiser(db: BitwatcherMemoryDatabase): DbMemoryInitialiser {
+//        return DbMemoryInitialiser(db)
+//    }
     @Provides
     @Singleton
     fun provideDbInitialiser(db: BitwatcherDatabase): DbInitialiser {

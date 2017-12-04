@@ -1,8 +1,21 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.home
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
-data class HomeState(val tickerState:TickerState = TickerState()) {
+import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 
-    data class TickerState(
+class HomeState(
+        var prices: MutableMap<String, TickerDomain> = mutableMapOf(),
+        var accounts: List<AccountDomain> = listOf(),
+        val tickerDisplay: TickerDisplay = TickerDisplay(),
+        val totals: TotalsDisplay = TotalsDisplay(),
+        val selectedAccountIds: MutableSet<Long> = mutableSetOf(),
+        var displayCurrency: CurrencyCode = CurrencyCode.GBP,
+        var displayRealItems: Boolean = true,
+        var deletedAccount: AccountDomain? = null
+) {
+
+    data class TickerDisplay(
             var btcUsdPriceText: String = "-",
             var ethUsdPriceText: String = "-",
             var bchUsdPriceText: String = "-",
@@ -12,4 +25,10 @@ data class HomeState(val tickerState:TickerState = TickerState()) {
             var btcEurPriceText: String = "-",
             var ethEurPriceText: String = "-",
             var bchEurPriceText: String = "-")
+
+    data class TotalsDisplay(
+            var realTotalDisplay: String = "-",
+            var ghostTotalDisplay: String = "-"
+    )
+
 }

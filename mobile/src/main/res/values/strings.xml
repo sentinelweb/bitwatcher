@@ -21,4 +21,10 @@
     <string name="contentdesc_delete_balance">Delete balance</string>
     <string name="editaccount_header_balances">Balances</string>
     <string name="contentdesc_add_balance">Add balance</string>
+    <string name="contentdesc_options">Options</string>
+    <string name="title_ghost_total">Ghost total</string>
+    <string name="title_real_total">Real total</string>
+    <string name="manu_delete">Delete</string>
+    <string name="menu_edit">Edit</string>
+    <string name="header_accounts">Accounts</string>
 </resources>

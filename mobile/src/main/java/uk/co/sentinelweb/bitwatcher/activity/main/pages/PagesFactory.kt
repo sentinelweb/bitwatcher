@@ -16,20 +16,17 @@ class PagesFactory @Inject constructor(
             0 -> {
                 val homePresenter = mainActivityComponent.homePageBuilder().build().provideHomePresenter()
                 container?.addView(homePresenter.view())
-                mainActivity.lifecycle.addObserver(homePresenter)
                 return homePresenter
             }
             1 -> {
                 val loopsPresenter = mainActivityComponent.loopsPageBuilder().build().provideLoopsPresenter()
                 container?.addView(loopsPresenter.view())
-                mainActivity.lifecycle.addObserver(loopsPresenter)
                 return loopsPresenter
             }
 
             2 -> {
                 val tradePresenter = mainActivityComponent.tradePageBuilder().build().provideTradePresenter()
                 container?.addView(tradePresenter.view())
-                mainActivity.lifecycle.addObserver(tradePresenter)
                 return tradePresenter
             }
             else -> {

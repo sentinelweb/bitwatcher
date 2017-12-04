@@ -15,9 +15,11 @@ class EditAccountActivity : AppCompatActivity() {
     companion object {
         val EXTRA_ACCOUNT_ID = "account_id"
 
-        fun getLaunchIntent(c: Context, accountId: Long): Intent {
+        fun getLaunchIntent(c: Context, accountId: Long?): Intent {
             val intent = Intent(c, EditAccountActivity::class.java)
-            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            if (accountId != null) {
+                intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            }
             return intent
         }
     }

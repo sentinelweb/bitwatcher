@@ -4,13 +4,14 @@ import android.arch.lifecycle.LifecycleObserver
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_activity.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagesAdapter
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainContract.View {
+
     lateinit var component: MainActivityComponent
 
     @Inject lateinit var presenter : MainContract.Presenter
@@ -19,15 +20,15 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                pager.setCurrentItem(0)
+                main_pager.setCurrentItem(0)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                pager.setCurrentItem(1)
+                main_pager.setCurrentItem(1)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                pager.setCurrentItem(2)
+                main_pager.setCurrentItem(2)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -36,24 +37,28 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
 
         component = (application as BitwatcherApplication).component.mainActivityBuilder().mainActivity(this).build()
         component.inject(this)
 
         this.lifecycle.addObserver(presenter)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        main_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         // disallow swiping of view pager to satisfy bottom nav ui pattern
-        pager.setOnTouchListener({_,_ -> true})
+        main_pager.setOnTouchListener({_,_ -> true})
 
-        pager.adapter = pagesAdapter
+        main_pager.adapter = pagesAdapter
     }
 
     override fun onDestroy() {
         super.onDestroy()
         this.lifecycle.removeObserver(presenter)
+    }
+
+    override fun registerLifecycleObserver(observer: LifecycleObserver) {
+        lifecycle.addObserver(observer)
     }
 
     override fun unregisterLifecycleObserver(observer: LifecycleObserver) {

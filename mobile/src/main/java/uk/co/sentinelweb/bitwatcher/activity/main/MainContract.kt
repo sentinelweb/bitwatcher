@@ -12,5 +12,6 @@ interface MainContract {
 
     interface View {
         fun unregisterLifecycleObserver(observer:LifecycleObserver)
+        fun registerLifecycleObserver(observer:LifecycleObserver)
     }
 }

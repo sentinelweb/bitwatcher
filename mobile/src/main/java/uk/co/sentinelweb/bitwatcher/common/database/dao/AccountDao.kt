@@ -20,5 +20,8 @@ interface AccountDao {
     @Query("DELETE FROM account")
     fun deleteAll()
 
+    @Query("DELETE FROM account WHERE id=:id")
+    fun delete(id: Long)
+
 
 }

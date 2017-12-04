@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.activity.main
 
 import dagger.BindsInstance
 import dagger.Subcomponent
-import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeComponent
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.HomeComponent
 import uk.co.sentinelweb.bitwatcher.activity.pages.loops.LoopsComponent
 import uk.co.sentinelweb.bitwatcher.activity.pages.trade.TradeComponent
 import uk.co.sentinelweb.bitwatcher.common.scope.ActivityScope

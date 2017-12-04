@@ -1,6 +1,5 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
-import uk.co.sentinelweb.bitwatcher.activity.pages.home.HomeState
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
@@ -8,7 +7,7 @@ import javax.inject.Inject
 
 class TickerStateMapper @Inject constructor() {
 
-    fun map(t: TickerDomain?, state: HomeState.TickerState): HomeState.TickerState {
+    fun map(t: TickerDomain?, state: HomeState.TickerDisplay): HomeState.TickerDisplay {
         when (t?.currencyCode) {
             CurrencyCode.ETH ->
                 when (t.baseCurrencyCode) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:showIn="@layout/page_home">
+    tools:showIn="@layout/main_home_page">
 
     <LinearLayout
         android:layout_width="match_parent"

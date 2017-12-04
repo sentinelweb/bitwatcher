@@ -13,6 +13,7 @@ class MainPresenter @Inject constructor(
 
     override fun addPagePresenter(position: Int, presenter: PagePresenter) {
         presenter.init()
+        view.registerLifecycleObserver(presenter)
         presenters[position] = presenter
     }
 
