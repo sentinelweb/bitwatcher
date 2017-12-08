@@ -7,6 +7,10 @@
         android:title="@string/title_home"/>
 
     <item
+        android:id="@+id/navigation_calcualator"
+        android:icon="@drawable/ic_calculator_black_24dp"
+        android:title="@string/title_calculator"/>
+    <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_loops_black_24dp"
         android:title="@string/title_loops"/>

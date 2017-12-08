@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
@@ -6,7 +6,7 @@ import android.view.View
 import javax.inject.Inject
 
 
-class LoopsPresenter @Inject constructor(private val view: LoopsContract.View) : LoopsContract.Presenter {
+class CalculatorPresenter @Inject constructor(private val view: CalculatorContract.View) : CalculatorContract.Presenter {
 
     override fun init() {
 

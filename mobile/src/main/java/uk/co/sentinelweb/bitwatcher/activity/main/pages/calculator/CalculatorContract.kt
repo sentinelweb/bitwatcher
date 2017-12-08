@@ -1,11 +1,11 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
 
 import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
-interface LoopsContract {
+interface CalculatorContract {
 
     interface View {
-        fun setData(model: LoopsModel)
+        fun setData(model: CalculatorState.CalculatorModel)
     }
 
     interface Presenter : PagePresenter {

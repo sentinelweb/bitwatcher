@@ -2,8 +2,9 @@ package uk.co.sentinelweb.bitwatcher.activity.main
 
 import dagger.BindsInstance
 import dagger.Subcomponent
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator.CalculatorComponent
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.HomeComponent
-import uk.co.sentinelweb.bitwatcher.activity.pages.loops.LoopsComponent
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.loops.LoopsComponent
 import uk.co.sentinelweb.bitwatcher.activity.pages.trade.TradeComponent
 import uk.co.sentinelweb.bitwatcher.common.scope.ActivityScope
 
@@ -15,6 +16,7 @@ interface MainActivityComponent {
     fun homePageBuilder(): HomeComponent.Builder
     fun loopsPageBuilder(): LoopsComponent.Builder
     fun tradePageBuilder(): TradeComponent.Builder
+    fun calcPageBuilder(): CalculatorComponent.Builder
 
     @Subcomponent.Builder
     interface Builder {

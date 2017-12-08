@@ -23,12 +23,16 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 main_pager.setCurrentItem(0)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
+            R.id.navigation_calcualator -> {
                 main_pager.setCurrentItem(1)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
+            R.id.navigation_dashboard -> {
                 main_pager.setCurrentItem(2)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_notifications -> {
+                main_pager.setCurrentItem(3)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -48,6 +52,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         // disallow swiping of view pager to satisfy bottom nav ui pattern
         main_pager.setOnTouchListener({_,_ -> true})
+        // TODO override viewpage interception listener
+        //fun ViewPager.onInterceptTouchEvent(e:MotionEvent)  {false}
 
         main_pager.adapter = pagesAdapter
     }

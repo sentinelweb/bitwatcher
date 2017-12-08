@@ -1,11 +1,9 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
 
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivity
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.loops.LoopsPresenter
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.loops.LoopsView
 import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
 
 @Module(includes = arrayOf(LoopsModule.Bindings::class))

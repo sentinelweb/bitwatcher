@@ -30,6 +30,6 @@ class PagesAdapter @Inject constructor(
     }
 
     override fun getCount(): Int {
-        return 3
+        return 4
     }
 }

@@ -8,6 +8,7 @@ data class AccountDomain(val id: Long?,
                          val balances: List<BalanceDomain>) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 4563645846734523423
+        val NONE = AccountDomain(null, "", AccountType.INITIAL, listOf())
     }
 
     override fun toString(): String {

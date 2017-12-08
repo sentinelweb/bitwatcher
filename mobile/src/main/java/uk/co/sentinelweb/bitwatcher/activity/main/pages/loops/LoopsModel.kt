@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
 
 import uk.co.sentinelweb.bitwatcher.domain.Transaction
 
