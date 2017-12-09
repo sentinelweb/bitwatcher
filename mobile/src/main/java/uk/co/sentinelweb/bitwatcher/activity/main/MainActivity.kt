@@ -21,18 +21,22 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         when (item.itemId) {
             R.id.navigation_home -> {
                 main_pager.setCurrentItem(0)
+                supportActionBar?.subtitle = getString(R.string.title_home)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_calcualator -> {
                 main_pager.setCurrentItem(1)
+                supportActionBar?.subtitle = getString(R.string.title_calculator)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
                 main_pager.setCurrentItem(2)
+                supportActionBar?.subtitle = getString(R.string.title_loops)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 main_pager.setCurrentItem(3)
+                supportActionBar?.subtitle = getString(R.string.title_trade)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -42,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
+        supportActionBar?.subtitle = getString(R.string.title_home)
         component = (application as BitwatcherApplication).component.mainActivityBuilder().mainActivity(this).build()
         component.inject(this)
 

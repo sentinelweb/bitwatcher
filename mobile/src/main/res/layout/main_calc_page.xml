@@ -1,14 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_margin"
+>
 
-    <TextView
-        android:id="@+id/title"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/calc_amount_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_calculator"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:background="@drawable/calc_amount_background"
+        app:layout_constraintEnd_toStartOf="@id/calc_amount_currency_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+    >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/calc_amount_edit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Amount"
+            android:inputType="numberDecimal"
+            android:minWidth="@dimen/calc_amount_width"
+            android:padding="4dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="24sp"
+            android:background="@null"
+            android:importantForAutofill="noExcludeDescendants"
         />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/calc_amount_currency_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBottom_toBottomOf="@id/calc_amount_edit"
+        app:layout_constraintStart_toEndOf="@id/calc_amount_edit"
+        app:layout_constraintTop_toTopOf="@+id/calc_amount_edit"
+        tools:text="@string/btc_code"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/calc_rate_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/calc_amount_background"
+        app:layout_constraintEnd_toStartOf="@id/calc_rate_increment_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/calc_rate_decrement_button"
+        app:layout_constraintTop_toBottomOf="@id/calc_amount_edit"
+    >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/calc_rate_edit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Rate"
+            android:inputType="numberDecimal"
+            android:minWidth="@dimen/calc_rate_width"
+            android:padding="4dp"
+            android:layout_marginRight="28dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="18sp"
+            android:background="@null"
+            android:importantForAutofill="noExcludeDescendants"
+        />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/calc_rate_decrement_button"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:text=".5%"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/calc_rate_edit"
+        app:layout_constraintEnd_toStartOf="@id/calc_rate_edit"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/calc_rate_edit"
+    />
+    <Button
+        android:id="@+id/calc_rate_increment_button"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:text="1%"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:drawableLeft="@drawable/ic_arrow_drop_up_black_24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/calc_rate_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/calc_to_currency_button"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/calc_rate_edit"
+        app:layout_constraintTop_toTopOf="@id/calc_rate_edit"
+    />
+    <Button
+        android:id="@+id/calc_to_currency_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/calc_rate_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/calc_rate_increment_button"
+        app:layout_constraintTop_toTopOf="@id/calc_rate_edit"
+        tools:text="@string/gbp_code"
+    />
+
+    <ImageView
+        android:id="@+id/calc_to_link_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:src="@drawable/ic_link_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/calc_rate_edit"
+        app:layout_constraintEnd_toEndOf="@id/calc_rate_edit"
+        app:layout_constraintTop_toTopOf="@id/calc_rate_edit"
+    />
+
+    <TextView
+        android:id="@+id/calc_result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calc_rate_edit"
+        android:textColor="@color/colorAccent"
+        android:textSize="48sp"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:text="48000"
+    />
 </android.support.constraint.ConstraintLayout>

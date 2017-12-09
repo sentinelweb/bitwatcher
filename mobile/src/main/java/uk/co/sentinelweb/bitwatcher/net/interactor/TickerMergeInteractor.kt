@@ -17,7 +17,7 @@ class TickerMergeInteractor @Inject constructor(
     fun getMergedTickers(): Observable<TickerDomain> {
         return Observable.mergeDelayError(
                 tickerBitstampInteractor.getTickers(listOf(BTC, ETH), listOf(USD, EUR)),
-                tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)), // TODO crashing issue here when connection timing out
+                tickerCoinfloorInteractor.getTickers(listOf(BTC, BCH), listOf(GBP)),
                 Observable.mergeDelayError(
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, EUR) },
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
