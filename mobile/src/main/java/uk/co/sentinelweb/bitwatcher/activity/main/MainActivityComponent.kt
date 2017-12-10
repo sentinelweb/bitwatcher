@@ -5,7 +5,7 @@ import dagger.Subcomponent
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator.CalculatorComponent
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.HomeComponent
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.loops.LoopsComponent
-import uk.co.sentinelweb.bitwatcher.activity.pages.trade.TradeComponent
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.TradeComponent
 import uk.co.sentinelweb.bitwatcher.common.scope.ActivityScope
 
 @Subcomponent(modules = arrayOf(MainActivityModule::class))

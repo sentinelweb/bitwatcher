@@ -8,7 +8,6 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(
         private val view: MainContract.View
 ) : MainContract.Presenter {
-
     private val presenters: MutableMap<Int, PagePresenter> = mutableMapOf()
 
     override fun addPagePresenter(position: Int, presenter: PagePresenter) {
@@ -36,4 +35,10 @@ class MainPresenter @Inject constructor(
     fun onStop() {
 
     }
+
+    override fun changePosition(newPosition: Int, oldPosition: Int) {
+        presenters.get(oldPosition)?.onExit()
+        presenters.get(newPosition)?.onEnter()
+    }
+
 }

@@ -1,10 +1,9 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivity
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.TradeView
 import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
 
 @Module(includes = arrayOf(TradeModule.Bindings::class))

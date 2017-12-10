@@ -9,9 +9,14 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.main_calc_page.view.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.common.ui.AndroidUtils
 import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
 
 class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContract.View {
+    private lateinit var presenter: CalculatorContract.Presenter
+    private var viewIsUpdating = false
+
+
     init {
         LayoutInflater.from(context).inflate(R.layout.main_calc_page, this, true)
         calc_amount_edit_value.addTextChangedListener(object : TextWatcher {
@@ -44,9 +49,9 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
         calc_to_link_button.setOnClickListener { _ -> presenter.toggleLinkRate() }
     }
 
-    private lateinit var presenter: CalculatorContract.Presenter
-    private var viewIsUpdating = false
-
+    override fun setPresenter(p: CalculatorContract.Presenter) {
+        this.presenter = p;
+    }
 
     override fun setData(model: CalculatorState.CalculatorModel, exclude: CalculatorState.Field) {
         viewIsUpdating = true
@@ -66,9 +71,10 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
         viewIsUpdating = false
     }
 
-    override fun setPresenter(p: CalculatorContract.Presenter) {
-        this.presenter = p;
+    override fun hideKeyBoard() {
+        AndroidUtils.hideSoftKeyboard(calc_amount_edit_value)
     }
+
 
     override fun showCurrencyPicker(from: Boolean, currencies: Array<String>) {
         CurrencySelector.showCurrencySelector(

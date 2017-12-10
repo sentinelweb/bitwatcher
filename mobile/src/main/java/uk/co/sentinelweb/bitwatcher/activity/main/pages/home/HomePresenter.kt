@@ -39,7 +39,6 @@ class HomePresenter @Inject constructor(
         private val preferences: BitwatcherPreferences
 
 ) : HomeContract.Presenter, AccountRowContract.Interactions {
-
     companion object {
         val TAG = HomePresenter::class.java.simpleName
     }
@@ -49,7 +48,7 @@ class HomePresenter @Inject constructor(
 
     override fun init() {
         view.setPresenter(this)
-        state.displayCurrency = preferences.getSelectedCurrency()?:CurrencyCode.GBP
+        state.displayCurrency = preferences.getSelectedCurrency() ?: CurrencyCode.GBP
         view.setDisplayCurrency(state.displayCurrency.toString())
         state.displayRealItems = preferences.getViewRealItems()
         startTimerInterval()
@@ -71,6 +70,12 @@ class HomePresenter @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
         cleanup()
+    }
+
+    override fun onEnter() {
+    }
+
+    override fun onExit() {
     }
 
     override fun cleanup() {
@@ -131,7 +136,7 @@ class HomePresenter @Inject constructor(
         if (state.deletedAccount != null) {
             // reset ids
             val balances = mutableListOf<BalanceDomain>()
-            state.deletedAccount!!.balances.forEach { bal -> balances.add(bal.copy(id=null)) }
+            state.deletedAccount!!.balances.forEach { bal -> balances.add(bal.copy(id = null)) }
             val copy = state.deletedAccount!!.copy(id = null, balances = balances)
 
             subscriptions.add(orchestratorAccount
@@ -161,7 +166,7 @@ class HomePresenter @Inject constructor(
         state.displayRealItems = !state.displayRealItems
         preferences.saveViewRealItems(state.displayRealItems)
         view.setDisplayRealAccounts(state.displayRealItems)
-        state.accounts.forEach{ account ->
+        state.accounts.forEach { account ->
             val rowPresenter = accountRowPresenters.get(account.id!!)
             rowPresenter?.setVisible(account.type == AccountType.GHOST || state.displayRealItems)
         }

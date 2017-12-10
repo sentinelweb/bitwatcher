@@ -8,4 +8,6 @@ interface PagePresenter : LifecycleObserver{
     fun view(): View
     fun init()
     fun cleanup()
+    fun onEnter()
+    fun onExit()
 }

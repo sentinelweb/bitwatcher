@@ -8,6 +8,7 @@ interface CalculatorContract {
         fun setData(model: CalculatorState.CalculatorModel, exclude:CalculatorState.Field)
         fun showCurrencyPicker(from:Boolean, currencies:Array<String>)
         fun setPresenter(p:Presenter)
+        fun hideKeyBoard()
     }
 
     interface Presenter : PagePresenter {

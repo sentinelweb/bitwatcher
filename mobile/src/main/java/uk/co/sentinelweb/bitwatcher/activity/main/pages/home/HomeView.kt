@@ -20,7 +20,7 @@ import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
 
 class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
 
-    private lateinit var fabHideListener: FabHideListener
+    private var fabHideListener: FabHideListener
     private lateinit var presenter: HomeContract.Presenter
     private var snackBar: Snackbar? = null
 

@@ -1,11 +1,11 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
 interface TradeContract {
 
     interface View {
-        fun setData(model: TradeModel)
+        fun setData(state: TradeState)
     }
 
     interface Presenter : PagePresenter {

@@ -59,6 +59,14 @@ class CalculatorPresenter @Inject constructor(
     fun onStop() {
         cleanup()
     }
+    override fun onEnter() {
+
+    }
+
+    override fun onExit() {
+        view.hideKeyBoard()
+    }
+
 
     override fun onCurrencyFromButtonClick() {
         view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyList())

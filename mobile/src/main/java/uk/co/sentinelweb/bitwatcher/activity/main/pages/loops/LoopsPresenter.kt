@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 
 class LoopsPresenter @Inject constructor(private val view: LoopsContract.View) : LoopsContract.Presenter {
-
     override fun init() {
 
     }
@@ -33,4 +32,11 @@ class LoopsPresenter @Inject constructor(private val view: LoopsContract.View) :
     override fun loadData() {
 
     }
+
+    override fun onEnter() {
+    }
+
+    override fun onExit() {
+    }
+
 }
