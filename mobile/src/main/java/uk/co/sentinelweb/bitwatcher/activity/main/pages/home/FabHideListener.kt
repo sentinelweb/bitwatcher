@@ -12,59 +12,93 @@ class FabHideListener(
         val scroll: ScrollView,
         val home_accounts_add_fab: FloatingActionButton)
     : ViewTreeObserver.OnScrollChangedListener {
+    companion object {
+        private const val TY = 500
+    }
+
+    private var isAnimating = false
+    private var isShown = true
     private var lastY: Int = 0;
     private var floatTop: Int = -1
     private var floatHeight: Int = -1
-    private val ty = 500
-    private lateinit var topDownAnimator: ObjectAnimator
-    private lateinit var topUpAnimator: ObjectAnimator
-    private lateinit var bottomDownAnimator: ObjectAnimator
-    private lateinit var bottomUpAnimator: ObjectAnimator
+    private lateinit var topHideAnimator: ObjectAnimator
+    private lateinit var topShowAnimator: ObjectAnimator
+    private lateinit var bottomHideAnimator: ObjectAnimator
+    private lateinit var bottomShowAnimator: ObjectAnimator
 
     override fun onScrollChanged() {
         val scrollY = scroll.getScrollY() // For ScrollView
+        checkInitialised()
+        if (scrollY > lastY) {
+            hideFab()
+        } else if (scrollY < lastY) {
+            showFab()
+        }
+        lastY = scrollY
+    }
+
+    fun toggleFab() {
+        checkInitialised()
+        if (!isAnimating) {
+            if (isShown) {
+                hideFab()
+            } else {
+                showFab()
+            }
+        }
+    }
+
+    private fun checkInitialised() {
         if (floatTop == -1) {
             floatTop = home_accounts_add_fab.top
             floatHeight = home_accounts_add_fab.height
             makeAnimators()
         }
-        if (scrollY > lastY) {
-            topDownAnimator.start()
-            bottomDownAnimator.start()
-        } else if (scrollY < lastY) {
-            topUpAnimator.start()
-            bottomUpAnimator.start()
-        }
-        lastY = scrollY
+    }
+
+    private fun showFab() {
+        topShowAnimator.start()
+        bottomShowAnimator.start()
+        isShown = true
+    }
+
+    private fun hideFab() {
+        topHideAnimator.start()
+        bottomHideAnimator.start()
+        isShown = false
     }
 
     private fun makeAnimators() {
-        topDownAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "top", ty + floatTop)
-        topDownAnimator.addListener(object : Animator.AnimatorListener {
+        val topHidePosition = TY + floatTop
+        val bottomHidePosition = topHidePosition + floatHeight
+        topHideAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "top", topHidePosition)
+        bottomHideAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "bottom", bottomHidePosition)
+        topHideAnimator.addListener(object : Animator.AnimatorListener {
 
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
-                home_accounts_add_fab.visibility = View.GONE
+                home_accounts_add_fab.visibility = View.INVISIBLE
+                isAnimating = false
             }
 
             override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) {isAnimating = true}
 
         })
-        bottomDownAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "bottom", ty + floatTop + floatHeight)
-        topUpAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "top", floatTop)
-        topUpAnimator.addListener(object : Animator.AnimatorListener {
+        topShowAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "top", topHidePosition, floatTop)
+        bottomShowAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "bottom", bottomHidePosition, floatTop + floatHeight)
+        topShowAnimator.addListener(object : Animator.AnimatorListener {
 
             override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {isAnimating = false}
+
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationStart(p0: Animator?) {
                 home_accounts_add_fab.visibility = View.VISIBLE
+                isAnimating = true
             }
 
         })
-
-        bottomUpAnimator = ObjectAnimator.ofInt(home_accounts_add_fab, "bottom", floatTop + floatHeight)
 
     }
 }

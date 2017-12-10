@@ -6,6 +6,7 @@
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_50"
     tools:context="uk.co.sentinelweb.bitwatcher.activity.main.MainActivity">
 
     <uk.co.sentinelweb.bitwatcher.common.ui.view.ViewPagerNoIntercept

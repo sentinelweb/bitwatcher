@@ -20,17 +20,22 @@ import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
 
 class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
 
+    private lateinit var fabHideListener: FabHideListener
+    private lateinit var presenter: HomeContract.Presenter
+    private var snackBar: Snackbar? = null
+
+
     init {
         LayoutInflater.from(context).inflate(R.layout.main_home_page, this, true)
+        fabHideListener = FabHideListener(home_accounts_scroll, home_accounts_add_fab)
         viewTreeObserver.addOnGlobalLayoutListener(
                 { home_accounts_scroll.layoutParams.height = height - home_accounts_list_divider.top - home_accounts_include.top })
-        home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(FabHideListener(home_accounts_scroll, home_accounts_add_fab));
-        home_accounts_add_fab.setOnClickListener({_ -> presenter.onAddAccountClick()})
+        home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(fabHideListener);
+        home_accounts_ghost_container.setOnClickListener({
+            fabHideListener.toggleFab()
+        })
+        home_accounts_add_fab.setOnClickListener({ _ -> presenter.onAddAccountClick() })
     }
-
-    private lateinit var presenter: HomeContract.Presenter
-
-    private var snackBar: Snackbar? = null
 
     override fun updateTickerDisplay(tickers: HomeState.TickerDisplay) {
         btc_usd_ticker_text.text = tickers.btcUsdPriceText
@@ -58,6 +63,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
     override fun addAccount(interactions: AccountRowContract.Interactions): AccountRowContract.Presenter {
         val view = AccountRowView(context)
         home_accounts_container.addView(view)
+        view.setOnClickListener({null}) // TODO link to acct overview page
         return AccountRowPresenter(view, interactions)
     }
 
@@ -109,7 +115,6 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         snackBar = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
         snackBar?.show()
     }
-
 
 
 }
