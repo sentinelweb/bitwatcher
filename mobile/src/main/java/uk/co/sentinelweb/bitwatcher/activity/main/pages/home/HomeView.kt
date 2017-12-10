@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.main_home_accounts_include.view.*
+import kotlinx.android.synthetic.main.main_home_page.view.*
 import kotlinx.android.synthetic.main.main_home_ticker_grid_include.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity
@@ -16,10 +17,15 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row.Account
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row.AccountRowView
 import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
 
+
 class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.main_home_page, this, true)
+        viewTreeObserver.addOnGlobalLayoutListener(
+                { home_accounts_scroll.layoutParams.height = height - home_accounts_list_divider.top - home_accounts_include.top })
+        home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(FabHideListener(home_accounts_scroll, home_accounts_add_fab));
+        home_accounts_add_fab.setOnClickListener({_ -> presenter.onAddAccountClick()})
     }
 
     private lateinit var presenter: HomeContract.Presenter
@@ -41,7 +47,6 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
     override fun setPresenter(p: HomeContract.Presenter) {
         presenter = p
         home_accounts_currency_button.setOnClickListener({ _ -> presenter.onCurrencyButtonClick() })
-        home_accounts_add_button.setOnClickListener({ _ -> presenter.onAddAccountClick() })
         home_accounts_real_visible_button.setOnClickListener({ _ -> presenter.onDisplayRealAccountToggle() })
     }
 
@@ -104,6 +109,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         snackBar = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
         snackBar?.show()
     }
+
 
 
 }

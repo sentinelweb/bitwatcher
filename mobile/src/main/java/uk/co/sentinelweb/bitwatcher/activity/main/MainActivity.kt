@@ -56,8 +56,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         // disallow swiping of view pager to satisfy bottom nav ui pattern
         main_pager.setOnTouchListener({_,_ -> true})
-        // TODO override viewpage interception listener
-        //fun ViewPager.onInterceptTouchEvent(e:MotionEvent)  {false}
 
         main_pager.adapter = pagesAdapter
     }
