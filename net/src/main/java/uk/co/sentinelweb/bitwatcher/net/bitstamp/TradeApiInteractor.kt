@@ -6,15 +6,15 @@ import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.Trade
-import uk.co.sentinelweb.bitwatcher.domain.Trade.Companion.TradeType.*
+import uk.co.sentinelweb.bitwatcher.domain.TradeDomain
+import uk.co.sentinelweb.bitwatcher.domain.TradeDomain.TradeType.*
 import java.util.concurrent.Callable
 
 class TradeApiInteractor(private val service: BitstampService, private val mapper: TradesMapper = TradesMapper()) {
 
-    fun getUserTrades():Single<List<Trade>> {
-        return Single.fromCallable(object : Callable<List<Trade>> {
-            override fun call(): List<Trade> {
+    fun getUserTrades():Single<List<TradeDomain>> {
+        return Single.fromCallable(object : Callable<List<TradeDomain>> {
+            override fun call(): List<TradeDomain> {
                 System.err.println("getting trades ...")
                 val bitstampTradeHistoryParams = BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 100)
                 bitstampTradeHistoryParams.pageNumber = 0
@@ -27,12 +27,12 @@ class TradeApiInteractor(private val service: BitstampService, private val mappe
 
 
     class TradesMapper() {
-        fun map(trades:List<UserTrade>) : List<Trade> {
-            val result = mutableListOf<Trade>()
+        fun map(trades:List<UserTrade>) : List<TradeDomain> {
+            val result = mutableListOf<TradeDomain>()
             trades.forEach {
                 val type = mapTradeType(it.type)
                 if (type != UNKNOWN) {
-                    result.add(Trade(
+                    result.add(TradeDomain(
                             it.timestamp,
                             it.id,
                             type,
@@ -48,7 +48,7 @@ class TradeApiInteractor(private val service: BitstampService, private val mappe
             return result.toList()
         }
 
-        fun mapTradeType(t:Order.OrderType): Trade.Companion.TradeType {
+        fun mapTradeType(t:Order.OrderType): TradeDomain.TradeType {
             when (t){
                 Order.OrderType.BID -> return BID
                 Order.OrderType.ASK -> return ASK

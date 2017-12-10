@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PositionDomainToEntityMapper @Inject constructor(){
     fun map(input: BalanceDomain, accountId:Long):  PositionItemEntity{
-        return PositionItemEntity(input.id, input.currency, input.balance, input.available, input.reserved, accountId)
+        return PositionItemEntity(input.id, accountId, input.currency, input.balance, input.available, input.reserved)
     }
 
     fun mapList(input: List<BalanceDomain>, accountId:Long): List< PositionItemEntity> {

@@ -1,0 +1,20 @@
+package uk.co.sentinelweb.bitwatcher.common.database.dao
+
+import android.arch.persistence.room.*
+import io.reactivex.Flowable
+import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverter
+import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
+import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
+import uk.co.sentinelweb.bitwatcher.common.database.converter.TradeTypeConverter
+import uk.co.sentinelweb.bitwatcher.common.database.entities.TradeEntity
+
+@Dao
+@TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class,TradeTypeConverter::class)
+interface TradeDao {
+    @Query("SELECT * From trade")
+    fun flowAllTrades(): Flowable<List<TradeEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTrade(t: TradeEntity)
+
+}

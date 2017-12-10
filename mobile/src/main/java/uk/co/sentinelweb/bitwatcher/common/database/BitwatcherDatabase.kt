@@ -6,12 +6,10 @@ import uk.co.sentinelweb.bitwatcher.common.database.dao.AccountDao
 import uk.co.sentinelweb.bitwatcher.common.database.dao.FullAccountDao
 import uk.co.sentinelweb.bitwatcher.common.database.dao.PositionItemDao
 import uk.co.sentinelweb.bitwatcher.common.database.dao.TickerDao
-import uk.co.sentinelweb.bitwatcher.common.database.entities.AccountEntity
-import uk.co.sentinelweb.bitwatcher.common.database.entities.PositionItemEntity
-import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
+import uk.co.sentinelweb.bitwatcher.common.database.entities.*
 
 // TODO add room.schemaLocation
-@Database(entities = arrayOf(TickerEntity::class, AccountEntity::class, PositionItemEntity::class), version = 1)
+@Database(entities = arrayOf(TickerEntity::class, AccountEntity::class, PositionItemEntity::class, TradeEntity::class, TransactionEntity::class), version = 2)
 abstract class BitwatcherDatabase : RoomDatabase() {
     abstract fun tickerDao(): TickerDao
     abstract fun accountDao(): AccountDao
