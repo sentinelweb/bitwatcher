@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_margin"
 >
+    <TextView
+        android:id="@+id/calc_result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorTotal"
+        android:textSize="48sp"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:text="48000"
+    />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/calc_amount_edit"
@@ -16,6 +28,8 @@
         app:layout_constraintEnd_toStartOf="@id/calc_amount_currency_button"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calc_result_text"
+        android:layout_marginTop="16dp"
     >
 
         <android.support.design.widget.TextInputEditText
@@ -132,18 +146,4 @@
         app:layout_constraintTop_toTopOf="@id/calc_rate_edit"
     />
 
-    <TextView
-        android:id="@+id/calc_result_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calc_rate_edit"
-        android:textColor="@color/colorAccent"
-        android:textSize="48sp"
-        android:maxLines="1"
-        android:textStyle="bold"
-        android:text="48000"
-    />
 </android.support.constraint.ConstraintLayout>

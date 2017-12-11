@@ -47,6 +47,8 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
         calc_amount_currency_button.setOnClickListener { _ -> presenter.onCurrencyFromButtonClick() }
         calc_to_currency_button.setOnClickListener { _ -> presenter.onCurrencyToButtonClick() }
         calc_to_link_button.setOnClickListener { _ -> presenter.toggleLinkRate() }
+        calc_rate_edit_value.setOnTouchListener(EditTextValueSliderTouchListener(calc_rate_edit_value))
+        calc_amount_edit_value.setOnTouchListener(EditTextValueSliderTouchListener(calc_amount_edit_value,2))
     }
 
     override fun setPresenter(p: CalculatorContract.Presenter) {

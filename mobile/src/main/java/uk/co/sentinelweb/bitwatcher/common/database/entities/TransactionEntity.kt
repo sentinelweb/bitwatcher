@@ -11,7 +11,7 @@ import java.math.BigDecimal
 import java.util.*
 
 @Entity(tableName = "transaction")
-@TypeConverters(AccountTypeConverter::class, DateConverter::class, CurrencyCodeConverter::class, BigDecimalConverter::class, TransactionTypeConverter::class,TransactionStatusConverter::class)
+@TypeConverters(AccountTypeConverter::class, DateConverter::class, CurrencyCodeConverter::class, BigDecimalConverter::class, TransactionTypeConverter::class, TransactionStatusConverter::class)
 class TransactionEntity constructor(
         @PrimaryKey(autoGenerate = true)
         val id: Long?,// TODO better way to autoincrement?  also  = UUID.randomUUID().toString()
@@ -25,6 +25,6 @@ class TransactionEntity constructor(
         val description: String,
         val status: TransactionDomain.TransactionStatus,
         val fee: BigDecimal,
-        val feeCurrency:CurrencyCode
-){
+        val feeCurrency: CurrencyCode
+) {
 }

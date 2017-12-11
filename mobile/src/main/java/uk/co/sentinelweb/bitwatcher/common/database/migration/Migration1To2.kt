@@ -19,7 +19,7 @@ class Migration1To2:Migration(1,2) {
                 "`fee` TEXT NOT NULL, " +
                 "`feeCurrency` TEXT NOT NULL)")
 
-        // transaction
+        // trade
         database.execSQL("CREATE TABLE IF NOT EXISTS `trade` " +
                 "(`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "`account_id` INTEGER NOT NULL, " +

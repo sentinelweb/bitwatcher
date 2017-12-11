@@ -52,7 +52,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        setSupportActionBar(toolbar)
         supportActionBar?.subtitle = getString(R.string.title_home)
+        supportActionBar?.setIcon(R.drawable.ll_action_bar_icon)
+        toolbar.setBackgroundResource(R.color.colorPrimary)
         component = (application as BitwatcherApplication).component.mainActivityBuilder().mainActivity(this).build()
         component.inject(this)
 
