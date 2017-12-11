@@ -1,7 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.edit_account
 
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.IdRes
@@ -12,7 +11,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.edit_account_fragment.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity.Companion.EXTRA_ACCOUNT_ID
@@ -20,6 +18,7 @@ import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContra
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemPresenter
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemView
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
+import uk.co.sentinelweb.bitwatcher.common.ui.AndroidUtils
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
 import uk.co.sentinelweb.bitwatcher.domain.AccountType
@@ -85,17 +84,11 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.edit_account_ok -> {
-                hideSoftKeyboard()
+                AndroidUtils.hideSoftKeyboard(name_edit)
                 fragmentPresenter.saveAndFinish(); return true
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    fun hideSoftKeyboard() {
-        val inputMethodManager = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(name_edit.getWindowToken(), 0)
-
     }
 
     override fun onDetach() {

@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.activity.main
 
 import android.arch.lifecycle.LifecycleObserver
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.main_activity.*
@@ -20,29 +21,41 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                main_pager.setCurrentItem(0)
+                val newPosition = 0
+                val title = R.string.title_home
+                switchPage(newPosition, title)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_calcualator -> {
-                main_pager.setCurrentItem(1)
+                switchPage(1, R.string.title_calculator)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                main_pager.setCurrentItem(2)
+                switchPage(2, R.string.title_loops)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                main_pager.setCurrentItem(3)
+                switchPage(3, R.string.title_trade)
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
 
+    private fun switchPage(newPosition: Int, @StringRes title: Int) {
+        val oldPosition = main_pager.currentItem
+        main_pager.setCurrentItem(newPosition)
+        supportActionBar?.subtitle = getString(title)
+        presenter.changePosition(newPosition, oldPosition)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
+        setSupportActionBar(toolbar)
+        supportActionBar?.subtitle = getString(R.string.title_home)
+        supportActionBar?.setIcon(R.drawable.ll_action_bar_icon)
+        toolbar.setBackgroundResource(R.color.colorPrimary)
         component = (application as BitwatcherApplication).component.mainActivityBuilder().mainActivity(this).build()
         component.inject(this)
 
@@ -52,8 +65,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         // disallow swiping of view pager to satisfy bottom nav ui pattern
         main_pager.setOnTouchListener({_,_ -> true})
-        // TODO override viewpage interception listener
-        //fun ViewPager.onInterceptTouchEvent(e:MotionEvent)  {false}
 
         main_pager.adapter = pagesAdapter
     }

@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.database.dao
 
 import android.arch.persistence.room.*
 import io.reactivex.Flowable
+import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
@@ -18,6 +19,9 @@ interface TickerDao {
 
     @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
     fun flowTicker(code:String, base:String): Flowable<TickerEntity>
+
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
+    fun singleTicker(code:String, base:String): Single<TickerEntity>
 
     @Query("SELECT count(*) From ticker_data")
     fun count(): Int

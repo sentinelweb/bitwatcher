@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
@@ -7,6 +7,12 @@ import javax.inject.Inject
 
 
 class TradePresenter @Inject constructor(val view: TradeContract.View) : TradeContract.Presenter {
+    override fun onEnter() {
+    }
+
+    override fun onExit() {
+    }
+
     override fun init() {
 
     }

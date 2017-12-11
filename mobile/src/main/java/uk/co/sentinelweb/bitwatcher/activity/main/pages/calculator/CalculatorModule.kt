@@ -13,6 +13,10 @@ class CalculatorModule {
     @PageScope
     fun provideView(activity: MainActivity): CalculatorContract.View = CalculatorView(activity)
 
+    @Provides
+    @PageScope
+    fun provideModel() : CalculatorState = CalculatorState()
+
     @Module
     interface Bindings {
 

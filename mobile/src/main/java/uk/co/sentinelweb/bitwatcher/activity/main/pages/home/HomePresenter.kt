@@ -20,6 +20,7 @@ import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.extensions.getPairKey
 import uk.co.sentinelweb.bitwatcher.domain.mappers.AccountTotalsMapper
+import uk.co.sentinelweb.bitwatcher.domain.mappers.CurrencyListGenerator
 import uk.co.sentinelweb.bitwatcher.orchestrator.AccountSaveOrchestrator
 import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
 import java.math.BigDecimal.ZERO
@@ -38,7 +39,6 @@ class HomePresenter @Inject constructor(
         private val preferences: BitwatcherPreferences
 
 ) : HomeContract.Presenter, AccountRowContract.Interactions {
-
     companion object {
         val TAG = HomePresenter::class.java.simpleName
     }
@@ -48,7 +48,7 @@ class HomePresenter @Inject constructor(
 
     override fun init() {
         view.setPresenter(this)
-        state.displayCurrency = preferences.getSelectedCurrency()?:CurrencyCode.GBP
+        state.displayCurrency = preferences.getSelectedCurrency() ?: CurrencyCode.GBP
         view.setDisplayCurrency(state.displayCurrency.toString())
         state.displayRealItems = preferences.getViewRealItems()
         startTimerInterval()
@@ -72,6 +72,12 @@ class HomePresenter @Inject constructor(
         cleanup()
     }
 
+    override fun onEnter() {
+    }
+
+    override fun onExit() {
+    }
+
     override fun cleanup() {
         subscriptions.clear()
     }
@@ -81,11 +87,7 @@ class HomePresenter @Inject constructor(
     }
 
     override fun onCurrencyButtonClick() {
-        val currencyCodesToDisplay = mutableListOf<CurrencyCode>()
-        CurrencyCode.values().forEachIndexed { _, code -> if (code != CurrencyCode.NONE) currencyCodesToDisplay.add(code) }
-        val currencyDisplayString = arrayOfNulls<String>(CurrencyCode.values().size - 1) // TODO init array nonNull
-        currencyCodesToDisplay.forEachIndexed({ i, code -> currencyDisplayString[i] = code.toString() })
-        view.showCurrencyDialog(currencyDisplayString as Array<String>)
+        view.showCurrencyDialog(CurrencyListGenerator.getCurrencyList())
 
     }
 
@@ -134,7 +136,7 @@ class HomePresenter @Inject constructor(
         if (state.deletedAccount != null) {
             // reset ids
             val balances = mutableListOf<BalanceDomain>()
-            state.deletedAccount!!.balances.forEach { bal -> balances.add(bal.copy(id=null)) }
+            state.deletedAccount!!.balances.forEach { bal -> balances.add(bal.copy(id = null)) }
             val copy = state.deletedAccount!!.copy(id = null, balances = balances)
 
             subscriptions.add(orchestratorAccount
@@ -164,7 +166,7 @@ class HomePresenter @Inject constructor(
         state.displayRealItems = !state.displayRealItems
         preferences.saveViewRealItems(state.displayRealItems)
         view.setDisplayRealAccounts(state.displayRealItems)
-        state.accounts.forEach{ account ->
+        state.accounts.forEach { account ->
             val rowPresenter = accountRowPresenters.get(account.id!!)
             rowPresenter?.setVisible(account.type == AccountType.GHOST || state.displayRealItems)
         }

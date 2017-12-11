@@ -6,13 +6,13 @@ import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.domain.Transaction
+import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain
 import uk.co.sentinelweb.bitwatcher.net.ExchangeDataProvider
 
 class TransactionApiInteractorTest {
     lateinit var sut: TransactionApiInteractor
     lateinit var dataProvider: ExchangeDataProvider
-    val observer = TestObserver<List<Transaction>>()
+    val observer = TestObserver<List<TransactionDomain>>()
 
     @Before
     fun setUp() {

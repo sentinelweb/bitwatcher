@@ -14,10 +14,10 @@ import java.math.BigDecimal
 data class PositionItemEntity constructor(
         @PrimaryKey(autoGenerate = true)
         val id: Long?,
+        @ColumnInfo(name = "account_id")
+        val accountId: Long,
         val currencyCode: CurrencyCode,
         val amount: BigDecimal,
         val available: BigDecimal,
-        val reserved: BigDecimal,
-        @ColumnInfo(name = "account_id")
-        val accountId: Long
+        val reserved: BigDecimal
 )

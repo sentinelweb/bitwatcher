@@ -1,5 +1,22 @@
 <resources>
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextAppearance">@style/ToolBarTitleText</item>
+        <item name="subtitleTextAppearance">@style/ToolBarSubTitleText</item>
+    </style>
 
+    <style name="ToolBarTitleText"
+           parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ToolBarSubTitleText"
+           parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColor">@color/grey_400</item>
+    </style>
+
+    <!-- tickers -->
     <style name="Ticker"
            parent="@android:style/TextAppearance.Material.Medium">
         <item name="android:layout_width">0dp</item>
@@ -18,6 +35,7 @@
         <item name="android:textColor">@color/grey_700</item>
     </style>
 
+    <!-- section -->
     <style name="SectionHeader"
            parent="@android:style/TextAppearance.Material.Medium">
         <item name="android:textStyle">bold</item>
@@ -36,11 +54,13 @@
         <item name="android:background">@color/grey_400</item>
     </style>
 
+    <!-- accounts -->
     <style name="Total"
            parent="@android:style/TextAppearance.Material.Large">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/grey_700</item>
     </style>
+
     <style name="TotalLabel"
            parent="@android:style/TextAppearance.Material.Medium">
         <item name="android:textStyle">bold</item>

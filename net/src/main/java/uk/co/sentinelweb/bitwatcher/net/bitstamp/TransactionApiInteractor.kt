@@ -5,17 +5,17 @@ import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.account.FundingRecord
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.Transaction
-import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionStatus.*
-import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType.DEPOSIT
-import uk.co.sentinelweb.bitwatcher.domain.Transaction.Companion.TransactionType.WITHDRAWL
+import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain
+import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionStatus.*
+import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionType.DEPOSIT
+import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionType.WITHDRAWL
 import java.util.concurrent.Callable
 
 class TransactionApiInteractor(private val service: BitstampService, private val mapper: TransactonMapper = TransactonMapper()) {
 
-    fun getTransactions(): Single<List<Transaction>> {
-        return Single.fromCallable(object : Callable<List<Transaction>> {
-            override fun call(): List<Transaction> {
+    fun getTransactions(): Single<List<TransactionDomain>> {
+        return Single.fromCallable(object : Callable<List<TransactionDomain>> {
+            override fun call(): List<TransactionDomain> {
                 System.err.println("getting transactions ...")
                 val bitstampTradeHistoryParams = BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 100)
                 bitstampTradeHistoryParams.pageNumber = 0
@@ -28,11 +28,11 @@ class TransactionApiInteractor(private val service: BitstampService, private val
 
 
     class TransactonMapper() {
-        fun map(trades: List<FundingRecord>): List<Transaction> {
-            val result = mutableListOf<Transaction>()
+        fun map(trades: List<FundingRecord>): List<TransactionDomain> {
+            val result = mutableListOf<TransactionDomain>()
             trades.forEach {
                 val type = mapOrderType(it.type)
-                result.add(Transaction(
+                result.add(TransactionDomain(
                         type,
                         it.date,
                         it.amount,
@@ -46,7 +46,7 @@ class TransactionApiInteractor(private val service: BitstampService, private val
             return result.toList()
         }
 
-        private fun mapStatus(status: FundingRecord.Status?): Transaction.Companion.TransactionStatus {
+        private fun mapStatus(status: FundingRecord.Status?): TransactionDomain.TransactionStatus {
             when (status) {
                 FundingRecord.Status.PROCESSING -> return PROCESSING
                 FundingRecord.Status.CANCELLED -> return CANCELLED
@@ -57,7 +57,7 @@ class TransactionApiInteractor(private val service: BitstampService, private val
         }
 
 
-        fun mapOrderType(t: FundingRecord.Type): Transaction.Companion.TransactionType {
+        fun mapOrderType(t: FundingRecord.Type): TransactionDomain.TransactionType {
             when (t) {
                 FundingRecord.Type.DEPOSIT -> return DEPOSIT
                 FundingRecord.Type.WITHDRAWAL -> return WITHDRAWL

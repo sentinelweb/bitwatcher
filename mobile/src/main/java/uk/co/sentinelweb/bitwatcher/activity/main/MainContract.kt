@@ -8,6 +8,7 @@ interface MainContract {
     interface Presenter: LifecycleObserver {
         fun addPagePresenter(position:Int, presenter:PagePresenter)
         fun removePagePresenter(position:Int):PagePresenter?
+        fun changePosition(newPosition: Int, oldPosition: Int)
     }
 
     interface View {

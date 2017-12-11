@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
+import uk.co.sentinelweb.bitwatcher.common.database.migration.Migration1To2
 import uk.co.sentinelweb.bitwatcher.common.database.test.DbInitialiser
 import javax.inject.Singleton
 
@@ -21,6 +22,7 @@ class BitwatcherDbModule {
     @Singleton
     fun provideDb(app:BitwatcherApplication): BitwatcherDatabase {
         return Room.databaseBuilder(app, BitwatcherDatabase::class.java, "BitwatcherDatabase.db")
+                .addMigrations(Migration1To2())
                 .build()
     }
 

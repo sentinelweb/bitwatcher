@@ -1,11 +1,10 @@
 package uk.co.sentinelweb.bitwatcher.domain
 
 import java.math.BigDecimal
-import java.time.Instant
 import java.util.*
 
 
-data class Trade(val date: Date,
+data class TradeDomain(val date: Date,
                        val tid: String,
                        val type: TradeType,
                        val price: BigDecimal,
@@ -14,10 +13,8 @@ data class Trade(val date: Date,
                        val currencyCodeTo:CurrencyCode,
                        val feesAmount:BigDecimal,
                        val feesCurrencyCode: String) {
-    companion object {
-        enum class TradeType {
-            UNKNOWN, BID, ASK
-        }
+    enum class TradeType {
+        UNKNOWN, BID, ASK
     }
 }
 

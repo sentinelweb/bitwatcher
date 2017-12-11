@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.pages.trade
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import dagger.Subcomponent
 import uk.co.sentinelweb.bitwatcher.common.scope.PageScope
