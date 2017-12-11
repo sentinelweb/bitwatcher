@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_with_fragment.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.common.extensions.addWithExtras
 
@@ -27,8 +28,12 @@ class EditAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_with_fragment)
+        setSupportActionBar(toolbar)
+        supportActionBar?.subtitle = getString(R.string.title_edit_account)
+        supportActionBar?.setIcon(R.drawable.ll_action_bar_icon)
+
         if (savedInstanceState == null) {
-            EditAccountFragment().addWithExtras(this, R.id.activity_root)
+            EditAccountFragment().addWithExtras(this, R.id.fragment_root)
         }
     }
 }
