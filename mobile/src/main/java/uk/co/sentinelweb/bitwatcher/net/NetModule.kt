@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.Reusable
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import uk.co.sentinelweb.bitwatcher.BuildConfig
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import uk.co.sentinelweb.bitwatcher.net.coinfloor.CoinfloorService
 import uk.co.sentinelweb.bitwatcher.net.gdax.GdaxService
@@ -54,6 +55,18 @@ class NetModule {
                 return TickerDataApiInteractor(GdaxService.Companion.GUEST)
             }
         })
+
+    @Provides
+    @Reusable
+    @Named(BITSTAMP)
+    fun provideBitstampBalanceApiInteractor(): BalanceApiInteractor {
+        val dataProvider = ExchangeDataProvider(
+                BuildConfig.balancesApiKey,
+                BuildConfig.balancesSecretKey,
+                BuildConfig.balancesUser)
+        return BalanceApiInteractor(BitstampService(dataProvider))
+    }
+
 
     @Provides
     @Singleton

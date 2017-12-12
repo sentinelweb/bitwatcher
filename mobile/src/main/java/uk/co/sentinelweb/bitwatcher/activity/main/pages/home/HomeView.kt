@@ -29,7 +29,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         LayoutInflater.from(context).inflate(R.layout.main_home_page, this, true)
         fabHideListener = FabHideListener(home_accounts_scroll, home_accounts_add_fab)
         viewTreeObserver.addOnGlobalLayoutListener(
-                { home_accounts_scroll.layoutParams.height = height - home_accounts_list_divider.top - home_accounts_include.top })
+                { home_accounts_scroll.layoutParams.height = height - home_ticker_include.height - home_accounts_include.top })
         home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(fabHideListener);
         home_accounts_ghost_container.setOnClickListener({
             fabHideListener.toggleFab()
@@ -95,6 +95,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
                 else R.drawable.ic_visibility_off_black_24dp
         )
         home_accounts_real_container.visibility = if (display) View.VISIBLE else View.GONE
+        requestLayout() //fab button jumps up
     }
 
     override fun showDeletedSnackBar() {

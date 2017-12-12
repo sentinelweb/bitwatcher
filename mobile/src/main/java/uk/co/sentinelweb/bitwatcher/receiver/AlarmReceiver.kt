@@ -10,31 +10,42 @@ import android.util.Log
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
+import uk.co.sentinelweb.bitwatcher.net.BalanceApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
 class AlarmReceiver() : BroadcastReceiver() {
     companion object {
+        val TAG = AlarmReceiver::class.java.simpleName
         val REQUEST_CODE = 4245342
-        val INTERVAL_SECS = 5*60
+        val INTERVAL_SECS = 5 * 60
     }
 
-    @Inject lateinit var orchestrator:TickerDataOrchestrator
+    @Inject lateinit var orchestrator: TickerDataOrchestrator
+    @Inject @field:Named(NetModule.BITSTAMP) lateinit var balancesInteractor: BalanceApiInteractor
 
-
-    val subscription = CompositeDisposable()
+    private val subscription = CompositeDisposable()
 
     override fun onReceive(context: Context, intent: Intent) {
         (context.applicationContext as BitwatcherApplication).component.inject(this)
-        Log.d("AlarmReceiver","got alarm @ ${System.currentTimeMillis()}")
+        Log.d(TAG, "got alarm @ ${System.currentTimeMillis()}")
 
         subscription
                 .add(orchestrator.downloadTickerToDatabase()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ _ -> Log.d("HomePresenter", "updated ticker data") },
-                                { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
+                        .subscribe({ _ -> Log.d(TAG, "updated ticker data") },
+                                { e -> Log.d(TAG, "error updating ticker data", e) }))
+
+        subscription
+                .add(balancesInteractor.getAccountBalance()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                        .subscribe({ balances ->  }, {})
+                )
     }
 
     fun setAlarm(c: Context, repeatSec: Int, startInSec: Int) {

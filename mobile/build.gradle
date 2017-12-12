@@ -14,6 +14,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "String", "balancesApiKey", "\"$BAL_API_KEY\""
+        buildConfigField "String", "balancesSecretKey", "\"$BAL_SECRET\""
+        buildConfigField "String", "balancesUser", "\"$BITSTAMP_USER\""
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
