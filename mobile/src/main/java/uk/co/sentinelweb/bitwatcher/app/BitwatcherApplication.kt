@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.app
 
 import android.app.Application
 import android.util.Log
+import com.facebook.stetho.Stetho
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -39,5 +40,7 @@ class BitwatcherApplication : Application() {
             if(e is UndeliverableException) Log.d(TAG,"RxJava Undeliverable exception",e)
             else throw e
         }
+
+        Stetho.initializeWithDefaults(this);
     }
 }

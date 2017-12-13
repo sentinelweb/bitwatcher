@@ -24,7 +24,14 @@ class HomeState(
             var bchGbpPriceText: String = "-",
             var btcEurPriceText: String = "-",
             var ethEurPriceText: String = "-",
-            var bchEurPriceText: String = "-")
+            var bchEurPriceText: String = "-",
+            var xrpUsdPriceText: String = "-",
+            var xrpGbpPriceText: String = "-",
+            var xrpEurPriceText: String = "-",
+            var iotaUsdPriceText: String = "-",
+            var iotaGbpPriceText: String = "-",
+            var iotaEurPriceText: String = "-"
+    )
 
     data class TotalsDisplay(
             var realTotalDisplay: String = "-",

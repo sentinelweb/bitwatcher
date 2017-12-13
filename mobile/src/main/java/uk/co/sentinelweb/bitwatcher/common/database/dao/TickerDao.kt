@@ -23,6 +23,9 @@ interface TickerDao {
     @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
     fun singleTicker(code:String, base:String): Single<TickerEntity>
 
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
+    fun loadTicker(code:CurrencyCode, base:CurrencyCode): TickerEntity?
+
     @Query("SELECT count(*) From ticker_data")
     fun count(): Int
 
@@ -32,6 +35,13 @@ interface TickerDao {
             ";"
     )
     fun updateTicker(currencyCode: CurrencyCode, baseCode: CurrencyCode, amount: BigDecimal, dateStamp: Date)
+
+    @Query("Update ticker_data  " +
+            "SET name = :name " +
+            "WHERE currencyCode = :currencyCode AND baseCode = :baseCode " +
+            ";"
+    )
+    fun updateName(currencyCode: CurrencyCode, baseCode: CurrencyCode, name: String)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertTicker(t: TickerEntity)

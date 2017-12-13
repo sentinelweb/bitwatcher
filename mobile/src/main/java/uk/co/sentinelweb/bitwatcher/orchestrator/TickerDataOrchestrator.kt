@@ -6,6 +6,7 @@ import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
+import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
 import javax.inject.Inject
 
@@ -16,9 +17,16 @@ class TickerDataOrchestrator @Inject constructor(
 
     fun downloadTickerToDatabase(): Observable<TickerEntity> {
         return tickersInteractor.getMergedTickers()
-                .filter({ t -> t != null })
                 .map { domain -> entityMapper.map(domain) }
-                .doOnNext { entity -> db.tickerDao().updateTicker(entity.currencyCode, entity.baseCode, entity.amount, entity.dateStamp) }
+                .doOnNext { entity ->
+                    val loadTicker = db.tickerDao().loadTicker(entity.currencyCode, entity.baseCode)
+                    if (loadTicker != null) {
+                        db.tickerDao().updateTicker(entity.currencyCode, entity.baseCode, entity.amount, entity.dateStamp)
+                        db.tickerDao().updateName(entity.currencyCode, entity.baseCode, TickerDomain.BASIC)
+                    } else {
+                        db.tickerDao().insertTicker(entity)
+                    }
+                }
     }
 
     fun flowTickers(): Flowable<TickerEntity> {
@@ -37,6 +45,20 @@ class TickerDataOrchestrator @Inject constructor(
                         db.tickerDao().flowTicker(BCH.toString(), GBP.toString()),
                         db.tickerDao().flowTicker(BCH.toString(), EUR.toString()),
                         db.tickerDao().flowTicker(BCH.toString(), USD.toString())
+                ),
+                Flowable.merge(
+                        Flowable.merge(
+//                                db.tickerDao().flowTicker(XRP.toString(), GBP.toString()),
+                                db.tickerDao().flowTicker(XRP.toString(), EUR.toString()),
+                                db.tickerDao().flowTicker(XRP.toString(), USD.toString())
+                        ),
+
+                        Flowable.merge(
+                                db.tickerDao().flowTicker(IOTA.toString(), GBP.toString()),
+                                db.tickerDao().flowTicker(IOTA.toString(), EUR.toString()),
+                                db.tickerDao().flowTicker(IOTA.toString(), USD.toString())
+                        )
+
                 )
         )
     }

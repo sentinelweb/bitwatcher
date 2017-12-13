@@ -6,6 +6,8 @@
     <string name="btc_code">BTC</string>
     <string name="bch_code">BCH</string>
     <string name="eth_code">ETH</string>
+    <string name="xrp_code">XRP</string>
+    <string name="iota_code">IOTA</string>
     <string name="usd_code">USD</string>
     <string name="eur_code">EUR</string>
     <string name="gbp_code">GBP</string>

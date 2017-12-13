@@ -33,6 +33,22 @@ class TickerStateMapper @Inject constructor() {
                     else -> {
                     }
                 }
+           CurrencyCode.XRP ->
+                when (t.baseCurrencyCode) {
+                    CurrencyCode.USD -> state.xrpUsdPriceText = t.last.dp(2)
+                    CurrencyCode.EUR -> state.xrpEurPriceText = t.last.dp(2)
+                    CurrencyCode.GBP -> state.xrpGbpPriceText = t.last.dp(2)
+                    else -> {
+                    }
+                }
+           CurrencyCode.IOTA ->
+                when (t.baseCurrencyCode) {
+                    CurrencyCode.USD -> state.iotaUsdPriceText = t.last.dp(2)
+                    CurrencyCode.EUR -> state.iotaEurPriceText = t.last.dp(2)
+                    CurrencyCode.GBP -> state.iotaGbpPriceText = t.last.dp(2)
+                    else -> {
+                    }
+                }
             else -> {
             }
         }

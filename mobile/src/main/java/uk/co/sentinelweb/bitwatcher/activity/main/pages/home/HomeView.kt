@@ -47,6 +47,12 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         btc_eur_ticker_text.text = tickers.btcEurPriceText
         eth_eur_ticker_text.text = tickers.ethEurPriceText
         bch_eur_ticker_text.text = tickers.bchEurPriceText
+        xrp_usd_ticker_text.text = tickers.xrpUsdPriceText
+        xrp_gbp_ticker_text.text = tickers.xrpGbpPriceText
+        xrp_eur_ticker_text.text = tickers.xrpEurPriceText
+        iota_usd_ticker_text.text = tickers.iotaUsdPriceText
+        iota_gbp_ticker_text.text = tickers.iotaGbpPriceText
+        iota_eur_ticker_text.text = tickers.iotaEurPriceText
     }
 
     override fun setPresenter(p: HomeContract.Presenter) {

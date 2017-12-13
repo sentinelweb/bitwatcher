@@ -2,11 +2,11 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:showIn="@layout/main_home_page">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              tools:showIn="@layout/main_home_page">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,107 +16,163 @@
 
         <TextView
             style="@style/Ticker.Header"
-            android:layout_weight="0.5" />
-
-        <TextView
-            android:id="@+id/btc_header_text"
-            style="@style/Ticker.Header"
-            android:layout_weight="1"
-            android:text="@string/btc_code" />
-
-        <TextView
-            android:id="@+id/eth_header_text"
-            style="@style/Ticker.Header"
-            android:layout_weight="1"
-            android:text="@string/eth_code" />
-
-        <TextView
-            android:id="@+id/bch_header_text"
-            style="@style/Ticker.Header"
-            android:layout_weight="1"
-            android:text="@string/bch_code" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3.5">
-
+            android:layout_weight="0.5"/>
         <TextView
             android:id="@+id/usd_header_text"
             style="@style/Ticker.Header"
-            android:layout_weight="0.5"
-            android:text="@string/usd_code" />
-
-        <TextView
-            android:id="@+id/btc_usd_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/eth_usd_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/bch_usd_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3.5">
-
+            android:layout_weight="1"
+            android:text="@string/usd_code"/>
         <TextView
             android:id="@+id/eur_header_text"
             style="@style/Ticker.Header"
-            android:layout_weight="0.5"
-            android:text="@string/eur_code" />
-
-        <TextView
-            android:id="@+id/btc_eur_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/eth_eur_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/bch_eur_ticker_text"
-            style="@style/Ticker.Value"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3.5">
+            android:layout_weight="1"
+            android:text="@string/eur_code"/>
 
         <TextView
             android:id="@+id/gbb_header_text"
             style="@style/Ticker.Header"
+            android:layout_weight="1"
+            android:text="@string/gbp_code"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3.5">
+
+        <TextView
+            android:id="@+id/btc_header_text"
+            style="@style/Ticker.Header"
             android:layout_weight="0.5"
-            android:text="@string/gbp_code" />
+            android:text="@string/btc_code"/>
+
+        <TextView
+            android:id="@+id/btc_usd_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/btc_eur_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/btc_gbp_ticker_text"
             style="@style/Ticker.Value"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3.5">
+
+        <TextView
+            android:id="@+id/eth_header_text"
+            style="@style/Ticker.Header"
+            android:layout_weight="0.5"
+            android:text="@string/eth_code"/>
+
+        <TextView
+            android:id="@+id/eth_usd_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/eth_eur_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
 
         <TextView
             android:id="@+id/eth_gbp_ticker_text"
             style="@style/Ticker.Value"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3.5">
+        <TextView
+            android:id="@+id/bch_header_text"
+            style="@style/Ticker.Header"
+            android:layout_weight="0.5"
+            android:text="@string/bch_code"/>
+        <TextView
+            android:id="@+id/bch_usd_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/bch_eur_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/bch_gbp_ticker_text"
             style="@style/Ticker.Value"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3.5">
+        <TextView
+            android:id="@+id/xrp_header_text"
+            style="@style/Ticker.Header"
+            android:layout_weight="0.5"
+            android:text="@string/xrp_code"/>
+        <TextView
+            android:id="@+id/xrp_usd_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/xrp_eur_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/xrp_gbp_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3.5">
+
+        <TextView
+            android:id="@+id/iota_header_text"
+            style="@style/Ticker.Header"
+            android:layout_weight="0.5"
+            android:text="@string/iota_code"/>
+
+        <TextView
+            android:id="@+id/iota_usd_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/iota_eur_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/iota_gbp_ticker_text"
+            style="@style/Ticker.Value"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
 </LinearLayout>
