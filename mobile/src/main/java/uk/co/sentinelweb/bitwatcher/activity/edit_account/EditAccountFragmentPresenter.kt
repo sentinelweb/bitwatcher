@@ -12,13 +12,13 @@ import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountVali
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
+import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
 import uk.co.sentinelweb.bitwatcher.domain.AccountType
 import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.orchestrator.AccountSaveOrchestrator
 import java.io.Serializable
 import javax.inject.Inject
 
@@ -29,7 +29,7 @@ class EditAccountFragmentPresenter @Inject constructor(
         private val accountDomainMapper: AccountEntityToDomainMapper,
         private val nameValidator: NameValidator,
         private val accountValidator: AccountValidator,
-        private val saveOrchestrator: AccountSaveOrchestrator
+        private val saveInteractor: AccountSaveInteractor
 ) : EditAccountContract.Presenter, BalanceItemContract.Interactions, LifecycleObserver {
     companion object {
         val TAG = EditAccountFragmentPresenter::class.java.simpleName
@@ -125,7 +125,7 @@ class EditAccountFragmentPresenter @Inject constructor(
         val account = accountDomain()
         val validation = accountValidator.validate(account)
         if (validation == ValidationError.OK) {
-            saveOrchestrator
+            saveInteractor
                     .save(account)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

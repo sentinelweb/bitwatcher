@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.database.converter
 
 import android.arch.persistence.room.TypeConverter
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class BigDecimalConverter {
 
@@ -17,7 +18,7 @@ class BigDecimalConverter {
     @TypeConverter
     fun fromDb(str:String):BigDecimal {
         try {
-            return BigDecimal(str).setScale(DEFUALT_SCALE)
+            return BigDecimal(str).setScale(DEFUALT_SCALE, RoundingMode.HALF_EVEN)
         } catch (nfex:NumberFormatException) {
             return BigDecimal.ZERO
         }

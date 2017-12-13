@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.orchestrator
+package uk.co.sentinelweb.bitwatcher.common.database.interactor
 
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 // TODO convert to proper Rx chain
 // TODO try to setup foreign keys and cascading deletion for positionItems
-class AccountSaveOrchestrator @Inject constructor(
+class AccountSaveInteractor @Inject constructor(
         private val accountEntityMapper: AccountDomainToEntityMapper,
         private val positionEntityMapper: PositionDomainToEntityMapper,
         private val db: BitwatcherDatabase,

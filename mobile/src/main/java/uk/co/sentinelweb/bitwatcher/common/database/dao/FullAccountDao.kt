@@ -8,6 +8,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.converter.AccountTypeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.entities.FullAccountView
+import uk.co.sentinelweb.bitwatcher.domain.AccountType
 
 @Dao
 @TypeConverters(AccountTypeConverter::class)
@@ -19,6 +20,10 @@ abstract class FullAccountDao {
     @Query("SELECT id, name, type from account")
     @Transaction
     abstract fun loadFullAccounts(): List<FullAccountView>
+
+    @Query("SELECT id, name, type from account WHERE type =:type")
+    @Transaction
+    abstract fun singleAccountsOfType(type:AccountType): Single<List<FullAccountView>>
 
     @Query("SELECT id, name, type from account WHERE id = :id")
     @Transaction

@@ -10,6 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row.AccountRowContract
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
+import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
@@ -21,7 +22,6 @@ import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.domain.extensions.getPairKey
 import uk.co.sentinelweb.bitwatcher.domain.mappers.AccountTotalsMapper
 import uk.co.sentinelweb.bitwatcher.domain.mappers.CurrencyListGenerator
-import uk.co.sentinelweb.bitwatcher.orchestrator.AccountSaveOrchestrator
 import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
 import java.math.BigDecimal.ZERO
 import java.util.concurrent.TimeUnit
@@ -34,7 +34,7 @@ class HomePresenter @Inject constructor(
         private val tickerEntityMapper: TickerEntityToDomainMapper,
         private val db: BitwatcherDatabase,
         private val orchestrator: TickerDataOrchestrator,
-        private val orchestratorAccount: AccountSaveOrchestrator,
+        private val orchestratorAccount: AccountSaveInteractor,
         private val accountDomainMapper: AccountEntityToDomainMapper,
         private val preferences: BitwatcherPreferences
 

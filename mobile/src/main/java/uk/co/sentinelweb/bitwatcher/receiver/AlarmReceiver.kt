@@ -10,12 +10,10 @@ import android.util.Log
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
-import uk.co.sentinelweb.bitwatcher.net.BalanceApiInteractor
-import uk.co.sentinelweb.bitwatcher.net.NetModule
+import uk.co.sentinelweb.bitwatcher.orchestrator.BalancesOrchestrator
 import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class AlarmReceiver() : BroadcastReceiver() {
     companion object {
@@ -24,8 +22,8 @@ class AlarmReceiver() : BroadcastReceiver() {
         val INTERVAL_SECS = 5 * 60
     }
 
-    @Inject lateinit var orchestrator: TickerDataOrchestrator
-    @Inject @field:Named(NetModule.BITSTAMP) lateinit var balancesInteractor: BalanceApiInteractor
+    @Inject lateinit var tickerDataOrchestrator: TickerDataOrchestrator
+    @Inject lateinit var balanceDataOrchestrator: BalancesOrchestrator
 
     private val subscription = CompositeDisposable()
 
@@ -34,17 +32,18 @@ class AlarmReceiver() : BroadcastReceiver() {
         Log.d(TAG, "got alarm @ ${System.currentTimeMillis()}")
 
         subscription
-                .add(orchestrator.downloadTickerToDatabase()
+                .add(tickerDataOrchestrator.downloadTickerToDatabase()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .subscribe({ _ -> Log.d(TAG, "updated ticker data") },
                                 { e -> Log.d(TAG, "error updating ticker data", e) }))
 
         subscription
-                .add(balancesInteractor.getAccountBalance()
+                .add(balanceDataOrchestrator.getBalances()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ balances ->  }, {})
+                        .subscribe({ success -> Log.d(TAG, "updated balance data: ${success}") },
+                                { e -> Log.d(TAG, "error updating ticker data", e) })
                 )
     }
 
