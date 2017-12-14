@@ -8,9 +8,12 @@ import java.util.*
 import java.util.concurrent.Callable
 
 
-class TickerDataApiInteractor(private val service:ExchangeService, private val mapper: TickerMapper = TickerMapper()) {
+class TickerDataApiInteractor(
+        private val service:ExchangeService,
+        private val mapper: TickerMapper = TickerMapper()
+):TickerDataInteractor {
 
-    fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerDomain> {
+    override fun getTicker(currencyCode: CurrencyCode, baseCurrencyCode: CurrencyCode): Observable<TickerDomain> {
         return Observable.fromCallable(object : Callable<TickerDomain> {
             override fun call(): TickerDomain {
                 val lookup = CurrencyPairLookup.lookup(currencyCode, baseCurrencyCode)!!
@@ -20,7 +23,7 @@ class TickerDataApiInteractor(private val service:ExchangeService, private val m
         })
     }
 
-    fun getTickers(currencyCodes: List<CurrencyCode>, baseCurrencyCodes: List<CurrencyCode>): Observable<TickerDomain> {
+    override fun getTickers(currencyCodes: List<CurrencyCode>, baseCurrencyCodes: List<CurrencyCode>): Observable<TickerDomain> {
         val observables: MutableList<Observable<TickerDomain>> = mutableListOf<Observable<TickerDomain>>()
         for (base in baseCurrencyCodes) {
             for (code in currencyCodes) {
@@ -33,6 +36,7 @@ class TickerDataApiInteractor(private val service:ExchangeService, private val m
     class TickerMapper {
         fun map(ticker: Ticker): TickerDomain {
             return TickerDomain(
+                    TickerDomain.BASIC,
                     ticker.timestamp ?: Date(),
                     ticker.last,
                     CurrencyCode.lookup(ticker.currencyPair.base.currencyCode)!!,

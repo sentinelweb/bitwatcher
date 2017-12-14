@@ -1,11 +1,10 @@
-package uk.co.sentinelweb.bitwatcher.net.domain
+package uk.co.sentinelweb.bitwatcher.domain
 
 
 import com.flextrade.jfixture.FixtureAnnotations
 import com.flextrade.jfixture.annotations.Fixture
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
 import java.io.*
 import java.util.*
 import kotlin.test.assertEquals

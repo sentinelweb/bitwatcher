@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.net
 
 import org.knowm.xchange.currency.CurrencyPair
 import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.bitwatcher.domain.CurrencyPair.Companion.getKey
 
 class CurrencyPairLookup {
     companion object {
@@ -14,16 +15,18 @@ class CurrencyPairLookup {
                 Pair(getKey(CurrencyCode.ETH , CurrencyCode.GBP), CurrencyPair.ETH_GBP),
                 Pair(getKey(CurrencyCode.BCH , CurrencyCode.USD), CurrencyPair.BCH_USD),
                 Pair(getKey(CurrencyCode.BCH , CurrencyCode.EUR), CurrencyPair.BCH_EUR),
-                Pair(getKey(CurrencyCode.BCH , CurrencyCode.GBP), CurrencyPair.BCH_GBP)
+                Pair(getKey(CurrencyCode.BCH , CurrencyCode.GBP), CurrencyPair.BCH_GBP),
+                Pair(getKey(CurrencyCode.XRP , CurrencyCode.USD), CurrencyPair.XRP_USD),
+                Pair(getKey(CurrencyCode.XRP , CurrencyCode.EUR), CurrencyPair.XRP_EUR),
+                Pair(getKey(CurrencyCode.IOTA , CurrencyCode.BTC), CurrencyPair.IOTA_BTC),
+                Pair(getKey(CurrencyCode.IOTA , CurrencyCode.USD), CurrencyPair.IOTA_USD)
         )
 
         fun lookup(cur:CurrencyCode, base:CurrencyCode) : CurrencyPair? {
             return LOOKUP.get(getKey(cur,base))
         }
 
-        private fun getKey(cur:CurrencyCode, base:CurrencyCode) : String {
-            return cur.toString() + base.toString()
-        }
+
     }
 
 

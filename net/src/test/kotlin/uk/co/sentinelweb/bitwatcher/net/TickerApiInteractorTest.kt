@@ -12,7 +12,7 @@ import uk.co.sentinelweb.bitwatcher.net.coinfloor.CoinfloorService
 import kotlin.test.assertNotNull
 
 
-class TickerDomainApiInteractorTest {
+class TickerApiInteractorTest {
 
     lateinit var sut: TickerDataApiInteractor
 
@@ -47,6 +47,8 @@ class TickerDomainApiInteractorTest {
         assertThat(testObserver.events.size, `is`(3))
         assertNotNull(testObserver.events.get(0))
     }
+
+
 
     @Test
     fun getTickers() {
