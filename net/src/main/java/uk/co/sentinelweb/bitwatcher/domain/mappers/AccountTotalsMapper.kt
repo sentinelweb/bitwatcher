@@ -25,13 +25,13 @@ class AccountTotalsMapper {
                     } else if (prices.containsKey(reverseKey)) {
                         total += balance.available * prices.get(reverseKey)?.last!!
                     } else {
-                        if (listOf(GBP, EUR, USD).contains(base)) {// convert to BTC then convert back to target
+                        if (base.type == Type.FIAT) {// convert to BTC then convert back to target
                             val toCrypto = prices.get(getTickerKey(BTC, currency))
                             val toTarget = prices.get(getTickerKey(BTC, base))
                             if (toCrypto != null && toTarget != null) {
                                 total += balance.available / toCrypto.last * toTarget.last
                             }
-                        } else if (listOf(BTC, BCH, ETH).contains(base)) {
+                        } else if (base.type == Type.CRYPTO) {
                             val toFiat = prices.get(getTickerKey(currency, USD))
                             val toTarget = prices.get(getTickerKey(base, USD))
                             if (toFiat != null && toTarget != null) {

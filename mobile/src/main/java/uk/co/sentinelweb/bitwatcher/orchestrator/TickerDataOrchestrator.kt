@@ -48,7 +48,7 @@ class TickerDataOrchestrator @Inject constructor(
                 ),
                 Flowable.merge(
                         Flowable.merge(
-//                                db.tickerDao().flowTicker(XRP.toString(), GBP.toString()),
+                                db.tickerDao().flowTicker(XRP.toString(), GBP.toString()),
                                 db.tickerDao().flowTicker(XRP.toString(), EUR.toString()),
                                 db.tickerDao().flowTicker(XRP.toString(), USD.toString())
                         ),
