@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.common.database.entities
 
 import android.arch.persistence.room.Relation
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
+import uk.co.sentinelweb.domain.AccountType
 
 class FullAccountView {
     var id: Long = 0

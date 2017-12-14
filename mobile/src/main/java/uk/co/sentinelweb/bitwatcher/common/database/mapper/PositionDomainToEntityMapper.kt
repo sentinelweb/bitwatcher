@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.common.database.mapper
 
 import uk.co.sentinelweb.bitwatcher.common.database.entities.PositionItemEntity
-import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
+import uk.co.sentinelweb.domain.BalanceDomain
 import javax.inject.Inject
 
 class PositionDomainToEntityMapper @Inject constructor(){

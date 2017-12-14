@@ -5,9 +5,9 @@ import io.reactivex.Observable
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerDomainToEntityMapper
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
+import uk.co.sentinelweb.domain.CurrencyCode.*
+import uk.co.sentinelweb.domain.TickerDomain
 import javax.inject.Inject
 
 class TickerDataOrchestrator @Inject constructor(

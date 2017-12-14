@@ -20,8 +20,8 @@ import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemView
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import uk.co.sentinelweb.bitwatcher.common.ui.AndroidUtils
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountType
 import javax.inject.Inject
 
 

@@ -1,6 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.edit_account.view
 
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 
 class BalanceItemState() {

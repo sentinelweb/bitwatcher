@@ -3,7 +3,7 @@ package uk.co.sentinelweb.bitwatcher.common.database.test
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
+import uk.co.sentinelweb.domain.CurrencyCode.*
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject

@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.net
 
 import io.reactivex.Observable
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 
 interface TickerDataInteractor {
 

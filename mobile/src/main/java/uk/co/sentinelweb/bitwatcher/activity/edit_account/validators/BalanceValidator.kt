@@ -2,8 +2,8 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account.validators
 
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.bitwatcher.common.validation.Validator
-import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.BalanceDomain
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 import javax.inject.Inject
 

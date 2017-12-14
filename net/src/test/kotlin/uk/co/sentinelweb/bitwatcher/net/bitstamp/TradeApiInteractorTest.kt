@@ -6,8 +6,8 @@ import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.domain.TradeDomain
 import uk.co.sentinelweb.bitwatcher.net.ExchangeDataProvider
+import uk.co.sentinelweb.domain.TradeDomain
 
 class TradeApiInteractorTest {
     lateinit var sut: TradeApiInteractor

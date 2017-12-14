@@ -3,7 +3,7 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account
 import android.support.annotation.IdRes
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountDomain
 import java.io.Serializable
 
 

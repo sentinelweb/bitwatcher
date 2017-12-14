@@ -5,11 +5,11 @@ import io.reactivex.functions.BiFunction
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
-import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
 import uk.co.sentinelweb.bitwatcher.net.BalanceApiInteractor
 import uk.co.sentinelweb.bitwatcher.net.NetModule
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountType
+import uk.co.sentinelweb.domain.BalanceDomain
 import javax.inject.Inject
 import javax.inject.Named
 

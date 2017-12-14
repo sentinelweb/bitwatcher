@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row
 
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 
 class AccountRowPresenter constructor(
         private val view:AccountRowContract.View,

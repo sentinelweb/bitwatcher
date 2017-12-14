@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.net
 
 import org.knowm.xchange.currency.CurrencyPair
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyPair.Companion.getKey
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyPair.Companion.getKey
 
 class CurrencyPairLookup {
     companion object {

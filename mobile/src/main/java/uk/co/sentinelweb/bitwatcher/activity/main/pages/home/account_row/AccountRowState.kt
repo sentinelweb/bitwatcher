@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row
 
 import android.support.annotation.ColorRes
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.CurrencyCode
 
 data class AccountRowState(
         var domain:AccountDomain,

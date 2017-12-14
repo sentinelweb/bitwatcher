@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.preference
 
 import android.content.SharedPreferences
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 import javax.inject.Inject
 

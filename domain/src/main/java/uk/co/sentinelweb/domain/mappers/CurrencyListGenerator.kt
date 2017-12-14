@@ -1,6 +1,6 @@
-package uk.co.sentinelweb.bitwatcher.domain.mappers
+package uk.co.sentinelweb.domain.mappers
 
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 
 class CurrencyListGenerator {
     companion object {

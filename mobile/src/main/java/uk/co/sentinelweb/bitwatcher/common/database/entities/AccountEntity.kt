@@ -4,9 +4,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 import uk.co.sentinelweb.bitwatcher.common.database.converter.AccountTypeConverter
-import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverter
-import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
+import uk.co.sentinelweb.domain.AccountType
 
 @Entity(tableName = "account")
 @TypeConverters(AccountTypeConverter::class)

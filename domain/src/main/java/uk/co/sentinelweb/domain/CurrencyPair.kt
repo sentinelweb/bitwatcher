@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.domain
+package uk.co.sentinelweb.domain
 
 class CurrencyPair {
     companion object {

@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 import javax.inject.Inject
 
 class TickerStateMapper @Inject constructor() {

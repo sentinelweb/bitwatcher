@@ -5,9 +5,9 @@ import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TradeDomain
-import uk.co.sentinelweb.bitwatcher.domain.TradeDomain.TradeType.*
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TradeDomain
+import uk.co.sentinelweb.domain.TradeDomain.TradeType.*
 import java.util.concurrent.Callable
 
 class TradeApiInteractor(private val service: BitstampService, private val mapper: TradesMapper = TradesMapper()) {

@@ -9,8 +9,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.TickerRateInteractor
 import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.mappers.CurrencyListGenerator
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
 import java.math.BigDecimal
 import javax.inject.Inject
 

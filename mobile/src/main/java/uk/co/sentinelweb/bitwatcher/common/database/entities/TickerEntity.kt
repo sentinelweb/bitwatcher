@@ -6,7 +6,7 @@ import android.arch.persistence.room.TypeConverters
 import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 import java.util.*
 

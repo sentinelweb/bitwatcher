@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.domain
+package uk.co.sentinelweb.domain
 
 import java.io.Serializable
 

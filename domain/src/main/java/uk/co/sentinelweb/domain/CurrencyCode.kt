@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.domain
+package uk.co.sentinelweb.domain
 
 enum class CurrencyCode(val type:Type) {
     NONE(Type.NONE), UNKNOWN(Type.NONE),

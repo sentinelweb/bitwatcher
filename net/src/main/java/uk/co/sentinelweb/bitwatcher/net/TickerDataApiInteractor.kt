@@ -2,8 +2,8 @@ package uk.co.sentinelweb.bitwatcher.net
 
 import io.reactivex.Observable
 import org.knowm.xchange.dto.marketdata.Ticker
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 import java.util.*
 import java.util.concurrent.Callable
 

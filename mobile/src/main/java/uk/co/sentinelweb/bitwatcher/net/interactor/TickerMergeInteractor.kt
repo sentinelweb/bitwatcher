@@ -3,12 +3,12 @@ package uk.co.sentinelweb.bitwatcher.net.interactor
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyPair
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TickerDataInteractor
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode.*
+import uk.co.sentinelweb.domain.CurrencyPair
+import uk.co.sentinelweb.domain.TickerDomain
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*

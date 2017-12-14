@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
 
 import android.support.annotation.ColorRes
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 import java.math.BigDecimal.ONE
 import java.math.BigDecimal.ZERO

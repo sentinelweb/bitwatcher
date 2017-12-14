@@ -5,10 +5,10 @@ import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.binance.BinanceExchange
 import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h
 import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyPair
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
 import uk.co.sentinelweb.bitwatcher.net.TickerDataInteractor
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyPair
+import uk.co.sentinelweb.domain.TickerDomain
 import java.util.*
 import java.util.concurrent.Callable
 

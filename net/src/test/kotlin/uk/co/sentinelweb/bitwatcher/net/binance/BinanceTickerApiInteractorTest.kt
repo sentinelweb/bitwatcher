@@ -7,8 +7,8 @@ import org.junit.Test
 import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.binance.BinanceExchange
 import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 

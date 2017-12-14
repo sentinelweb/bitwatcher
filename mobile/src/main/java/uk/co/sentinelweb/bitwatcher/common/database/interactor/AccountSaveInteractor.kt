@@ -5,7 +5,7 @@ import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.PositionDomainToEntityMapper
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountDomain
 import java.util.concurrent.Callable
 import javax.inject.Inject
 

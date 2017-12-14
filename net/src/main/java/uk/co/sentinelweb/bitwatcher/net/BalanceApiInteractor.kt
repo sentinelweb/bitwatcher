@@ -3,9 +3,9 @@ package uk.co.sentinelweb.bitwatcher.net
 import io.reactivex.Single
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw
-import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
+import uk.co.sentinelweb.domain.BalanceDomain
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.util.concurrent.Callable
 
 class BalanceApiInteractor(private val service: BitstampService, private val mapper:BalanceMapper = BalanceMapper()) {

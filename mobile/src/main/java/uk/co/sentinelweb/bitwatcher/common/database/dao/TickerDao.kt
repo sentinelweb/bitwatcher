@@ -7,7 +7,7 @@ import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverte
 import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.math.BigDecimal
 import java.util.*
 

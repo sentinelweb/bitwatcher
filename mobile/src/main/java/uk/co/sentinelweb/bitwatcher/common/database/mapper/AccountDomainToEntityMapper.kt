@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.database.mapper
 
 import uk.co.sentinelweb.bitwatcher.common.database.entities.AccountEntity
 import uk.co.sentinelweb.bitwatcher.common.database.entities.FullAccountView
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountDomain
 import javax.inject.Inject
 
 class AccountDomainToEntityMapper @Inject constructor(

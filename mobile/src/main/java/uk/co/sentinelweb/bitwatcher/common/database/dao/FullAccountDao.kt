@@ -8,7 +8,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.converter.AccountTypeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.entities.FullAccountView
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
+import uk.co.sentinelweb.domain.AccountType
 
 @Dao
 @TypeConverters(AccountTypeConverter::class)

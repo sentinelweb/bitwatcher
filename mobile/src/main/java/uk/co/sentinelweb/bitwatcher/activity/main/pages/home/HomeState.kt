@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 
 class HomeState(
         var prices: MutableMap<String, TickerDomain> = mutableMapOf(),

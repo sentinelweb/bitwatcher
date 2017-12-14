@@ -2,11 +2,11 @@ package uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row
 
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
-import uk.co.sentinelweb.bitwatcher.domain.mappers.AccountTotalsMapper
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountType
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
+import uk.co.sentinelweb.domain.mappers.AccountTotalsMapper
 import java.math.BigDecimal
 
 class AccountDisplayDataMapper() {

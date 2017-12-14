@@ -15,10 +15,10 @@ import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.AccountType
-import uk.co.sentinelweb.bitwatcher.domain.BalanceDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountType
+import uk.co.sentinelweb.domain.BalanceDomain
+import uk.co.sentinelweb.domain.CurrencyCode
 import java.io.Serializable
 import javax.inject.Inject
 

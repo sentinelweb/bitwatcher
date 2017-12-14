@@ -1,9 +1,9 @@
-package uk.co.sentinelweb.bitwatcher.domain.mappers
+package uk.co.sentinelweb.domain.mappers
 
-import uk.co.sentinelweb.bitwatcher.domain.AccountDomain
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode.*
-import uk.co.sentinelweb.bitwatcher.domain.TickerDomain
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.CurrencyCode.*
+import uk.co.sentinelweb.domain.TickerDomain
 import java.math.BigDecimal
 
 class AccountTotalsMapper {

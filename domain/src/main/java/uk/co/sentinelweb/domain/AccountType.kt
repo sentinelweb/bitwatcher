@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.domain
+package uk.co.sentinelweb.domain
 
 enum class AccountType {
     INITIAL, BITSTAMP, KRAKEN, BINANCE, GHOST, WALLET;

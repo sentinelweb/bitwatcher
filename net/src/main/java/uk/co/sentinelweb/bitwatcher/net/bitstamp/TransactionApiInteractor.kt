@@ -4,11 +4,11 @@ import io.reactivex.Single
 import org.knowm.xchange.bitstamp.service.BitstampTradeHistoryParams
 import org.knowm.xchange.currency.CurrencyPair
 import org.knowm.xchange.dto.account.FundingRecord
-import uk.co.sentinelweb.bitwatcher.domain.CurrencyCode
-import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain
-import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionStatus.*
-import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionType.DEPOSIT
-import uk.co.sentinelweb.bitwatcher.domain.TransactionDomain.TransactionType.WITHDRAWL
+import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionDomain.TransactionStatus.*
+import uk.co.sentinelweb.domain.TransactionDomain.TransactionType.DEPOSIT
+import uk.co.sentinelweb.domain.TransactionDomain.TransactionType.WITHDRAWL
 import java.util.concurrent.Callable
 
 class TransactionApiInteractor(private val service: BitstampService, private val mapper: TransactonMapper = TransactonMapper()) {
