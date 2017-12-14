@@ -4,15 +4,15 @@ import java.math.BigDecimal
 import java.util.*
 
 
-data class TradeDomain(val date: Date,
+data class TradeDomain(override val date: Date,
                        val tid: String,
                        val type: TradeType,
                        val price: BigDecimal,
-                       val amount: BigDecimal,
+                       override val amount: BigDecimal,
                        val currencyCodeFrom:CurrencyCode,
                        val currencyCodeTo:CurrencyCode,
                        val feesAmount:BigDecimal,
-                       val feesCurrencyCode: String) {
+                       val feesCurrencyCode: String) : TransactionItem(date, amount, currencyCodeFrom) {
     enum class TradeType {
         UNKNOWN, BID, ASK
     }

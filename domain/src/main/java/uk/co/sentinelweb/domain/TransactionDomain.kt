@@ -5,17 +5,19 @@ import java.util.*
 
 data class TransactionDomain(
         val type: TransactionType,
-        val date: Date,
-        val amount: BigDecimal,
-        val currencyCode: CurrencyCode,
+        override val date: Date,
+        override val amount: BigDecimal,
+        override val currencyCode: CurrencyCode,
         val balance: BigDecimal,
         val description: String,
         val status: TransactionStatus,
-        val fee: BigDecimal ) {
+        val fee: BigDecimal ) : TransactionItem(date, amount, currencyCode){
 
     enum class TransactionType {
         DEPOSIT,
-        WITHDRAWL
+        WITHDRAWL,
+        UNKNOWN
+
     }
 
     enum class TransactionStatus {
