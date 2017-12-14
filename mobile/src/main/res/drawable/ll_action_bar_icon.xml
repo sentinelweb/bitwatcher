@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/ic_bitcoin_36"
+        android:drawable="@drawable/ic_bw_eye_36"
         android:right="8dp"/>
+    <!--@drawable/ic_bitcoin_36-->
 </layer-list>

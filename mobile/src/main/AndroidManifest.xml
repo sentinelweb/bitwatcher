@@ -11,11 +11,16 @@
     <application
         android:name=".app.BitwatcherApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_bitcoin_64"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_bitcoin_64"
+        android:icon="@drawable/ic_bw_eye_64"
+        android:logo="@drawable/ic_bw_eye_64"
+        android:roundIcon="@drawable/ic_bw_eye_64"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--android:roundIcon="@drawable/ic_bitcoin_64"
+        android:roundIcon="@drawaic_bw_eye_square_64e_64"
+
+        -->
         <activity
             android:name=".activity.main.MainActivity"
             android:label="@string/app_name">
