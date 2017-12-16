@@ -10,7 +10,7 @@ import uk.co.sentinelweb.bitwatcher.receiver.AlarmReceiver
 import uk.co.sentinelweb.bitwatcher.receiver.BootReceiver
 import javax.inject.Singleton
 
-@Component(modules = arrayOf(BitwatcherAppModule::class, NetModule::class, BitwatcherDbModule::class))
+@Component(modules = arrayOf(BitwatcherAppModule::class, NetModule::class, BitwatcherDbModule::class, UseCaseModule::class))
 @Singleton
 interface BitwatcherAppComponent {
 

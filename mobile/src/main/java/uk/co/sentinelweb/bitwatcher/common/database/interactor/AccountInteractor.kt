@@ -1,41 +1,28 @@
 package uk.co.sentinelweb.bitwatcher.common.database.interactor
 
+import io.reactivex.Flowable
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.PositionDomainToEntityMapper
 import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import java.util.concurrent.Callable
 import javax.inject.Inject
 
-// TODO convert to proper Rx chain
 // TODO try to setup foreign keys and cascading deletion for positionItems
-class AccountSaveInteractor @Inject constructor(
+class AccountInteractor @Inject constructor(
         private val accountEntityMapper: AccountDomainToEntityMapper,
         private val positionEntityMapper: PositionDomainToEntityMapper,
         private val db: BitwatcherDatabase,
         private val accountDomainMapper: AccountEntityToDomainMapper
 
-) {
-
-    fun save(account: AccountDomain): Single<Boolean> {
-//        val accountUpdate: Single<AccountEntity>
-//        if (account.id == null) {
-//            accountUpdate = db.accountDao()
-//                    .insertAccountSingle(accountEntityMapper.map(account))
-//                    .flatMap { id -> account.id = id;Single.just(accountEntityMapper.map(account)) }
-//
-//        } else {
-//            accountUpdate = db.accountDao()
-//                    .updateAccountCompletable(accountEntityMapper.map(account))
-//                    .andThen(Single.just(account))
-//        }
-//        accountUpdate.flatMap { id -> Single.}
-
+) : AccountsRepositoryUseCase {
+    override fun saveAccount(account: AccountDomain): Single<Boolean> {
         return Single.fromCallable(object : Callable<Boolean> {
             override fun call(): Boolean {
-                val accountId:Long
+                val accountId: Long
                 if (account.id == null) {
                     accountId = db.accountDao().insertAccount(accountEntityMapper.map(account))
                 } else {
@@ -58,7 +45,7 @@ class AccountSaveInteractor @Inject constructor(
         })
     }
 
-    fun delete(account: AccountDomain): Single<Boolean> {
+    override fun deleteAccount(account: AccountDomain): Single<Boolean> {
         return Single.fromCallable(object : Callable<Boolean> {
             override fun call(): Boolean {
                 val id = account.id
@@ -77,4 +64,31 @@ class AccountSaveInteractor @Inject constructor(
             }
         })
     }
+
+    override fun flowAllAccounts(): Flowable<List<AccountDomain>> {
+        return db.fullAccountDao()
+                .flowFullAccounts()
+                .map { list -> accountDomainMapper.mapFullList(list) }
+    }
+
+    override fun singleLoadAccount(id: Long): Single<AccountDomain> {
+        return db.fullAccountDao()
+                .singleFullAccount(id)
+                .map { entity -> accountDomainMapper.mapFull(entity) }
+    }
+
 }
+
+// TODO convert save to proper Rx chain
+//        val accountUpdate: Single<AccountEntity>
+//        if (account.id == null) {
+//            accountUpdate = db.accountDao()
+//                    .insertAccountSingle(accountEntityMapper.map(account))
+//                    .flatMap { id -> account.id = id;Single.just(accountEntityMapper.map(account)) }
+//
+//        } else {
+//            accountUpdate = db.accountDao()
+//                    .updateAccountCompletable(accountEntityMapper.map(account))
+//                    .andThen(Single.just(account))
+//        }
+//        accountUpdate.flatMap { id -> Single.}

@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import uk.co.sentinelweb.bitwatcher.BuildConfig
 import uk.co.sentinelweb.bitwatcher.net.binance.BinanceTickerDataApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.bitstamp.BalanceApiInteractor
 import uk.co.sentinelweb.bitwatcher.net.bitstamp.BitstampService
 import uk.co.sentinelweb.bitwatcher.net.coinfloor.CoinfloorService
 import uk.co.sentinelweb.bitwatcher.net.gdax.GdaxService

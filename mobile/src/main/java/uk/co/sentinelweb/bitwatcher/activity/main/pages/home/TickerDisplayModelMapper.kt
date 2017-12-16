@@ -5,7 +5,7 @@ import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.TickerDomain
 import javax.inject.Inject
 
-class TickerStateMapper @Inject constructor() {
+class TickerDisplayModelMapper @Inject constructor() {
 
     fun map(t: TickerDomain?, state: HomeState.TickerDisplay): HomeState.TickerDisplay {
         when (t?.currencyCode) {

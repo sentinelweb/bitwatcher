@@ -11,25 +11,21 @@ import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
-import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.BalanceDomain
 import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import java.io.Serializable
 import javax.inject.Inject
 
 
 class EditAccountFragmentPresenter @Inject constructor(
         private val view: EditAccountContract.View,
-        private val db: BitwatcherDatabase,
-        private val accountDomainMapper: AccountEntityToDomainMapper,
         private val nameValidator: NameValidator,
         private val accountValidator: AccountValidator,
-        private val saveInteractor: AccountSaveInteractor
+        private val accountsUseCase: AccountsRepositoryUseCase
 ) : EditAccountContract.Presenter, BalanceItemContract.Interactions, LifecycleObserver {
     companion object {
         val TAG = EditAccountFragmentPresenter::class.java.simpleName
@@ -43,9 +39,7 @@ class EditAccountFragmentPresenter @Inject constructor(
     override fun initialise(id: Long?) {
         state = EditAccountState(id)
         if (id != null) {
-            subscription.add(db.fullAccountDao()
-                    .singleFullAccount(id)
-                    .map { entity -> accountDomainMapper.mapFull(entity) }
+            subscription.add(accountsUseCase.singleLoadAccount(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -125,8 +119,8 @@ class EditAccountFragmentPresenter @Inject constructor(
         val account = accountDomain()
         val validation = accountValidator.validate(account)
         if (validation == ValidationError.OK) {
-            saveInteractor
-                    .save(account)
+            accountsUseCase
+                    .saveAccount(account)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ success ->

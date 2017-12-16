@@ -1,12 +1,19 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.loops
+package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.view.View
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class LoopsPresenter @Inject constructor(private val view: LoopsContract.View) : LoopsContract.Presenter {
+class TransactionsPresenter @Inject constructor(
+        private val view: TransactionsContract.View
+
+
+) : TransactionsContract.Presenter {
+
+    val subscriptions = CompositeDisposable()
     override fun init() {
 
     }

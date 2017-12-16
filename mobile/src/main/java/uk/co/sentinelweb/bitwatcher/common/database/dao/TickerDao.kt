@@ -1,8 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.common.database.dao
 
 import android.arch.persistence.room.*
-import io.reactivex.Flowable
 import io.reactivex.Single
+import org.reactivestreams.Publisher
 import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
@@ -14,17 +14,20 @@ import java.util.*
 @Dao
 @TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class)
 interface TickerDao {
-    @Query("SELECT * From ticker_data")
-    fun flowAllTickers(): Flowable<List<TickerEntity>>
+//    @Query("SELECT * From ticker_data")
+//    fun flowAllTickers(): Flowable<List<TickerEntity>>
 
     @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
-    fun flowTicker(code:String, base:String): Flowable<TickerEntity>
+    fun flowTicker(code:String, base:String): Publisher<TickerEntity>
 
     @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
     fun singleTicker(code:String, base:String): Single<TickerEntity>
 
     @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
     fun loadTicker(code:CurrencyCode, base:CurrencyCode): TickerEntity?
+
+    @Query("SELECT id From ticker_data WHERE currencyCode=:code AND baseCode=:base")
+    fun getTickerId(code:CurrencyCode, base:CurrencyCode): Long?
 
     @Query("SELECT count(*) From ticker_data")
     fun count(): Int

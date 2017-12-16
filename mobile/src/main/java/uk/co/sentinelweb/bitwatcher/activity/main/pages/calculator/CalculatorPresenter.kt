@@ -7,10 +7,10 @@ import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.TickerRateInteractor
 import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
+import uk.co.sentinelweb.use_case.TickerUseCase
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class CalculatorPresenter @Inject constructor(
         private val state: CalculatorState,
         private val displayMapper: CalculatorStateToModelMapper,
         private val preferenceMapper: CalculatorStateToPreferenceMapper,
-        private val rateInteractor: TickerRateInteractor
+        private val tickerUseCase: TickerUseCase
 ) : CalculatorContract.Presenter {
     companion object {
         val TAG = CalculatorPresenter::class.java.simpleName
@@ -77,13 +77,13 @@ class CalculatorPresenter @Inject constructor(
     }
 
     override fun setCurrencyFrom(currency: String) {
-        state.currencyFrom = CurrencyCode.lookup(currency)!!
+        state.currencyFrom = CurrencyCode.lookup(currency)
         state.linkToRate = true
         loadRate()
     }
 
     override fun setCurrencyTo(currency: String) {
-        state.currencyTo = CurrencyCode.lookup(currency)!!
+        state.currencyTo = CurrencyCode.lookup(currency)
         state.linkToRate = true
         loadRate()
     }
@@ -136,7 +136,7 @@ class CalculatorPresenter @Inject constructor(
     private fun loadRate() {
         if (state.currencyFrom != CurrencyCode.NONE && state.currencyTo != CurrencyCode.NONE) {
             subscriptions.add(
-                    rateInteractor.getRate(state.currencyFrom, state.currencyTo)
+                    tickerUseCase.getRate(state.currencyFrom, state.currencyTo)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ rate ->
