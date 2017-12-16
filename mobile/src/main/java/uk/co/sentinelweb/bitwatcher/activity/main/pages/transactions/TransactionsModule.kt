@@ -13,6 +13,10 @@ class TransactionsModule {
     @PageScope
     fun provideView(activity: MainActivity): TransactionsContract.View = TransactionsView(activity)
 
+    @Provides
+    @PageScope
+    fun provideState(): TransactionsState = TransactionsState()
+
     @Module
     interface Bindings {
 

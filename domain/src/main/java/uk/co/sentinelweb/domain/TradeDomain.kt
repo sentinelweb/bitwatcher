@@ -12,7 +12,7 @@ data class TradeDomain(override val date: Date,
                        val currencyCodeFrom:CurrencyCode,
                        val currencyCodeTo:CurrencyCode,
                        val feesAmount:BigDecimal,
-                       val feesCurrencyCode: String) : TransactionItem(date, amount, currencyCodeFrom) {
+                       val feesCurrencyCode: String) : TransactionItemDomain(date, amount, currencyCodeFrom) {
     enum class TradeType {
         UNKNOWN, BID, ASK
     }

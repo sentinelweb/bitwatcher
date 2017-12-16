@@ -9,7 +9,7 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.Transaction
 import uk.co.sentinelweb.bitwatcher.common.scope.ActivityScope
 
 @Module (includes = arrayOf(MainActivityModule.Bindings::class),
-        subcomponents = arrayOf(HomeComponent::class, TransactionsComponent::class, TradeComponent::class))
+        subcomponents = arrayOf(HomeComponent::class, TransactionsComponent::class, TradeComponent::class))// TODO do i need to declare suncompoannets
 class MainActivityModule {
 
     @Provides

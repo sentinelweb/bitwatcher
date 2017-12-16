@@ -16,7 +16,7 @@ class TickerDataOrchestrator @Inject constructor(
         private val db: BitwatcherDatabase,
         private val entityMapper: TickerDomainToEntityMapper,
         private val tickerEntityMapper: TickerEntityToDomainMapper
-        ):UpdateTickersUseCase {
+) : UpdateTickersUseCase {
 
     override fun downloadTickerToRepository(): Observable<TickerDomain> {
         return tickersInteractor.getMergedTickers()

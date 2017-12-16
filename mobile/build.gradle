@@ -14,9 +14,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "balancesApiKey", "\"$BAL_API_KEY\""
-        buildConfigField "String", "balancesSecretKey", "\"$BAL_SECRET\""
-        buildConfigField "String", "balancesUser", "\"$BITSTAMP_USER\""
+        buildConfigField "String", "bitstampApiKey", "\"$BITSTAMP_API_KEY\""
+        buildConfigField "String", "bitstampSecretKey", "\"$BITSTAMP_SECRET\""
+        buildConfigField "String", "bitstampUser", "\"$BITSTAMP_USER\""
 
         javaCompileOptions {
             annotationProcessorOptions {

@@ -29,10 +29,8 @@ dependencies {
 test {
     print BITSTAMP_USER
     systemProperty 'BITSTAMP_USER', BITSTAMP_USER ?: null
-    systemProperty 'BAL_API_KEY', BAL_API_KEY ?: null
-    systemProperty 'BAL_SECRET', BAL_SECRET ?: null
-    systemProperty 'TX_API_KEY', TX_API_KEY ?: null
-    systemProperty 'TX_SECRET', TX_SECRET ?: null
+    systemProperty 'BITSTAMP_API_KEY', BITSTAMP_API_KEY ?: null
+    systemProperty 'BITSTAMP_SECRET', BITSTAMP_SECRET ?: null
 }
 
 compileKotlin {

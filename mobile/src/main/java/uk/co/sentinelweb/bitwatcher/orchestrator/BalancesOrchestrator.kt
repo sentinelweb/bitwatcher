@@ -6,7 +6,7 @@ import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.net.NetModule
-import uk.co.sentinelweb.bitwatcher.net.bitstamp.BalanceApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BalanceApiInteractor
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.BalanceDomain

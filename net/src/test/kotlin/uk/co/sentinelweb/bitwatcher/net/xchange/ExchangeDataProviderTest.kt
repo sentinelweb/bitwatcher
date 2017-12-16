@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net
+package uk.co.sentinelweb.bitwatcher.net.xchange
 
 import org.junit.Before
 import org.junit.Test
@@ -14,8 +14,8 @@ class ExchangeDataProviderTest {
 
     @Before
     fun setUp() {
-        val key = System.getProperty("BAL_API_KEY")
-        val secret = System.getProperty("BAL_SECRET")
+        val key = System.getProperty("BITSTAMP_API_KEY")
+        val secret = System.getProperty("BITSTAMP_SECRET")
         val user = System.getProperty("BITSTAMP_USER")
 
         sut = ExchangeDataProvider(key, secret, user)
@@ -23,7 +23,7 @@ class ExchangeDataProviderTest {
 
     @Test
     fun getExchnage() {
-        sut.exchange.marketDataService.getTicker(CurrencyPair.BTC_USD);
+        sut.exchange.marketDataService.getTicker(CurrencyPair.BTC_USD)
 
     }
 

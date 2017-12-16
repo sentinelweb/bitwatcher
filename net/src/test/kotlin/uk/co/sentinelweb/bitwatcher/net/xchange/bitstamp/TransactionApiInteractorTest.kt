@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net.bitstamp
+package uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp
 
 import io.reactivex.observers.TestObserver
 import org.hamcrest.core.Is
@@ -6,7 +6,8 @@ import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.net.ExchangeDataProvider
+import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeDataProvider
+import uk.co.sentinelweb.bitwatcher.net.xchange.generic.TransactionApiInteractor
 import uk.co.sentinelweb.domain.TransactionDomain
 
 class TransactionApiInteractorTest {
@@ -16,8 +17,8 @@ class TransactionApiInteractorTest {
 
     @Before
     fun setUp() {
-        val key = System.getProperty("TX_API_KEY")
-        val secret = System.getProperty("TX_SECRET")
+        val key = System.getProperty("BITSTAMP_API_KEY")
+        val secret = System.getProperty("BITSTAMP_SECRET")
         val user = System.getProperty("BITSTAMP_USER")
 
 

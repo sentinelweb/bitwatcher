@@ -11,7 +11,7 @@ data class TransactionDomain(
         val balance: BigDecimal,
         val description: String,
         val status: TransactionStatus,
-        val fee: BigDecimal ) : TransactionItem(date, amount, currencyCode){
+        val fee: BigDecimal ) : TransactionItemDomain(date, amount, currencyCode){
 
     enum class TransactionType {
         DEPOSIT,

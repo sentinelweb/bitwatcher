@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.net.binance
+package uk.co.sentinelweb.bitwatcher.net.xchange.binance
 
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers

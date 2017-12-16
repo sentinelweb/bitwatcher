@@ -45,8 +45,8 @@ class BitwatcherPreferences @Inject constructor(
                 preferences.getString(CALCULATOR_STATE_INCREMENTUNIT,"PERCENT"),
                 BigDecimal(preferences.getString(CALCULATOR_STATE_DECREMENT,"0")),
                 preferences.getString(CALCULATOR_STATE_DECREMENTUNIT,"PERCENT"),
-                CurrencyCode.lookup(preferences.getString(CALCULATOR_STATE_CURRENCYFROM,"NONE"))!!,
-                CurrencyCode.lookup(preferences.getString(CALCULATOR_STATE_CURRENCYTO,"NONE"))!!,
+                CurrencyCode.lookup(preferences.getString(CALCULATOR_STATE_CURRENCYFROM,"NONE")),
+                CurrencyCode.lookup(preferences.getString(CALCULATOR_STATE_CURRENCYTO,"NONE")),
                 preferences.getBoolean(CALCULATOR_STATE_LINKTORATE,true)
         )
     }
