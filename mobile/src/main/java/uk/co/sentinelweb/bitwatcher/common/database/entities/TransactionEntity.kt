@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 import uk.co.sentinelweb.bitwatcher.common.database.converter.*
 import uk.co.sentinelweb.domain.CurrencyCode
-import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain
 import java.math.BigDecimal
 import java.util.*
 
@@ -17,13 +17,13 @@ class TransactionEntity constructor(
         val id: Long?,// TODO better way to autoincrement?  also  = UUID.randomUUID().toString()
         @ColumnInfo(name = "account_id")
         val accountId: Long,
-        val type: TransactionDomain.TransactionType,
+        val type: TransactionItemDomain.TransactionDomain.TransactionType,
         val date: Date,
         val amount: BigDecimal,
         val currencyCode: CurrencyCode,
         val balance: BigDecimal,
         val description: String,
-        val status: TransactionDomain.TransactionStatus,
+        val status: TransactionItemDomain.TransactionDomain.TransactionStatus,
         val fee: BigDecimal,
         val feeCurrency: CurrencyCode
 ) {

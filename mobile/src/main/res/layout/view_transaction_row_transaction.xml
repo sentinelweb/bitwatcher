@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content">
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Tranasction"
-    />
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_deposit_black_48dp"
+        android:padding="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/transaction_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dash"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        tools:text="DEPOSIT"
+        />
+
+    <TextView
+        android:id="@+id/transaction_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/dash"
+        tools:text="COMPLETE"
+        app:layout_constraintStart_toEndOf="@id/transaction_type"
+        />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="01/12/17 @ 08:12:32"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@id/transaction_type"
+        />
+
+    <TextView
+        android:id="@+id/fee_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fee_label"
+        tools:text="fee"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        />
+
+    <TextView
+        android:id="@+id/fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dash"
+        android:layout_marginStart="4dp"
+        tools:text="1.04 USD (= 0.0001 BTC)"
+        app:layout_constraintStart_toEndOf="@id/fee_label"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        />
+
+    <TextView
+        android:id="@+id/amount_market"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dash"
+        tools:text="5 ETH"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/trans_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dash"
+        tools:text="LKJSLKJLEKJLNLNX20232"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textColor="@color/grey_300"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amount_market"
+        />
+
 </android.support.constraint.ConstraintLayout>

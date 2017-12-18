@@ -4,7 +4,7 @@ import uk.co.sentinelweb.domain.TransactionItemDomain
 
 interface TransactionRowContract {
     interface View {
-        fun setData( model:TransactonRowState.TransactionRowDisplayModel)
+        fun setData( model:TransactonRowState.DisplayModel)
     }
 
     interface Presenter {

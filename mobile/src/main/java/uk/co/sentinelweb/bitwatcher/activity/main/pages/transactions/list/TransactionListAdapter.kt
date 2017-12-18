@@ -7,8 +7,8 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.Tr
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowPresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowView
-import uk.co.sentinelweb.domain.TradeDomain
-import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain
 
 class TransactionListAdapter constructor(
@@ -20,12 +20,18 @@ class TransactionListAdapter constructor(
             val presenter:TransactionRowContract.Presenter = TransactionRowPresenter(itemView as TransactionRowContract.View)
     ) : RecyclerView.ViewHolder(itemView)
 
+    fun setItems(list: List<TransactionItemDomain>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionItemViewHolder {
         val view = when (viewType) {
             0 -> TransactionRowView(parent.context)
             1 -> TradeRowView(parent.context)
-            else -> View(parent.context)
+            else -> View(parent.context) // should never happen
         }
+        view.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         return TransactionItemViewHolder(view)
     }
 
@@ -41,7 +47,6 @@ class TransactionListAdapter constructor(
         return when (list.get(position)) {
             is TransactionDomain -> 0
             is TradeDomain -> 1
-            else -> -1
         }
     }
 }

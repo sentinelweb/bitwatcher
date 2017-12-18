@@ -4,7 +4,7 @@ import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.net.TransactionsDataInteractor
 import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeService
 import uk.co.sentinelweb.bitwatcher.net.xchange.mapper.TransactonMapper
-import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 import java.util.concurrent.Callable
 
 class TransactionApiInteractor(

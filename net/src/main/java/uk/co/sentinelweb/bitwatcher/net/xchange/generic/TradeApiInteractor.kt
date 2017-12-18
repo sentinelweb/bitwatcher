@@ -6,7 +6,7 @@ import uk.co.sentinelweb.bitwatcher.net.TradeDataInteractor
 import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeService
 import uk.co.sentinelweb.bitwatcher.net.xchange.mapper.TradeMapper
 import uk.co.sentinelweb.domain.CurrencyPair
-import uk.co.sentinelweb.domain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import java.util.concurrent.Callable
 
 class TradeApiInteractor(
@@ -14,6 +14,16 @@ class TradeApiInteractor(
         private val mapper: TradeMapper = TradeMapper(),
         private val paramsProvider: TradeHistoryParamsProvider
 ) : TradeDataInteractor {
+
+    override fun getUserTrades(): Observable<List<TradeDomain>> {
+        return Observable.fromCallable(object : Callable<List<TradeDomain>> {
+            override fun call(): List<TradeDomain> {
+                val trades = service.tradeService.getTradeHistory(paramsProvider.provide(null))
+                System.err.println("got trades:${trades.userTrades.size}")
+                return mapper.map(trades.userTrades.toList())
+            }
+        })
+    }
 
     override fun getUserTradesForPairs(currencyPairs: List<CurrencyPair>): Observable<List<TradeDomain>> {
         val observables: MutableList<Observable<List<TradeDomain>>> = mutableListOf<Observable<List<TradeDomain>>>()

@@ -24,12 +24,7 @@ class GetTransactionsOrchestrator @Inject constructor(
 
     override fun getTransactions(type: GetTransactionsUseCase.Type?): Observable<List<TransactionItemDomain>> {
         return Observable.merge(
-                bsTradesInteractor.getUserTradesForPairs(listOf(
-                        CurrencyPair(CurrencyCode.BTC,CurrencyCode.USD),
-                        CurrencyPair(CurrencyCode.BCH,CurrencyCode.BTC),
-                        CurrencyPair(CurrencyCode.ETH,CurrencyCode.BTC),
-                        CurrencyPair(CurrencyCode.XRP,CurrencyCode.BTC)
-                )),
+                bsTradesInteractor.getUserTrades(),
                 bsTransactionsInteractor.getTransactions().toObservable()
         )
     }

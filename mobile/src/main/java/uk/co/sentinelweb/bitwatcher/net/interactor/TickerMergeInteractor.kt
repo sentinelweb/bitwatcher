@@ -42,13 +42,13 @@ class TickerMergeInteractor @Inject constructor(
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(BCH, USD) },
                         tickerKrakenInteractor.flatMap { inter -> inter.getTicker(ETH, GBP) }
                 ))
-
-                .doOnNext({ td -> priceCache.put(CurrencyPair.getKey(td.currencyCode, td.baseCurrencyCode), td.last) })
                 .onErrorResumeNext({ _: Throwable -> Observable.empty() })
+                .doOnNext({ td -> priceCache.put(CurrencyPair.getKey(td.currencyCode, td.baseCurrencyCode), td.last) })
+
     }
 
     private fun convertTickers(tickerDomain: TickerDomain): ObservableSource<out TickerDomain> {
-        var list: MutableList<Observable<TickerDomain>> = mutableListOf()
+        val list: MutableList<Observable<TickerDomain>> = mutableListOf()
         listOf<CurrencyCode>(USD, GBP, EUR).forEach { code ->
             val single = Observable.fromCallable({
                 val btcRate = priceCache.get(CurrencyPair.getKey(BTC, code))

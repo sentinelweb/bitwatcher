@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
 import uk.co.sentinelweb.bitwatcher.common.database.converter.*
 import uk.co.sentinelweb.domain.CurrencyCode
-import uk.co.sentinelweb.domain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain
 import java.math.BigDecimal
 import java.util.*
 
@@ -19,7 +19,7 @@ data class TradeEntity constructor(
         val accountId: Long,
         val date: Date,
         val tid: String,
-        val type: TradeDomain.TradeType,
+        val type: TransactionItemDomain.TradeDomain.TradeType,
         val price: BigDecimal,
         val amount: BigDecimal,
         val currencyCodeFrom: CurrencyCode,

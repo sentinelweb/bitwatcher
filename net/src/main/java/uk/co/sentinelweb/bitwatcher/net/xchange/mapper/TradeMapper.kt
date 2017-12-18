@@ -3,8 +3,8 @@ package uk.co.sentinelweb.bitwatcher.net.xchange.mapper
 import org.knowm.xchange.dto.Order
 import org.knowm.xchange.dto.trade.UserTrade
 import uk.co.sentinelweb.domain.CurrencyCode
-import uk.co.sentinelweb.domain.TradeDomain
-import uk.co.sentinelweb.domain.TradeDomain.TradeType.*
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.*
 
 class TradeMapper() {
         fun map(trades: List<UserTrade>): List<TradeDomain> {
@@ -16,8 +16,8 @@ class TradeMapper() {
                             it.timestamp,
                             it.id,
                             type,
-                            it.originalAmount,
                             it.price,
+                            it.originalAmount,
                             CurrencyCode.lookup(it.currencyPair.base.currencyCode),
                             CurrencyCode.lookup(it.currencyPair.counter.currencyCode),
                             it.feeAmount,

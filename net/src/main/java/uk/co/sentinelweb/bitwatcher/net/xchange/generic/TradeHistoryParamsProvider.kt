@@ -4,5 +4,5 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams
 import uk.co.sentinelweb.domain.CurrencyPair
 
 interface TradeHistoryParamsProvider {
-    fun provide(pair: CurrencyPair):TradeHistoryParams
+    fun provide(pair: CurrencyPair?):TradeHistoryParams
 }

@@ -2,9 +2,9 @@ package uk.co.sentinelweb.bitwatcher.net.xchange.mapper
 
 import org.knowm.xchange.dto.account.FundingRecord
 import uk.co.sentinelweb.domain.CurrencyCode
-import uk.co.sentinelweb.domain.TransactionDomain
-import uk.co.sentinelweb.domain.TransactionDomain.TransactionStatus.*
-import uk.co.sentinelweb.domain.TransactionDomain.TransactionType.WITHDRAWL
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain.TransactionStatus.*
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain.TransactionType.*
 import java.math.BigDecimal
 
 class TransactonMapper() {
@@ -13,6 +13,7 @@ class TransactonMapper() {
             transactions.forEach {
                 val type = mapOrderType(it.type)
                 result.add(TransactionDomain(
+                        it.internalId ?: "noId",
                         type,
                         it.date,
                         it.amount,
@@ -38,7 +39,7 @@ class TransactonMapper() {
         
         fun mapOrderType(t: FundingRecord.Type): TransactionDomain.TransactionType {
             when (t) {
-                FundingRecord.Type.DEPOSIT -> return TransactionDomain.TransactionType.DEPOSIT
+                FundingRecord.Type.DEPOSIT -> return DEPOSIT
                 FundingRecord.Type.WITHDRAWAL -> return WITHDRAWL
                 else -> return TransactionDomain.TransactionType.UNKNOWN
             }
