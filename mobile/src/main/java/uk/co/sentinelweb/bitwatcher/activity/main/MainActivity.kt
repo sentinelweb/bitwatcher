@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                switchPage(2, R.string.title_loops)
+                switchPage(2, R.string.title_transactions)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {

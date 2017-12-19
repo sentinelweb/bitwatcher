@@ -17,8 +17,8 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
         LayoutInflater.from(context).inflate(R.layout.main_transactions_page, this, true)
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
-        bottomSheetBehavior.setPeekHeight(340);
-        bottomSheetBehavior.setHideable(true);
+//        bottomSheetBehavior.setPeekHeight(resources.getInteger(R.integer.bottom_sheet_open_height_dp))
+//        bottomSheetBehavior.setHideable(true)
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
