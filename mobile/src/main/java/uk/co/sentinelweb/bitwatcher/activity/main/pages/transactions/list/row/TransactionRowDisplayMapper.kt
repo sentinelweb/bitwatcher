@@ -18,7 +18,7 @@ class TransactionRowDisplayMapper {
         return when (item) {
             is TransactionDomain -> {
                 TransactionDisplayModel(
-                        item.id,
+                        item.transactionId,
                         "${item.amount.dp(2)} ${item.currencyCode}",
                         DATE_FORMATTER.format(item.date),
                         when (item.type) {
@@ -39,7 +39,7 @@ class TransactionRowDisplayMapper {
             }
             is TradeDomain ->{
                 TradeDisplayModel(
-                        item.id,
+                        item.transactionId,
                         "${item.amount.dp(2)} ${item.currencyCodeFrom}",
                         DATE_FORMATTER.format(item.date),
                         when (item.type) {

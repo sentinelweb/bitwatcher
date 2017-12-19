@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_margin">
 
     <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListView
-        android:id="@+id/transaction_list"
+        android:id="@+id/transactions_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     />
-</android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/transactions_filter_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:layout_marginBottom="16dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/grey_300"
+        app:elevation="4dp"
+        android:src="@drawable/ic_filter_list_black_48dp"
+        android:tint="@color/white"
+        android:layout_gravity="bottom|right"
+        />
+
+    <include layout="@layout/transaction_filter_bottom_sheet" />
+</android.support.design.widget.CoordinatorLayout>

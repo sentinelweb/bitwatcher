@@ -13,12 +13,12 @@ class TradeMapper() {
                 val type = mapTradeType(it.type)
                 if (type != UNKNOWN) {
                     result.add(TradeDomain(
-                            it.timestamp,
                             it.id,
-                            type,
-                            it.price,
+                            it.timestamp,
                             it.originalAmount,
                             CurrencyCode.lookup(it.currencyPair.base.currencyCode),
+                            type,
+                            it.price,
                             CurrencyCode.lookup(it.currencyPair.counter.currencyCode),
                             it.feeAmount,
                             it.feeCurrency.currencyCode

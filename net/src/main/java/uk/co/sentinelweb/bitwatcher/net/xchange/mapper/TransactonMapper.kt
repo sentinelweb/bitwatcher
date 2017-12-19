@@ -14,10 +14,10 @@ class TransactonMapper() {
                 val type = mapOrderType(it.type)
                 result.add(TransactionDomain(
                         it.internalId ?: "noId",
-                        type,
                         it.date,
                         it.amount,
                         CurrencyCode.lookup(it.currency.currencyCode),
+                        type,
                         it.balance ?: BigDecimal.ZERO,
                         it.description ?: "",
                         mapStatus(it.status),
