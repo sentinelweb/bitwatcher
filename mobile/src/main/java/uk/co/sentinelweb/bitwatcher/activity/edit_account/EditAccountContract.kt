@@ -1,5 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.edit_account
 
+import android.os.Parcelable
 import android.support.annotation.IdRes
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
@@ -27,7 +28,7 @@ interface EditAccountContract {
         fun addBalance()
         fun saveAndFinish()
         fun validateName(value:String)
-        fun getSaveState(): Serializable
+        fun getSaveState(): Parcelable
         fun restoreState(domain: AccountDomain)
     }
 }

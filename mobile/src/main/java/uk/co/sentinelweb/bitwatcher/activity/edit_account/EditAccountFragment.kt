@@ -13,7 +13,9 @@ import android.util.Log
 import android.view.*
 import kotlinx.android.synthetic.main.edit_account_fragment.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.R.id.*
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity.Companion.EXTRA_ACCOUNT_ID
+import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountFragment.Companion.STATE_KEY
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemPresenter
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemView
@@ -55,10 +57,11 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
                 .editAccountFragment(this)
                 .build()
                 .inject(this)
+
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_KEY)) {
-            val restoreState = savedInstanceState.getSerializable(STATE_KEY) as AccountDomain
+            val restoreState = savedInstanceState.getParcelable<EditAccountStateParcel>(STATE_KEY)
             Log.d(TAG, "restoring account : ${restoreState}")
-            fragmentPresenter.restoreState(restoreState)
+            restoreState.account?.let { fragmentPresenter.restoreState(it)}
         } else {
             val id = if (arguments.containsKey(EXTRA_ACCOUNT_ID)) arguments.getLong(EXTRA_ACCOUNT_ID) else null
             fragmentPresenter.initialise(id)
@@ -146,6 +149,6 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         super.onSaveInstanceState(outState)
         val saveState = fragmentPresenter.getSaveState()
         Log.d(TAG, "saving account : ${saveState}")
-        outState.putSerializable(STATE_KEY, saveState)
+        outState.putParcelable(STATE_KEY, saveState)
     }
 }

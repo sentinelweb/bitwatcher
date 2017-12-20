@@ -3,6 +3,7 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
+import android.os.Parcelable
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -50,14 +51,14 @@ class EditAccountFragmentPresenter @Inject constructor(
         }
     }
 
-    override fun restoreState(domain:AccountDomain) {
-        state = EditAccountState(domain.id)
-        mapToState(domain)
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onPause() {
         subscription.clear()
+    }
+
+    override fun restoreState(domain:AccountDomain) {
+        state = EditAccountState(domain.id)
+        mapToState(domain)
     }
 
     private fun mapToState(domain: AccountDomain?) {
@@ -142,8 +143,8 @@ class EditAccountFragmentPresenter @Inject constructor(
         return account
     }
 
-    override fun getSaveState(): Serializable {
-        return accountDomain()
+    override fun getSaveState(): Parcelable {
+        return EditAccountStateParcel(accountDomain())
     }
 
 
