@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.database.dao
 
 import android.arch.persistence.room.*
 import io.reactivex.Flowable
+import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.entities.AccountEntity
 
 @Dao
@@ -9,7 +10,11 @@ interface AccountDao {
 
     @Query("SELECT * From account")
     @Transaction
-    fun getAllAccounts(): Flowable<List<AccountEntity>>
+    fun flowAllAccounts(): Flowable<List<AccountEntity>>
+
+    @Query("SELECT * From account")
+    @Transaction
+    fun singleAllAccounts(): Single<List<AccountEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAccount(a: AccountEntity):Long

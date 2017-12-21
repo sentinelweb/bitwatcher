@@ -12,7 +12,6 @@ import uk.co.sentinelweb.domain.TransactionItemDomain
 import uk.co.sentinelweb.use_case.GetTransactionsUseCase
 import java.util.*
 import javax.inject.Inject
-import kotlin.Comparator
 
 
 class TransactionsPresenter @Inject constructor(
@@ -33,11 +32,11 @@ class TransactionsPresenter @Inject constructor(
 
     override fun init() {
         state.transactionList = mutableListOf()
-        val subscription = getTransactionUseCase.getTransactions()
+        val subscription = getTransactionUseCase.getAllTransactionsByAccount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ list ->
-                    state.transactionList.addAll(list)
+                .subscribe({ account ->
+                    state.transactionList.addAll(account.tranasactions)
                     Collections.sort(state.transactionList, object : Comparator<TransactionItemDomain>{
                         override fun compare(p0: TransactionItemDomain, p1: TransactionItemDomain): Int {
                             return p1.date.compareTo(p0.date)

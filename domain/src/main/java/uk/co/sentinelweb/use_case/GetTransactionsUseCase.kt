@@ -6,7 +6,8 @@ import uk.co.sentinelweb.domain.TransactionItemDomain
 
 
 interface GetTransactionsUseCase {
-    enum class Type {TRANSACTION_ONLY, TRADES_ONLY}
-    fun getTransactionsForAccount(account: AccountDomain, type:Type?):Observable<List<TransactionItemDomain>>
-    fun getTransactions(type:Type? = null):Observable<List<TransactionItemDomain>>
+    enum class Type { TRANSACTION_ONLY, TRADES_ONLY }
+
+    fun getTransactionsForAccount(account: AccountDomain, type: Type?): Observable<List<TransactionItemDomain>>
+    fun getAllTransactionsByAccount(type: Type? = null): Observable<AccountDomain>
 }

@@ -5,7 +5,8 @@ import java.io.Serializable
 data class AccountDomain(val id: Long?,
                          val name: String,
                          val type: AccountType,
-                         val balances: List<BalanceDomain>) : Serializable {
+                         val balances: List<BalanceDomain>,
+                         val tranasactions:List<TransactionItemDomain> = listOf()) : Serializable {
     companion object {
         private const val serialVersionUID: Long = 4563645846734523423
         val NONE = AccountDomain(null, "", AccountType.INITIAL, listOf())
