@@ -1,7 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.orchestrator
 
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.net.NetModule.Companion.BITSTAMP
@@ -22,26 +21,27 @@ class GetTransactionsOrchestrator @Inject constructor(
 
 ) : GetTransactionsUseCase {
 
-    override fun getTransactionsForAccount(account: AccountDomain, type: GetTransactionsUseCase.Type?): Observable<List<TransactionItemDomain>> {
-        return Observable.empty()
+    override fun getTransactionsForAccount(account: AccountDomain, type: GetTransactionsUseCase.Type?): Observable<AccountDomain> {
+        return when (account.type) {
+            AccountType.BITSTAMP -> {
+                Observable.merge(
+                        bsTradesInteractor.getUserTrades(),
+                        bsTransactionsInteractor.getTransactions().toObservable()
+                ).collectInto(mutableListOf<TransactionItemDomain>(), { lista: MutableList<TransactionItemDomain>, listt: List<TransactionItemDomain> -> lista.addAll(listt) })
+                        .map { mutableList -> account.copy(tranasactions = mutableList.toList()) }
+                        .toObservable()
+            }
+            else -> Observable.empty()
+        }
+
     }
 
     override fun getAllTransactionsByAccount(type: GetTransactionsUseCase.Type?): Observable<AccountDomain> {
-        val mergedBsTransactions = Observable.merge(
-                bsTradesInteractor.getUserTrades(),
-                bsTransactionsInteractor.getTransactions().toObservable()
-        ).collectInto(mutableListOf<TransactionItemDomain>(), {lista:MutableList<TransactionItemDomain>, listt:List<TransactionItemDomain> -> lista.addAll(listt)})
+        return db.fullAccountDao()
+                .singleAllAccounts()
                 .toObservable()
-
-        return Observable.zip(db.fullAccountDao()
-                //.singleAllAccounts()
-                .singleAccountsOfType(AccountType.BITSTAMP)
-                .toObservable()
-                .flatMap { accountList -> Observable.fromIterable(accountList) }
-                .take(1)
-                .map { entity -> accountDomainMapper.mapFull(entity) },
-                mergedBsTransactions,
-                BiFunction { acc: AccountDomain, listt: List<TransactionItemDomain> -> acc.copy(tranasactions = listt) })
-
+                .map { entityList -> accountDomainMapper.mapFullList(entityList) }
+                .flatMap { list_account -> Observable.fromIterable(list_account) }
+                .flatMap { acc: AccountDomain -> getTransactionsForAccount(acc, type) }
     }
 }

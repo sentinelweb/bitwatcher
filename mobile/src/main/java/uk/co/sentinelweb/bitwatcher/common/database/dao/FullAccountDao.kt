@@ -19,6 +19,10 @@ abstract class FullAccountDao {
 
     @Query("SELECT id, name, type from account")
     @Transaction
+    abstract fun singleAllAccounts(): Single<List<FullAccountView>>
+
+    @Query("SELECT id, name, type from account")
+    @Transaction
     abstract fun loadFullAccounts(): List<FullAccountView>
 
     @Query("SELECT id, name, type from account WHERE type =:type")

@@ -31,11 +31,13 @@ class TransactionsPresenter @Inject constructor(
     }
 
     override fun init() {
-        state.transactionList = mutableListOf()
+        state.transactionList.clear()
+        state.accountList.clear()
         val subscription = getTransactionUseCase.getAllTransactionsByAccount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ account ->
+                    state.accountList.add(account)
                     state.transactionList.addAll(account.tranasactions)
                     Collections.sort(state.transactionList, object : Comparator<TransactionItemDomain>{
                         override fun compare(p0: TransactionItemDomain, p1: TransactionItemDomain): Int {

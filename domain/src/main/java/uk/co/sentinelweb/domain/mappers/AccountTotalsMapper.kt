@@ -3,6 +3,7 @@ package uk.co.sentinelweb.domain.mappers
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyCode.*
+import uk.co.sentinelweb.domain.CurrencyPair
 import uk.co.sentinelweb.domain.TickerDomain
 import java.math.BigDecimal
 
@@ -18,41 +19,32 @@ class AccountTotalsMapper {
                 if (currency == base) {
                     total += balance.available
                 } else {
-                    val key = getTickerKey(base, currency)
-                    val reverseKey = getTickerKey(currency, base)
+                    val key = getTickerKey(currency, base)
+                    val reverseKey = getTickerKey(base, currency)
                     if (prices.containsKey(key)) {
-                        total += balance.available / prices.get(key)?.last!!
+                        total += balance.available * prices.get(key)?.last!!
                     } else if (prices.containsKey(reverseKey)) {
-                        total += balance.available * prices.get(reverseKey)?.last!!
+                        total += balance.available / prices.get(reverseKey)?.last!!
                     } else {
                         if (base.type == Type.FIAT) {// convert to BTC then convert back to target
-                            val toCrypto = prices.get(getTickerKey(BTC, currency))
-                            val toTarget = prices.get(getTickerKey(BTC, base))
+                            val toCrypto = prices.get(getTickerKey(currency, BTC))
+                            val toTarget = prices.get(getTickerKey(base, BTC))
                             if (toCrypto != null && toTarget != null) {
                                 total += balance.available / toCrypto.last * toTarget.last
                             }
                         } else if (base.type == Type.CRYPTO) {
-                            val toFiat = prices.get(getTickerKey(currency, USD))
-                            val toTarget = prices.get(getTickerKey(base, USD))
+                            val toFiat = prices.get(getTickerKey(USD, currency))
+                            val toTarget = prices.get(getTickerKey(USD, base))
                             if (toFiat != null && toTarget != null) {
                                 total += balance.available * toFiat.last / toTarget.last
                             }
                         }
                     }
-//                    for (price in prices) {
-//                        if (price.baseCurrencyCode == base && price.currencyCode == balance.currency) {
-//                            total += balance.available * price.last
-//                            break
-//                        } else if (price.currencyCode == base && price.baseCurrencyCode == balance.currency) {
-//                            total += balance.available.setScale(6) / price.last
-//                            break
-//                        }
-//                    }
                 }
             })
             return total
         }
 
-        private fun getTickerKey(base: CurrencyCode, currency: CurrencyCode) = base.toString() + "." + currency.toString()
+        private fun getTickerKey(currency: CurrencyCode, base: CurrencyCode) = CurrencyPair.getKey(currency, base)
     }
 }
