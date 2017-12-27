@@ -1,12 +1,14 @@
 package uk.co.sentinelweb.bitwatcher.common.database.interactor
 
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountDomainToEntityMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.PositionDomainToEntityMapper
 import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import java.util.concurrent.Callable
 import javax.inject.Inject
@@ -75,6 +77,12 @@ class AccountInteractor @Inject constructor(
         return db.fullAccountDao()
                 .singleFullAccount(id)
                 .map { entity -> accountDomainMapper.mapFull(entity) }
+    }
+
+    override fun maybeLoadAccountOfType(type: AccountType): Maybe<AccountDomain> {
+        return db.fullAccountDao().singleAccountsOfType(type)
+                .filter({list -> list.size>0})
+                .map { fullAccountList -> accountDomainMapper.mapFull(fullAccountList.get(0)) }
     }
 
 }

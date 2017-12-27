@@ -4,19 +4,19 @@ import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.bitstamp.BitstampExchange
 import org.knowm.xchange.service.account.AccountService
 import org.knowm.xchange.service.trade.TradeService
-import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeDataProvider
+import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeService
 
-class BitstampService (private val dataProvider: ExchangeDataProvider): ExchangeService {
+class BitstampService (private val provider: ExchangeProvider): ExchangeService {
     companion object {
-        val GUEST: BitstampService = BitstampService(ExchangeDataProvider.GUEST_DATA_PROVIDER)
+        val GUEST: BitstampService = BitstampService(BitstampExchangeProvider("","", ""))
     }
 
     override val marketDataService = ExchangeFactory.INSTANCE.createExchange(BitstampExchange::class.java.name).marketDataService
 
     override val accountService:AccountService
-        get() = dataProvider.exchange.accountService
+        get() = provider.userExchange.accountService
 
     override val tradeService:TradeService
-            get() = dataProvider.exchange.tradeService
+            get() = provider.userExchange.tradeService
 }

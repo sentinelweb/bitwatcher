@@ -6,25 +6,21 @@ import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeDataProvider
+import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.generic.TradeApiInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyPair
-import uk.co.sentinelweb.domain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain
 
 class TradeApiInteractorTest {
     lateinit var sut: TradeApiInteractor
-    lateinit var dataProvider: ExchangeDataProvider
-    val observer = TestObserver<List<TradeDomain>>()
+    lateinit var provider: ExchangeProvider
+    val observer = TestObserver<List<TransactionItemDomain.TradeDomain>>()
 
     @Before
     fun setUp() {
-        val key = System.getProperty("BITSTAMP_API_KEY")
-        val secret = System.getProperty("BITSTAMP_SECRET")
-        val user = System.getProperty("BITSTAMP_USER")
-
-        dataProvider = ExchangeDataProvider(key, secret, user)
-        sut = TradeApiInteractor(BitstampService(dataProvider), paramsProvider = BitstampTradeHistoryParamsProvider())
+        provider = BitstampExchangeProvider(BitstampUserData.key, BitstampUserData.secret, BitstampUserData.user)
+        sut = TradeApiInteractor(BitstampService(provider), paramsProvider = BitstampTradeHistoryParamsProvider())
     }
 
     @Test
@@ -36,13 +32,6 @@ class TradeApiInteractorTest {
         Assert.assertThat(observer.events.size, Is.`is`(IsNot.not(0)))
         Assert.assertThat(observer.events.get(0).size, Is.`is`(IsNot.not(0)))
 
-//        transactionsObservable
-//                .subscribe({ list -> list.forEach({ println(it.tid) }) },
-//                        { e ->
-//                            println(e)
-//                            e.printStackTrace(System.err)
-//                        },
-//                        { println("onComplete") })
     }
 
 }

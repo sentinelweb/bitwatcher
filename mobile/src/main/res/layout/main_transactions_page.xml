@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_margin">
+    android:layout_marginTop="@dimen/activity_margin"
+    android:layout_marginStart="@dimen/activity_margin"
+    android:layout_marginEnd="@dimen/activity_margin"
+>
 
     <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListView
         android:id="@+id/transactions_list"

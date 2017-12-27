@@ -6,24 +6,19 @@ import org.hamcrest.core.IsNot
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeDataProvider
+import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.generic.TransactionApiInteractor
-import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain
 
 class TransactionApiInteractorTest {
     lateinit var sut: TransactionApiInteractor
-    lateinit var dataProvider: ExchangeDataProvider
-    val observer = TestObserver<List<TransactionDomain>>()
+    lateinit var provider: ExchangeProvider
+    val observer = TestObserver<List<TransactionItemDomain.TransactionDomain>>()
 
     @Before
     fun setUp() {
-        val key = System.getProperty("BITSTAMP_API_KEY")
-        val secret = System.getProperty("BITSTAMP_SECRET")
-        val user = System.getProperty("BITSTAMP_USER")
-
-
-        dataProvider = ExchangeDataProvider(key, secret, user)
-        sut = TransactionApiInteractor(BitstampService(dataProvider))
+        provider = BitstampExchangeProvider(BitstampUserData.key, BitstampUserData.secret, BitstampUserData.user)
+        sut = TransactionApiInteractor(BitstampService(provider))
     }
 
     @Test

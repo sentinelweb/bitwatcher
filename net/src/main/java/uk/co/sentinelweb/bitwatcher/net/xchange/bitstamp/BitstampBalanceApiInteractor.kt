@@ -3,14 +3,15 @@ package uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp
 import io.reactivex.Single
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw
+import uk.co.sentinelweb.bitwatcher.net.BalanceDataInteractor
 import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeService
 import uk.co.sentinelweb.domain.BalanceDomain
 import uk.co.sentinelweb.domain.CurrencyCode
 import java.util.concurrent.Callable
 
-class BalanceApiInteractor(private val service: ExchangeService, private val mapper: BalanceMapper = BalanceMapper()) {
+class BitstampBalanceApiInteractor(private val service: ExchangeService, private val mapper: BalanceMapper = BalanceMapper()):BalanceDataInteractor {
 
-    fun getAccountBalance(): Single<List<BalanceDomain>> {
+    override fun getAccountBalance(): Single<List<BalanceDomain>> {
         return Single.fromCallable(object : Callable<List<BalanceDomain>> {
             override fun call(): List<BalanceDomain> {
                 val balances = (service.accountService as BitstampAccountServiceRaw).bitstampBalance.balances

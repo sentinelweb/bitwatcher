@@ -31,6 +31,10 @@ test {
     systemProperty 'BITSTAMP_USER', BITSTAMP_USER ?: null
     systemProperty 'BITSTAMP_API_KEY', BITSTAMP_API_KEY ?: null
     systemProperty 'BITSTAMP_SECRET', BITSTAMP_SECRET ?: null
+
+    systemProperty 'BINANCE_API_KEY', BINANCE_API_KEY ?: null
+    systemProperty 'BINANCE_SECRET', BINANCE_SECRET ?: null
+    systemProperty 'BINANCE_USER', BINANCE_USER ?: null
 }
 
 compileKotlin {

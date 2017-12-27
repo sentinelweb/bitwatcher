@@ -7,10 +7,13 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import uk.co.sentinelweb.bitwatcher.BuildConfig
 import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
-import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeDataProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.ExchangeService
+import uk.co.sentinelweb.bitwatcher.net.xchange.binance.BinanceBalanceApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.xchange.binance.BinanceExchangeProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.binance.BinanceTickerDataApiInteractor
-import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BalanceApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.xchange.binance.BinanceTransactionApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BitstampBalanceApiInteractor
+import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BitstampExchangeProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BitstampService
 import uk.co.sentinelweb.bitwatcher.net.xchange.bitstamp.BitstampTradeHistoryParamsProvider
 import uk.co.sentinelweb.bitwatcher.net.xchange.coinfloor.CoinfloorService
@@ -76,7 +79,7 @@ class NetModule {
     @Provides
     @Named(BITSTAMP)
     fun provideBitstampService(): ExchangeService {
-        val dataProvider = ExchangeDataProvider(
+        val dataProvider = BitstampExchangeProvider(
                 BuildConfig.bitstampApiKey,
                 BuildConfig.bitstampSecretKey,
                 BuildConfig.bitstampUser)
@@ -85,8 +88,8 @@ class NetModule {
 
     @Provides
     @Named(BITSTAMP)
-    fun provideBitstampBalanceApiInteractor(@Named(BITSTAMP) service: ExchangeService): BalanceApiInteractor {
-        return BalanceApiInteractor(service)
+    fun provideBitstampBalanceApiInteractor(@Named(BITSTAMP) service: ExchangeService): BalanceDataInteractor {
+        return BitstampBalanceApiInteractor(service)
     }
 
     @Provides
@@ -99,6 +102,34 @@ class NetModule {
     @Named(BITSTAMP)
     fun provideBitstampTransactionsInteractor(@Named(BITSTAMP) service: ExchangeService): TransactionsDataInteractor {
         return TransactionApiInteractor(service)
+    }
+
+    @Provides
+    @Named(BINANCE)
+    fun provideBinanceService(): ExchangeService {
+        val dataProvider = BinanceExchangeProvider(
+                BuildConfig.binanceApiKey,
+                BuildConfig.binanceSecretKey,
+                BuildConfig.binanceUser)
+        return BitstampService(dataProvider)
+    }
+
+    @Provides
+    @Named(BINANCE)
+    fun provideBinanceBalanceApiInteractor(@Named(BINANCE) service: ExchangeService): BalanceDataInteractor {
+        return BinanceBalanceApiInteractor(service)
+    }
+
+    @Provides
+    @Named(BINANCE)
+    fun provideBinanceTradesInteractor(@Named(BINANCE) service: ExchangeService): TradeDataInteractor {
+        return TradeApiInteractor(service, TradeMapper(), BitstampTradeHistoryParamsProvider())
+    }
+
+    @Provides
+    @Named(BINANCE)
+    fun provideBinanceTransactionsInteractor(@Named(BINANCE) service: ExchangeService): TransactionsDataInteractor {
+        return BinanceTransactionApiInteractor(service)
     }
 
     @Provides

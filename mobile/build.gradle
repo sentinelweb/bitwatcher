@@ -18,6 +18,10 @@ android {
         buildConfigField "String", "bitstampSecretKey", "\"$BITSTAMP_SECRET\""
         buildConfigField "String", "bitstampUser", "\"$BITSTAMP_USER\""
 
+        buildConfigField "String", "binanceApiKey", "\"$BINANCE_API_KEY\""
+        buildConfigField "String", "binanceSecretKey", "\"$BINANCE_SECRET\""
+        buildConfigField "String", "binanceUser", "\"$BINANCE_USER\""
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
@@ -50,6 +54,7 @@ androidExtensions {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // project dependencies
     wearApp project(':wear')
@@ -92,6 +97,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     //stetho
-    compile "com.facebook.stetho:stetho:$stetho"
+    implementation "com.facebook.stetho:stetho:$stetho"
+
 }
 
