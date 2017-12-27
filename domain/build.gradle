@@ -9,12 +9,13 @@ dependencies {
     // https://github.com/ReactiveX/RxJava
     implementation "io.reactivex.rxjava2:rxjava:$rx_version"
 
-    testCompile group: 'junit', name: 'junit', version: "$junit_version"
+    testImplementation group: 'junit', name: 'junit', version: "$junit_version"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrest_version"
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
-    testCompile 'org.amshove.kluent:kluent:1.14'
-    testCompile 'com.flextrade.jfixture:jfixture:2.7.2'
+    testCompile "com.nhaarman:mockito-kotlin:$mockito_kotlin_version"
+    testCompile "org.amshove.kluent:kluent:$kluent_version"
+    testCompile "com.flextrade.jfixture:jfixture:$jfixture_version"
 }
 
 compileKotlin {

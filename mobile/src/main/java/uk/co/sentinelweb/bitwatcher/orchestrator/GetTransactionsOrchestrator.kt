@@ -33,7 +33,6 @@ class GetTransactionsOrchestrator @Inject constructor(
             }
             else -> Observable.empty()
         }
-
     }
 
     override fun getAllTransactionsByAccount(type: GetTransactionsUseCase.Type?): Observable<AccountDomain> {
