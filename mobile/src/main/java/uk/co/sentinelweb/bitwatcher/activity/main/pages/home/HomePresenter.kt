@@ -79,7 +79,7 @@ class HomePresenter @Inject constructor(
     }
 
     override fun onCurrencyButtonClick() {
-        view.showCurrencyDialog(CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyDialog(CurrencyListGenerator.getCurrencyArray())
 
     }
 

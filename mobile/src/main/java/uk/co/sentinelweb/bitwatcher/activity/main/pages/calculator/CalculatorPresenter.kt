@@ -69,11 +69,11 @@ class CalculatorPresenter @Inject constructor(
 
 
     override fun onCurrencyFromButtonClick() {
-        view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyArray())
     }
 
     override fun onCurrencyToButtonClick() {
-        view.showCurrencyPicker(false, CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyPicker(false, CurrencyListGenerator.getCurrencyArray())
     }
 
     override fun setCurrencyFrom(currency: String) {

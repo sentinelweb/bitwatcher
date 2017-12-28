@@ -14,6 +14,7 @@ class CurrencySelector {
             AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.title_select_currency))
                     .setItems(items, function)
+                    .setCancelable(true)
                     .create()
                     .show()
         }

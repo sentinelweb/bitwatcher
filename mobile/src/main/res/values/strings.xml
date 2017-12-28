@@ -31,4 +31,14 @@
     <string name="header_accounts">Accounts</string>
     <string name="title_calculator">Calculator</string>
     <string name="fee_label">Fee:</string>
+    <string name="title_filter">Filter</string>
+    <string name="cd_clear_filter">Clear</string>
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
+    <string name="deposit">Deposit</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="header_filter_account">Account</string>
+    <string name="header_filter_transaction_type">Transaction Type</string>
+    <string name="header_filter_market_currency">Market/Currency</string>
+    <string name="slash">/</string>
 </resources>

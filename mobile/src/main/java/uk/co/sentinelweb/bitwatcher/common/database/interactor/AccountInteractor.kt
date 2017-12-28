@@ -73,6 +73,12 @@ class AccountInteractor @Inject constructor(
                 .map { list -> accountDomainMapper.mapFullList(list) }
     }
 
+    override fun singleAllAccounts(): Single<List<AccountDomain>> {
+        return db.fullAccountDao()
+                .singleAllAccounts()
+                .map { list -> accountDomainMapper.mapFullList(list) }
+    }
+
     override fun singleLoadAccount(id: Long): Single<AccountDomain> {
         return db.fullAccountDao()
                 .singleFullAccount(id)

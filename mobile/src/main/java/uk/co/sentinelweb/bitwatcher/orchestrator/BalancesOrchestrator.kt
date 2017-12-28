@@ -5,14 +5,12 @@ import io.reactivex.FlowableTransformer
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountInteractor
-import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.net.BalanceDataInteractor
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.BalanceDomain
+import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
 import javax.inject.Inject
 import javax.inject.Named
@@ -20,14 +18,10 @@ import javax.inject.Named
 class BalancesOrchestrator @Inject constructor(
         private @Named(NetModule.BITSTAMP) var balancesInteractorBitstamp: BalanceDataInteractor,
         private @Named(NetModule.BINANCE) var balancesInteractorBinance: BalanceDataInteractor,
-        private val db: BitwatcherDatabase,
-        private val accountInteractor: AccountInteractor,
-        private val accountDomainMapper: AccountEntityToDomainMapper
-
+        private val accountInteractor: AccountsRepositoryUseCase
 ) : BalanceUpdateUseCase {
-    override fun getBalances(): Observable<Boolean> {
 
-        // TODO singleAccountsOfType should be Maybe and how to zip that with observable
+    override fun getBalances(): Observable<Boolean> {
 
         val saveBitstampBalances = Maybe.zip(
                 balancesInteractorBitstamp.getAccountBalance().toMaybe(),
@@ -52,6 +46,5 @@ class BalancesOrchestrator @Inject constructor(
             return upstream.map { pair -> pair.second.copy(balances = pair.first) }
                     .flatMap { accountUpdated -> accountInteractor.saveAccount(accountUpdated).toFlowable() }
         }
-
     }
 }

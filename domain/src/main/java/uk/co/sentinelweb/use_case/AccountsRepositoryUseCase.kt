@@ -13,4 +13,5 @@ interface AccountsRepositoryUseCase {
     fun flowAllAccounts(): Flowable<List<AccountDomain>>
     fun singleLoadAccount(id: Long): Single<AccountDomain>
     fun maybeLoadAccountOfType(type:AccountType): Maybe<AccountDomain>
+    fun singleAllAccounts(): Single<List<AccountDomain>>
 }

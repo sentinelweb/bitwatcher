@@ -1,28 +1,28 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions
 
+import android.animation.ObjectAnimator
 import android.content.Context
+import android.support.design.widget.BottomSheetBehavior
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.main_transactions_page.view.*
+import kotlinx.android.synthetic.main.transaction_filter_bottom_sheet.view.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterContract
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListPresenter
-import kotlinx.android.synthetic.main.transaction_filter_bottom_sheet.view.*
-import android.support.design.widget.BottomSheetBehavior
-import android.view.View
 
 
 class TransactionsView(context: Context) : FrameLayout(context), TransactionsContract.View {
+
     init {
         LayoutInflater.from(context).inflate(R.layout.main_transactions_page, this, true)
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
-//        bottomSheetBehavior.setPeekHeight(resources.getInteger(R.integer.bottom_sheet_open_height_dp))
-//        bottomSheetBehavior.setHideable(true)
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED || newState == BottomSheetBehavior.STATE_COLLAPSED) {
@@ -33,7 +33,8 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
             }
 
         })
-        transactions_filter_fab.setOnClickListener({ _ -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) })
+        transactions_filter_fab.setOnClickListener({ bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) })
+        close_button.setOnClickListener({ bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN) })
     }
 
     override fun setData(model: TransactionsState.TransactionsModel) {
@@ -42,6 +43,20 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
 
     override fun getListPresenter(): TransactionListContract.Presenter {
         return TransactionListPresenter(transactions_list)
+    }
+
+    override fun getFilterPresenter(filterPresenterFactory: TransactionFilterPresenterFactory): TransactionFilterContract.Presenter {
+        return filterPresenterFactory.createPresenter(bottom_sheet)
+    }
+
+    override fun showLoading(show: Boolean) {// TODO ; WTF !! doesn't show
+        if (show) {
+            ObjectAnimator.ofFloat(transactions_loading, "alpha",  1f).start()
+            //transactions_loading.visibility = View.VISIBLE
+        } else {
+            ObjectAnimator.ofFloat(transactions_loading, "alpha",  0f).start()
+            //transactions_loading.visibility = View.GONE
+        }
     }
 
 }
