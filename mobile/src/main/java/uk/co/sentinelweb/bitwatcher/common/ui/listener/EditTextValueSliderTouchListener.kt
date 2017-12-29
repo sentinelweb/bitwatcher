@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
+package uk.co.sentinelweb.bitwatcher.common.ui.listener
 
 import android.graphics.Point
 import android.text.TextUtils

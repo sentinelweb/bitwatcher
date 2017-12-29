@@ -12,9 +12,11 @@ interface TransactionsContract {
         fun getListPresenter(): TransactionListContract.Presenter
         fun getFilterPresenter(filterPresenterFactory: TransactionFilterPresenterFactory):TransactionFilterContract.Presenter
         fun showLoading(show:Boolean)
+        fun closeFilter()
+        fun collapseFilter()
     }
 
     interface Presenter : PagePresenter {
-        fun loadData()
+
     }
 }

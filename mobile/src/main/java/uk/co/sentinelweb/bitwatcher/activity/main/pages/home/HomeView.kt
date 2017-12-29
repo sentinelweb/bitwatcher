@@ -30,7 +30,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         fabHideListener = FabHideListener(home_accounts_scroll, home_accounts_add_fab)
         viewTreeObserver.addOnGlobalLayoutListener(
                 { home_accounts_scroll.layoutParams.height = height - home_ticker_include.height - home_accounts_include.top })
-        home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(fabHideListener);
+        home_accounts_scroll.getViewTreeObserver().addOnScrollChangedListener(fabHideListener)
         home_accounts_ghost_container.setOnClickListener({
             fabHideListener.toggleFab()
         })
@@ -69,7 +69,7 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
     override fun addAccount(interactions: AccountRowContract.Interactions): AccountRowContract.Presenter {
         val view = AccountRowView(context)
         home_accounts_container.addView(view)
-        view.setOnClickListener({null}) // TODO link to acct overview page
+        view.setOnClickListener(null) // TODO link to acct overview page
         return AccountRowPresenter(view, interactions)
     }
 

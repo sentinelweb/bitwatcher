@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.co.sentinelweb.bitwatcher">
+<manifest package="uk.co.sentinelweb.bitwatcher"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Required to act as a custom watch face. -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required for complications to receive complication data and open dataProviderider chooser. -->
-    <uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!-- Required for complications to receive complication data and open dataProviderider chooser. -->
+    <uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".app.BitwatcherApplication"
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@drawable/ic_bw_eye_64"
+        android:label="@string/app_name"
         android:logo="@drawable/ic_bw_eye_64"
         android:roundIcon="@drawable/ic_bw_eye_64"
         android:supportsRtl="true"
@@ -23,23 +23,25 @@
         -->
         <activity
             android:name=".activity.main.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+        >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.edit_account.EditAccountActivity"
-            android:label="@string/title_edit_account"/>
 
-        <receiver android:name=".receiver.AlarmReceiver" android:exported="true"/>
+        <activity android:name=".activity.edit_account.EditAccountActivity"
+                  android:label="@string/title_edit_account"/>
+
+        <receiver android:name=".receiver.AlarmReceiver"
+                  android:exported="true"/>
 
         <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
     </application>

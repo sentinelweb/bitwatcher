@@ -51,7 +51,7 @@ class BalanceItemPresenter constructor(
                 view.showError(validateCurrencyCode)
             }
         } else {
-            view.showError(ValidationError("Invalid currency code ; ${value}", ValidationError.Type.VALIDATION))
+            view.showError(ValidationError("Invalid currencyFrom code ; ${value}", ValidationError.Type.VALIDATION))
         }
     }
 

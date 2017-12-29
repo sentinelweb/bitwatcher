@@ -9,36 +9,42 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
-import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
+import uk.co.sentinelweb.domain.extensions.satisfies
 import uk.co.sentinelweb.use_case.GetTransactionsUseCase
 import java.util.*
 import javax.inject.Inject
-
 
 class TransactionsPresenter @Inject constructor(
         private val view: TransactionsContract.View,
         private val getTransactionUseCase: GetTransactionsUseCase,
         private val state: TransactionsState,
-        filterPresenterFactory: TransactionFilterPresenterFactory
-) : TransactionsContract.Presenter {
+        filterPresenterFactory: TransactionFilterPresenterFactory,
+        private val preferences: BitwatcherPreferences
+) : TransactionsContract.Presenter, TransactionFilterContract.Interactions {
 
     companion object {
         val TAG = TransactionsPresenter::class.java.simpleName
     }
 
     private val subscriptions = CompositeDisposable()
+
     private val listPresenter: TransactionListContract.Presenter
     private val filterPresenter: TransactionFilterContract.Presenter
 
     init {
         listPresenter = view.getListPresenter()
         filterPresenter = view.getFilterPresenter(filterPresenterFactory)
+        filterPresenter.setInteractions(this)
+        filterPresenter.init()
     }
 
     override fun init() {
         state.transactionList.clear()
         state.accountList.clear()
+        state.filter = preferences.getTransactionFilter("last")
         view.showLoading(true)
         subscriptions.add(
                 getTransactionUseCase
@@ -48,17 +54,12 @@ class TransactionsPresenter @Inject constructor(
                         .subscribe({ account ->
                             // onNext
                             state.accountList.add(account)
-                            state.transactionList.addAll(account.tranasactions)
-                            Collections.sort(state.transactionList, object : Comparator<TransactionItemDomain> {
-                                override fun compare(p0: TransactionItemDomain, p1: TransactionItemDomain): Int {
-                                    return p1.date.compareTo(p0.date)
-                                }
-                            })
-                            listPresenter.bindData(state.transactionList)
-                            view.showLoading(false)
+                            updateViewListData()
                         }, { e ->
                             // onError
                             Log.d(TAG, "error loading transactions", e)
+                            view.showLoading(false)
+                        }, {
                             view.showLoading(false)
                         }))
     }
@@ -71,24 +72,52 @@ class TransactionsPresenter @Inject constructor(
         return view as View
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
 
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
-
-    }
-
-    override fun loadData() {
-
+        preferences.saveTransactionFilter("last", filterPresenter.getFilter())
     }
 
     override fun onEnter() {
     }
 
     override fun onExit() {
+        preferences.saveTransactionFilter("last", filterPresenter.getFilter())
+    }
+
+    // filter interactions
+    override fun onClear() {
+        state.filter = null
+        view.closeFilter()
+        updateViewListData()
+    }
+
+    override fun onApply() {
+        state.filter = filterPresenter.getFilter()
+        view.closeFilter()
+        updateViewListData()
+    }
+
+    private fun updateViewListData() {
+        state.transactionList.clear()
+        state.accountList.forEach { account ->
+            account.tranasactions.forEach({ transaction ->
+                if (state.filter?.satisfies(account, transaction) ?: true) {
+                    state.transactionList.add(TransactionItemModel(transaction, account))
+                }
+            })
+        }
+        Collections.sort(state.transactionList, object : Comparator<TransactionItemModel> {
+            override fun compare(p0: TransactionItemModel, p1: TransactionItemModel): Int {
+                return p1.domain.date.compareTo(p0.domain.date)
+            }
+        })
+
+        listPresenter.bindData(state.transactionList)
     }
 
 }

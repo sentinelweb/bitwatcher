@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_activated="false"  >
+        <shape android:shape="rectangle">
+            <stroke android:width="@dimen/calc_amount_stroke" android:color="@color/colorBorderLight"/>
+            <solid android:color="@color/colorBorderLight"/>
+            <corners android:radius="@dimen/calc_amount_corner_radius"/>
+        </shape>
+    </item>
+    <item >
+        <shape android:shape="rectangle">
+            <stroke android:width="@dimen/calc_amount_stroke" android:color="@color/colorBorderHeavy"/>
+            <solid android:color="@color/white"/>
+            <corners android:radius="@dimen/calc_amount_corner_radius"/>
+        </shape>
+    </item>
+</selector>

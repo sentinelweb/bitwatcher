@@ -9,10 +9,9 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.Tr
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowView
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
-import uk.co.sentinelweb.domain.TransactionItemDomain
 
 class TransactionListAdapter constructor(
-        var list: List<TransactionItemDomain>
+        var list: List<TransactionItemModel>
 ) : RecyclerView.Adapter<TransactionListAdapter.TransactionItemViewHolder>() {
 
     inner class TransactionItemViewHolder(
@@ -20,7 +19,7 @@ class TransactionListAdapter constructor(
             val presenter:TransactionRowContract.Presenter = TransactionRowPresenter(itemView as TransactionRowContract.View)
     ) : RecyclerView.ViewHolder(itemView)
 
-    fun setItems(list: List<TransactionItemDomain>) {
+    fun setItems(list: List<TransactionItemModel>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -44,7 +43,7 @@ class TransactionListAdapter constructor(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (list.get(position)) {
+        return when (list.get(position).domain) {
             is TransactionDomain -> 0
             is TradeDomain -> 1
         }

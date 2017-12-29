@@ -1,6 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
 
-import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 
 interface TransactionRowContract {
     interface View {
@@ -8,6 +8,6 @@ interface TransactionRowContract {
     }
 
     interface Presenter {
-        fun bindData(domain: TransactionItemDomain)
+        fun bindData(model: TransactionItemModel)
     }
 }

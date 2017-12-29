@@ -1,61 +1,63 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
 
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TradeDisplayModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
-import uk.co.sentinelweb.domain.TransactionItemDomain
 import java.text.SimpleDateFormat
 
 
 class TransactionRowDisplayMapper {
     companion object {
-        val DATE_FORMATTER = SimpleDateFormat.getDateTimeInstance();//SimpleDateFormat("dd/MM/yyyy @ hh:mm:ss")
+        val DATE_FORMATTER = SimpleDateFormat.getDateTimeInstance() //SimpleDateFormat("dd/MM/yyyy @ hh:mm:ss")
     }
-    fun map(item:TransactionItemDomain): TransactonRowState.DisplayModel {
-        return when (item) {
+    fun map(item:TransactionItemModel): TransactonRowState.DisplayModel {
+        return when (item.domain) {
             is TransactionDomain -> {
                 TransactionDisplayModel(
-                        item.transactionId,
-                        "${item.amount.dp(2)} ${item.currencyCode}",
-                        DATE_FORMATTER.format(item.date),
-                        when (item.type) {
+                        item.domain.transactionId,
+                        "${item.domain.amount.dp(2)} ${item.domain.currencyCode}",
+                        DATE_FORMATTER.format(item.domain.date),
+                        item.account.name,
+                        when (item.domain.type) {
                             TransactionDomain.TransactionType.DEPOSIT -> R.drawable.ic_deposit_black_48dp
                             TransactionDomain.TransactionType.WITHDRAWL -> R.drawable.ic_withdraw_black_48dp
                             else -> R.drawable.ic_transaction_unknown_black_48dp
                         },
-                        when (item.type) {
+                        when (item.domain.type) {
                             TransactionDomain.TransactionType.DEPOSIT -> R.color.colorDeposit
                             TransactionDomain.TransactionType.WITHDRAWL -> R.color.colorWithdraw
                             else -> R.color.colorTransactionUnknown
                         },
-                        item.type.toString(),
-                        item.status.toString(),
-                        "${item.fee.dp(2)} ${item.currencyCode}"
+                        item.domain.type.toString(),
+                        item.domain.status.toString(),
+                        "${item.domain.fee.dp(2)} ${item.domain.currencyCode}"
 
                 )
             }
             is TradeDomain ->{
                 TradeDisplayModel(
-                        item.transactionId,
-                        "${item.amount.dp(2)} ${item.currencyCodeFrom}",
-                        DATE_FORMATTER.format(item.date),
-                        when (item.type) {
+                        item.domain.transactionId,
+                        "${item.domain.amount.dp(2)} ${item.domain.currencyCodeFrom}",
+                        DATE_FORMATTER.format(item.domain.date),
+                        item.account.name,
+                        when (item.domain.type) {
                             TradeDomain.TradeType.ASK -> R.drawable.ic_sell_black_48dp
                             TradeDomain.TradeType.BID -> R.drawable.ic_buy_black_48dp
                             else -> R.drawable.ic_transaction_unknown_black_48dp
                         },
-                        when (item.type) {
+                        when (item.domain.type) {
                             TradeDomain.TradeType.ASK -> R.color.colorSell
                             TradeDomain.TradeType.BID -> R.color.colorBuy
                             else -> R.color.colorTransactionUnknown
                         },
-                        item.type.toString(),
-                        "${item.currencyCodeFrom}/${item.currencyCodeTo}",
-                        "${item.amount.multiply(item.price).dp(5)}${item.currencyCodeTo} @ ${item.price.dp(4)}",
-                        "${item.feesAmount.dp(6)} ${item.feesCurrencyCode}"
+                        item.domain.type.toString(),
+                        "${item.domain.currencyCodeFrom}/${item.domain.currencyCodeTo}",
+                        "${item.domain.amount.multiply(item.domain.price).dp(5)}${item.domain.currencyCodeTo} @ ${item.domain.price.dp(4)}",
+                        "${item.domain.feesAmount.dp(6)} ${item.domain.feesCurrencyCode}"
                         )
             }
         }

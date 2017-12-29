@@ -39,6 +39,21 @@
     <string name="withdraw">Withdraw</string>
     <string name="header_filter_account">Account</string>
     <string name="header_filter_transaction_type">Transaction Type</string>
-    <string name="header_filter_market_currency">Market/Currency</string>
+    <string name="header_filter_market_currency">Currency / Market</string>
     <string name="slash">/</string>
+    <string name="cd_apply_filter">Apply filter</string>
+    <string name="cd_save_filter">Save filter</string>
+    <string name="cd_load_saved_filter">Load saved filter</string>
+    <string name="title_select_filter">Select filter</string>
+    <string name="cd_delete_filter">Delete filter</string>
+    <string name="hint_min_amount">Min Amount</string>
+    <string name="hint_max_amount">Max amount</string>
+    <string name="header_filter_date">Date</string>
+    <string name="header_filter_amount">Amount</string>
+    <string name="star">*</string>
+    <string name="ok">OK</string>
+    <string name="dialog_title_filter_name">Enter filter name</string>
+    <string name="hint_amount">Amount</string>
+    <string name="hint_rate">Rate</string>
+    <string name="cd_link_to_ticker_price">Link to ticker price</string>
 </resources>

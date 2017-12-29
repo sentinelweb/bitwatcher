@@ -7,19 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.main_transactions_page.view.*
-import kotlinx.android.synthetic.main.transaction_filter_bottom_sheet.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterView
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListPresenter
 
 
 class TransactionsView(context: Context) : FrameLayout(context), TransactionsContract.View {
+    private val bottomSheetBehavior: BottomSheetBehavior<TransactionFilterView>
 
     init {
         LayoutInflater.from(context).inflate(R.layout.main_transactions_page, this, true)
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet)
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -34,7 +35,15 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
 
         })
         transactions_filter_fab.setOnClickListener({ bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) })
-        close_button.setOnClickListener({ bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN) })
+
+    }
+
+    override fun closeFilter() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN)
+    }
+
+    override fun collapseFilter() {
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
     }
 
     override fun setData(model: TransactionsState.TransactionsModel) {

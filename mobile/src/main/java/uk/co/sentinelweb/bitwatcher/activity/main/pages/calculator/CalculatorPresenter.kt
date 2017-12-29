@@ -50,12 +50,12 @@ class CalculatorPresenter @Inject constructor(
         return view as View
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
         init()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
         cleanup()
     }

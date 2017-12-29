@@ -1,15 +1,15 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
 
-import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 
 class TransactionRowPresenter(
        private val view: TransactionRowContract.View,
        private val mapper:TransactionRowDisplayMapper = TransactionRowDisplayMapper()) : TransactionRowContract.Presenter {
     val state = TransactonRowState()
 
-    override fun bindData(domain: TransactionItemDomain) {
-        val model = mapper.map(domain)
-        state.model = model
-        view.setData(model)
+    override fun bindData(model: TransactionItemModel) {
+        val displayModel = mapper.map(model)
+        state.model = displayModel
+        view.setData(displayModel)
     }
 }
