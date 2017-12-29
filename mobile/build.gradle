@@ -60,6 +60,7 @@ dependencies {
     wearApp project(':wear')
     implementation project(':net')
     implementation project(':domain')
+    // git clone https://android.googlesource.com/platform/frameworks/opt/colorpicker
     implementation project(':colorpicker')
 
     // kotlin
