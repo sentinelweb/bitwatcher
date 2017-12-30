@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase
 import uk.co.sentinelweb.bitwatcher.common.database.dao.*
 import uk.co.sentinelweb.bitwatcher.common.database.entities.*
 
-@Database(entities = arrayOf(TickerEntity::class, AccountEntity::class, PositionItemEntity::class, TradeEntity::class, TransactionEntity::class), version = 2)
+@Database(entities = arrayOf(TickerEntity::class, AccountEntity::class, PositionItemEntity::class, TradeEntity::class, TransactionEntity::class), version = 3)
 abstract class BitwatcherDatabase : RoomDatabase() {
     abstract fun tickerDao(): TickerDao
     abstract fun accountDao(): AccountDao

@@ -2,11 +2,13 @@ package uk.co.sentinelweb.bitwatcher.common.database.entities
 
 import android.arch.persistence.room.Relation
 import uk.co.sentinelweb.domain.AccountType
+import uk.co.sentinelweb.domain.ColourDomain
 
 class FullAccountView {
     var id: Long = 0
     var name: String = ""
     var type: AccountType = AccountType.INITIAL
+    var colour: ColourDomain = ColourDomain.TRANSPARENT
 
     @Relation(parentColumn = "id", entityColumn = "account_id", entity = PositionItemEntity::class)
     var balances: List<PositionItemEntity> = listOf()

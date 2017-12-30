@@ -22,7 +22,8 @@ class TradeMapper() {
                         it.price,
                         CurrencyCode.lookup(it.currencyPair.counter.currencyCode),
                         it.feeAmount,
-                        it.feeCurrency.currencyCode
+                        it.feeCurrency.currencyCode,
+                        TradeDomain.TradeStatus.COMPLETED
                 ))
             }
         }

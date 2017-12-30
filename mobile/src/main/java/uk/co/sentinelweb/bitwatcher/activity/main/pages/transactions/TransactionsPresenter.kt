@@ -11,8 +11,7 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.Tran
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
-import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
-import uk.co.sentinelweb.domain.extensions.satisfies
+import uk.co.sentinelweb.bitwatcher.common.preference.TransactionFilterInteractor
 import uk.co.sentinelweb.use_case.GetTransactionsUseCase
 import java.util.*
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class TransactionsPresenter @Inject constructor(
         private val getTransactionUseCase: GetTransactionsUseCase,
         private val state: TransactionsState,
         filterPresenterFactory: TransactionFilterPresenterFactory,
-        private val preferences: BitwatcherPreferences
+        private val preferences: TransactionFilterInteractor
 ) : TransactionsContract.Presenter, TransactionFilterContract.Interactions {
 
     companion object {
@@ -73,20 +72,23 @@ class TransactionsPresenter @Inject constructor(
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onStart() {
+    fun onResume() {
 
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onStop() {
+    fun onPause() {
         preferences.saveTransactionFilter("last", filterPresenter.getFilter())
+        cleanup()
     }
 
     override fun onEnter() {
+
     }
 
     override fun onExit() {
         preferences.saveTransactionFilter("last", filterPresenter.getFilter())
+
     }
 
     // filter interactions
@@ -106,7 +108,7 @@ class TransactionsPresenter @Inject constructor(
         state.transactionList.clear()
         state.accountList.forEach { account ->
             account.tranasactions.forEach({ transaction ->
-                if (state.filter?.satisfies(account, transaction) ?: true) {
+                if (state.filter?.match(account, transaction) ?: true) {
                     state.transactionList.add(TransactionItemModel(transaction, account))
                 }
             })

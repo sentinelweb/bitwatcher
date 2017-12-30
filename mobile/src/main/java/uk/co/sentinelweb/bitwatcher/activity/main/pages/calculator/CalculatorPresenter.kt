@@ -7,7 +7,7 @@ import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
+import uk.co.sentinelweb.bitwatcher.common.preference.CalculatorStateInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
 import uk.co.sentinelweb.use_case.TickerUseCase
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class CalculatorPresenter @Inject constructor(
         private val view: CalculatorContract.View,
-        private val preferences: BitwatcherPreferences,
+        private val preferences: CalculatorStateInteractor,
         private val state: CalculatorState,
         private val displayMapper: CalculatorStateToModelMapper,
         private val preferenceMapper: CalculatorStateToPreferenceMapper,
@@ -31,7 +31,7 @@ class CalculatorPresenter @Inject constructor(
 
     override fun init() {
         view.setPresenter(this)
-        val oldState: BitwatcherPreferences.CalculatorStatePreferences = preferences.getLastCalculatorState()
+        val oldState: CalculatorStateInteractor.CalculatorStatePreferences = preferences.getLastCalculatorState()
         preferenceMapper.mapPreferencesToState(oldState, state)
         if (!state.linkToRate) {
             calculate()

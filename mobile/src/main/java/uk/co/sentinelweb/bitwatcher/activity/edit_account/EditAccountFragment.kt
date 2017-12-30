@@ -2,28 +2,30 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account
 
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.annotation.ColorInt
 import android.support.annotation.IdRes
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import com.android.colorpicker.ColorPickerPalette
 import kotlinx.android.synthetic.main.edit_account_fragment.*
 import uk.co.sentinelweb.bitwatcher.R
-import uk.co.sentinelweb.bitwatcher.R.id.*
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountActivity.Companion.EXTRA_ACCOUNT_ID
-import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountFragment.Companion.STATE_KEY
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemPresenter
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemView
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import uk.co.sentinelweb.bitwatcher.common.ui.AndroidUtils
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
+import uk.co.sentinelweb.domain.ColourDomain
 import javax.inject.Inject
 
 
@@ -61,7 +63,7 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         if (savedInstanceState != null && savedInstanceState.containsKey(STATE_KEY)) {
             val restoreState = savedInstanceState.getParcelable<EditAccountStateParcel>(STATE_KEY)
             Log.d(TAG, "restoring account : ${restoreState}")
-            restoreState.account?.let { fragmentPresenter.restoreState(it)}
+            restoreState.account?.let { fragmentPresenter.restoreState(it) }
         } else {
             val id = if (arguments.containsKey(EXTRA_ACCOUNT_ID)) arguments.getLong(EXTRA_ACCOUNT_ID) else null
             fragmentPresenter.initialise(id)
@@ -76,6 +78,7 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
         })
+        color_picker.setOnClickListener({ fragmentPresenter.onColorButtonClick() })
         this.lifecycle.addObserver(fragmentPresenter)
     }
 
@@ -116,6 +119,9 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
     override fun updateState(state: EditAccountState) {
         type_text.setText(state.type?.toString())
         name_edit.setText(state.name)
+        val colorDrawable = ColorDrawable()
+        colorDrawable.color = ColourDomain.toInteger(state.colour)
+        color_picker.setImageDrawable(colorDrawable)
     }
 
     override fun addBalanceView(): BalanceItemContract.Presenter {
@@ -151,4 +157,48 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         Log.d(TAG, "saving account : ${saveState}")
         outState.putParcelable(STATE_KEY, saveState)
     }
+
+    override fun showColorPicker(@ColorInt selectedColor: Int) {
+        //val colorPickerDialog = ColorPickerDialog()
+        //var color = selectedColor
+        val colours = intArrayOf(
+                ContextCompat.getColor(context, R.color.red_500),
+                ContextCompat.getColor(context, R.color.green_500),
+                ContextCompat.getColor(context, R.color.blue_500),
+                ContextCompat.getColor(context, R.color.indigo_500),
+                ContextCompat.getColor(context, R.color.teal_500),
+                ContextCompat.getColor(context, R.color.grey_500),
+                ContextCompat.getColor(context, R.color.orange_500),
+                ContextCompat.getColor(context, R.color.yellow_500),
+                ContextCompat.getColor(context, R.color.deep_orange_500),
+                ContextCompat.getColor(context, R.color.deep_purple_500),
+                ContextCompat.getColor(context, R.color.light_blue_500),
+                ContextCompat.getColor(context, R.color.light_green_500),
+                ContextCompat.getColor(context, R.color.blue_grey_500),
+                ContextCompat.getColor(context, R.color.pink_500),
+                ContextCompat.getColor(context, R.color.cyan_500),
+                ContextCompat.getColor(context, R.color.amber_500),
+                ContextCompat.getColor(context, R.color.brown_500),
+                ContextCompat.getColor(context, R.color.lime_500),
+                ContextCompat.getColor(context, R.color.black),
+                ContextCompat.getColor(context, R.color.grey_300)
+        )
+
+        var dialog:AlertDialog? = null
+        val layoutInflater = LayoutInflater.from(context)
+        val colorPickerPalette = layoutInflater.inflate(R.layout.view_colour_picker, null) as ColorPickerPalette
+        colorPickerPalette.init(colours.size, 5, { c: Int ->
+            fragmentPresenter.onColorSelected(c)
+            dialog?.dismiss()
+        });
+        colorPickerPalette.drawPalette(colours, selectedColor);
+
+        dialog = AlertDialog.Builder(context, R.style.ColourDialogTheme)
+                .setTitle(R.string.title_select_color)
+                .setView(colorPickerPalette)
+                .create()
+        dialog.show()
+    }
+
+
 }

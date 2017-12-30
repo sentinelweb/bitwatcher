@@ -14,7 +14,7 @@ import java.util.*
 @TypeConverters(AccountTypeConverter::class, DateConverter::class, CurrencyCodeConverter::class, BigDecimalConverter::class, TradeTypeConverter::class)
 data class TradeEntity constructor(
         @PrimaryKey(autoGenerate = true)
-        val id: Long?,// TODO better way to autoincrement?  also  = UUID.randomUUID().toString()
+        val id: Long?, // TODO better way to autoincrement?  also  = UUID.randomUUID().toString()
         @ColumnInfo(name = "account_id")
         val accountId: Long,
         val date: Date,
@@ -26,5 +26,4 @@ data class TradeEntity constructor(
         val currencyCodeTo: CurrencyCode,
         val feesAmount: BigDecimal,
         val feesCurrency: CurrencyCode
-) {
-}
+)

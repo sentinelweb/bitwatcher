@@ -3,7 +3,7 @@ package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
+import uk.co.sentinelweb.bitwatcher.common.preference.TransactionFilterInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.TransactionFilterDomain
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
@@ -16,13 +16,13 @@ class TransactionFilterPresenter(
         private val view: TransactionFilterContract.View,
         private val state: TransactionFilterState = TransactionFilterState(),
         private val accountsRepositoryUseCase: AccountsRepositoryUseCase,
-        private val preferences: BitwatcherPreferences
+        private val preferences: TransactionFilterInteractor
 ) : TransactionFilterContract.Presenter {
     companion object {
 
         val TAG: String = TransactionFilterPresenter::class.java.simpleName
-        val DATE_TIME_FORMATTER = SimpleDateFormat("dd/MM/yy HH:mm")
-        val DATE_FORMATTER = SimpleDateFormat("dd/MM/yyyy")
+        val DATE_TIME_FORMATTER = SimpleDateFormat.getDateTimeInstance() //SimpleDateFormat("dd/MM/yy HH:mm")
+        val DATE_FORMATTER = SimpleDateFormat.getDateInstance() //SimpleDateFormat("dd/MM/yyyy")
         val NO_ACCOUNT = "NO ACCOUNT"
     }
 

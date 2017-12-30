@@ -5,6 +5,7 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.Transa
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TradeDisplayModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
+import uk.co.sentinelweb.domain.ColourDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 import java.text.SimpleDateFormat
@@ -22,6 +23,7 @@ class TransactionRowDisplayMapper {
                         "${item.domain.amount.dp(2)} ${item.domain.currencyCode}",
                         DATE_FORMATTER.format(item.domain.date),
                         item.account.name,
+                        ColourDomain.toInteger(item.account.colour),
                         when (item.domain.type) {
                             TransactionDomain.TransactionType.DEPOSIT -> R.drawable.ic_deposit_black_48dp
                             TransactionDomain.TransactionType.WITHDRAWL -> R.drawable.ic_withdraw_black_48dp
@@ -44,6 +46,7 @@ class TransactionRowDisplayMapper {
                         "${item.domain.amount.dp(2)} ${item.domain.currencyCodeFrom}",
                         DATE_FORMATTER.format(item.domain.date),
                         item.account.name,
+                        ColourDomain.toInteger(item.account.colour),
                         when (item.domain.type) {
                             TradeDomain.TradeType.ASK -> R.drawable.ic_sell_black_48dp
                             TradeDomain.TradeType.BID -> R.drawable.ic_buy_black_48dp

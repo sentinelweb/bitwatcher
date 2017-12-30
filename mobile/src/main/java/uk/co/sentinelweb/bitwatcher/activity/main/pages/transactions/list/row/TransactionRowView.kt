@@ -1,12 +1,12 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
 
 import android.content.Context
-import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import uk.co.sentinelweb.bitwatcher.R
 import kotlinx.android.synthetic.main.view_transaction_row_transaction.view.*
+import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 
 class TransactionRowView(context: Context?): FrameLayout(context), TransactionRowContract.View {
@@ -24,6 +24,8 @@ class TransactionRowView(context: Context?): FrameLayout(context), TransactionRo
             transaction_status.text = model.status
             date.text = model.date
             trans_id.text = model.id
+            account.text = model.accountName
+            account.background = ColorDrawable(model.accountColor)
         }
     }
 }

@@ -11,5 +11,8 @@
         <item name="toolbarStyle">@style/ToolBarStyle</item>
 
     </style>
-
+    <style name="ColourDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/primary_dark</item>
+    </style>
 </resources>

@@ -8,7 +8,8 @@ data class BalanceDomain(
         val currency: CurrencyCode,
         val balance: BigDecimal,
         val available: BigDecimal,
-        val reserved: BigDecimal): Serializable {
+        val reserved: BigDecimal): Serializable  {
+
     companion object {
         private const val serialVersionUID: Long = 1234124523452562345
     }

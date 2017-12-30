@@ -5,19 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
     android:paddingBottom="4dp"
-    >
+    android:paddingTop="4dp"
+>
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:contentDescription="@null"
-        android:src="@drawable/ic_deposit_black_48dp"
+        android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:src="@drawable/ic_deposit_black_48dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="RtlSymmetry"/>
 
@@ -28,7 +28,7 @@
         android:text="@string/dash"
         app:layout_constraintStart_toEndOf="@id/icon"
         tools:text="DEPOSIT"
-        />
+    />
 
     <TextView
         android:id="@+id/transaction_status"
@@ -36,60 +36,74 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="@string/dash"
-        tools:text="COMPLETE"
         app:layout_constraintStart_toEndOf="@id/transaction_type"
-        />
+        tools:text="COMPLETE"
+    />
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="01/12/17 @ 08:12:32"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toBottomOf="@id/transaction_type"
-        />
+        tools:text="01/12/17 @ 08:12:32"
+    />
 
     <TextView
         android:id="@+id/fee_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fee_label"
-        tools:text="fee"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toBottomOf="@id/date"
-        />
+        tools:text="fee"
+    />
 
     <TextView
         android:id="@+id/fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dash"
         android:layout_marginStart="4dp"
-        tools:text="1.04 USD (= 0.0001 BTC)"
+        android:text="@string/dash"
         app:layout_constraintStart_toEndOf="@id/fee_label"
         app:layout_constraintTop_toBottomOf="@id/date"
-        />
+        tools:text="1.04 USD (= 0.0001 BTC)"
+    />
 
     <TextView
         android:id="@+id/amount_market"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dash"
-        tools:text="5 ETH"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        tools:text="5 ETH"
+    />
 
     <TextView
         android:id="@+id/trans_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dash"
-        tools:text="LKJSLKJLEKJLNLNX20232"
+        android:layout_marginEnd="@dimen/margin_large"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
         android:textColor="@color/grey_300"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/account"
         app:layout_constraintTop_toBottomOf="@id/amount_market"
-        />
+        tools:text="LKJSLKJLEKJLNLNX20232"
+    />
+
+    <TextView
+        android:id="@+id/account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_small"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quantity_rate"
+        tools:text="Bitstamp"
+
+    />
 
 </android.support.constraint.ConstraintLayout>

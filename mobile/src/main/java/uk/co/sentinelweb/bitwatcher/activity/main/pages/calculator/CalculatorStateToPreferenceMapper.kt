@@ -1,11 +1,11 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
 
-import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
+import uk.co.sentinelweb.bitwatcher.common.preference.CalculatorStateInteractor.CalculatorStatePreferences
 import javax.inject.Inject
 
 class CalculatorStateToPreferenceMapper @Inject constructor() {
-    fun mapStateToPreferences(state: CalculatorState): BitwatcherPreferences.CalculatorStatePreferences {
-        return BitwatcherPreferences.CalculatorStatePreferences(
+    fun mapStateToPreferences(state: CalculatorState): CalculatorStatePreferences {
+        return CalculatorStatePreferences(
                 state.amount,
                 state.rate,
                 state.increment,
@@ -18,7 +18,7 @@ class CalculatorStateToPreferenceMapper @Inject constructor() {
         )
     }
 
-    fun mapPreferencesToState(oldState: BitwatcherPreferences.CalculatorStatePreferences, state: CalculatorState) {
+    fun mapPreferencesToState(oldState: CalculatorStatePreferences, state: CalculatorState) {
         state.amount = oldState.amount
         state.currencyFrom = oldState.currencyFrom
         state.currencyTo = oldState.currencyTo

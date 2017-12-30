@@ -1,9 +1,8 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
 
 import android.content.Context
-import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.view_transaction_row_trade.view.*
@@ -26,6 +25,8 @@ class TradeRowView(context: Context) : FrameLayout(context), TransactionRowContr
             quantity_rate.text = model.quantityAndRate
             date.text = model.date
             trade_id.text = model.id
+            account.text = model.accountName
+            account.background = ColorDrawable(model.accountColor)
         }
     }
 }

@@ -13,12 +13,9 @@ import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountVali
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.domain.AccountDomain
-import uk.co.sentinelweb.domain.AccountType
-import uk.co.sentinelweb.domain.BalanceDomain
-import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.*
+import uk.co.sentinelweb.domain.ColourDomain.Companion.BLACK
 import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
-import java.io.Serializable
 import javax.inject.Inject
 
 
@@ -48,6 +45,8 @@ class EditAccountFragmentPresenter @Inject constructor(
                             { error -> Log.d(TAG, "Could not load account ${id}", error) }
                     )
             )
+        } else {
+            view.updateState(state)
         }
     }
 
@@ -56,7 +55,7 @@ class EditAccountFragmentPresenter @Inject constructor(
         subscription.clear()
     }
 
-    override fun restoreState(domain:AccountDomain) {
+    override fun restoreState(domain: AccountDomain) {
         state = EditAccountState(domain.id)
         mapToState(domain)
     }
@@ -65,6 +64,7 @@ class EditAccountFragmentPresenter @Inject constructor(
         state.domain = domain
         state.type = domain?.type
         state.name = domain?.name
+        state.colour = domain?.colour ?: BLACK
         val balances = domain?.balances ?: listOf()
         view.updateState(state)
         balances.forEach({ balanceDomain ->
@@ -136,10 +136,20 @@ class EditAccountFragmentPresenter @Inject constructor(
         }
     }
 
+    override fun onColorButtonClick() {
+        view.showColorPicker(ColourDomain.toInteger(state.colour))
+    }
+
+    override fun onColorSelected(color: Int) {
+        state.colour = ColourDomain.fromInteger(color)
+        view.updateState(state)
+    }
+
+
     private fun accountDomain(): AccountDomain {
         val balances = mutableListOf<BalanceDomain>()
         balancePresenters.forEach { presenter -> balances.add(presenter.getBalance()) }
-        val account = AccountDomain(state.id, state.name ?: "", state.type ?: AccountType.INITIAL, balances)
+        val account = AccountDomain(state.id, state.name ?: "", state.type ?: AccountType.INITIAL, balances, colour = state.colour)
         return account
     }
 
