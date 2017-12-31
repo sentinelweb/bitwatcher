@@ -5,24 +5,20 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import android.view.View
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row.AccountRowContract
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
-import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
-import uk.co.sentinelweb.bitwatcher.common.database.mapper.TickerEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
-import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
-import uk.co.sentinelweb.domain.AccountDomain
-import uk.co.sentinelweb.domain.AccountType
-import uk.co.sentinelweb.domain.BalanceDomain
-import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.*
 import uk.co.sentinelweb.domain.extensions.getPairKey
 import uk.co.sentinelweb.domain.mappers.AccountTotalsMapper
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
+import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
+import uk.co.sentinelweb.use_case.UpdateTickersUseCase
 import java.math.BigDecimal.ZERO
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -30,13 +26,10 @@ import javax.inject.Inject
 class HomePresenter @Inject constructor(
         private val view: HomeContract.View,
         private val state: HomeState,
-        private val tickerModelMapper: TickerStateMapper,
-        private val tickerEntityMapper: TickerEntityToDomainMapper,
-        private val db: BitwatcherDatabase,
-        private val orchestrator: TickerDataOrchestrator,
-        private val orchestratorAccount: AccountSaveInteractor,
-        private val accountDomainMapper: AccountEntityToDomainMapper,
-        private val preferences: BitwatcherPreferences
+        private val tickerModelMapper: TickerDisplayModelMapper,
+        private val accountsRepositoryUseCase: AccountsRepositoryUseCase,
+        private val preferences: BitwatcherPreferences,
+        private val updateTickerUseCase: UpdateTickersUseCase
 
 ) : HomeContract.Presenter, AccountRowContract.Interactions {
     companion object {
@@ -52,22 +45,21 @@ class HomePresenter @Inject constructor(
         view.setDisplayCurrency(state.displayCurrency.toString())
         state.displayRealItems = preferences.getViewRealItems()
         startTimerInterval()
-        subscriptions.add(db.fullAccountDao()
-                .flowFullAccounts()
-                .map { list -> accountDomainMapper.mapFullList(list) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ list -> setAccounts(list) }))
+        subscriptions.add(
+                accountsRepositoryUseCase.flowAllAccounts()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ list -> setAccounts(list) }))
         view.updateTotalsDisplay(state.totals)
         view.setDisplayRealAccounts(state.displayRealItems)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
         init()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
         cleanup()
     }
@@ -79,7 +71,7 @@ class HomePresenter @Inject constructor(
     }
 
     override fun cleanup() {
-        subscriptions.clear()
+        subscriptions.dispose()
     }
 
     override fun view(): View {
@@ -87,12 +79,12 @@ class HomePresenter @Inject constructor(
     }
 
     override fun onCurrencyButtonClick() {
-        view.showCurrencyDialog(CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyDialog(CurrencyListGenerator.getCurrencyArray())
 
     }
 
     override fun onCurrencySelected(code: String) {
-        state.displayCurrency = CurrencyCode.lookup(code)!!
+        state.displayCurrency = CurrencyCode.lookup(code)
         preferences.saveSelectedCurrency(state.displayCurrency)
         view.setDisplayCurrency(state.displayCurrency.toString())
         updateAccounts()
@@ -118,8 +110,8 @@ class HomePresenter @Inject constructor(
     }
 
     override fun onDelete(account: AccountDomain) {
-        subscriptions.add(orchestratorAccount
-                .delete(account)
+        subscriptions.add(accountsRepositoryUseCase
+                .deleteAccount(account)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -139,8 +131,8 @@ class HomePresenter @Inject constructor(
             state.deletedAccount!!.balances.forEach { bal -> balances.add(bal.copy(id = null)) }
             val copy = state.deletedAccount!!.copy(id = null, balances = balances)
 
-            subscriptions.add(orchestratorAccount
-                    .save(copy)
+            subscriptions.add(accountsRepositoryUseCase
+                    .saveAccount(copy)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -180,7 +172,6 @@ class HomePresenter @Inject constructor(
             if (!accountRowPresenters.containsKey(accountDomain.id)) {
                 val presenter = view.addAccount(this)
                 presenter.init()
-
                 accountRowPresenters.put(accountDomain.id!!, presenter)
             }
 
@@ -201,27 +192,60 @@ class HomePresenter @Inject constructor(
     }
 
     private fun startTimerInterval() {
-        subscriptions.add(Observable.interval(20, TimeUnit.SECONDS)
-                .flatMap({ _ -> orchestrator.downloadTickerToDatabase() })
+        Observable.interval(20, TimeUnit.SECONDS)
+                .flatMap({ _ -> updateTickerUseCase.downloadTickerToRepository() })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(
-                        { t -> Log.d(TAG, "updated ticker data ${t.currencyCode}->${t.baseCode} = ${t.amount}") },
-                        { e -> Log.d(TAG, "error updating ticker data", e) }))
+                .subscribe(UpdateTickersSubscriber())
 
-        subscriptions.add(orchestrator.flowTickers()
-                .map({ tickerEntity -> tickerEntityMapper.map(tickerEntity) })
+        updateTickerUseCase.observeTickersFromRepository()
                 .doOnNext({ tickerDomain -> state.prices.put(tickerDomain.getPairKey(), tickerDomain) })
                 .map { t -> tickerModelMapper.map(t, state.tickerDisplay) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { state ->
-                            view.updateTickerDisplay(state)
-                            updateAccounts()
-                            updateTotals()
-                        },
-                        { e -> Log.d(TAG, "error updating ticker display", e) }))
+                .subscribe(TickersFromRepositorySubscriber())
+    }
+
+    private inner class TickersFromRepositorySubscriber : Observer<HomeState.TickerDisplay> {
+        private lateinit var disposable: Disposable
+        override fun onSubscribe(d: Disposable) {
+            disposable = d
+            subscriptions.add(d)
+        }
+
+        override fun onNext(model: HomeState.TickerDisplay) {
+            view.updateTickerDisplay(model)
+            updateAccounts()
+            updateTotals()
+        }
+
+        override fun onError(t: Throwable?) {
+            Log.d(TAG, "error updating ticker display", t)
+        }
+
+        override fun onComplete() {
+            subscriptions.remove(disposable)
+        }
+    }
+
+    private inner class UpdateTickersSubscriber : Observer<TickerDomain> {
+        private lateinit var disposable: Disposable
+        override fun onSubscribe(d: Disposable) {
+            disposable = d
+            subscriptions.add(d)
+        }
+
+        override fun onNext(t: TickerDomain) {
+            Log.d(TAG, "updated ticker data ${t.currencyCode}->${t.baseCurrencyCode} = ${t.last}")
+        }
+
+        override fun onError(t: Throwable?) {
+            Log.d(TAG, "error updating tickers", t)
+        }
+
+        override fun onComplete() {
+            subscriptions.remove(disposable)
+        }
     }
 
     private fun updateTotals() {
@@ -230,7 +254,7 @@ class HomePresenter @Inject constructor(
 
         state.accounts.forEach { account ->
             if (state.selectedAccountIds.isEmpty() || state.selectedAccountIds.contains(account.id)) {
-                val total = AccountTotalsMapper.getTotal(account, state.displayCurrency, state.prices)
+                val total = AccountTotalsMapper.getTotal(account, state.displayCurrency, state.prices, AccountTotalsMapper.BalanceType.BALANCE)
                 if (account.type == AccountType.GHOST) {
                     ghostTotal += total
                 } else {
@@ -246,46 +270,3 @@ class HomePresenter @Inject constructor(
     }
 
 }
-
-
-// GDAX test - make network call in constructor so need to be wrapped in observale
-//        val tickers = Observable.fromCallable(  object : Callable<TickerDataApiInteractor> {
-//            override fun call(): TickerDataApiInteractor {
-//                return TickerDataApiInteractor(GdaxService.Companion.GUEST)
-//            }
-//        }).flatMap({interactor -> interactor.getTickers(
-//                listOf(CurrencyCode.BTC, CurrencyCode.ETH, CurrencyCode.BCH),
-//                listOf(CurrencyCode.USD, CurrencyCode.EUR, CurrencyCode.GBP))})
-
-
-//        subscription
-//                .add(Observable.interval(10, TimeUnit.SECONDS)
-//                        .flatMap ({ l -> mergedTicker.getMergedTickers() })
-//                        .map { t -> tickerModelMapper.map(t, state.tickerState) }
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({ state -> homeView.updateTickerDisplay(state) },
-//                                { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
-
-//        subscription
-//                .add(Observable.interval(10, TimeUnit.SECONDS)
-//                        .flatMap ({ l -> fullAccountsObservable })
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({list -> homeView.setAccounts(list)},
-//                                { e -> Log.d("HomePresenter", "error updating ticker data", e) }))
-
-
-//subscriptions.add(db.tickerDao()
-//                .flowAllTickers()
-//                .map({ entities -> tickerEntityMapper.map(entities)})
-//                .doOnNext({domainList -> state.prices = domainList;})
-//                .flatMap({ domainList -> Flowable.fromIterable(domainList)})
-//                //.doOnNext { t-> Log.d(TAG,"dbf: got value for ${t.currencyCode}->${t.baseCurrencyCode} = ${t.last}") }
-//                .map { t -> tickerModelMapper.map(t, state.tickerState) }
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        { state -> view.updateTickerDisplay(state) },
-//                        { e -> Log.d(TAG, "error updating ticker data", e) }))
-

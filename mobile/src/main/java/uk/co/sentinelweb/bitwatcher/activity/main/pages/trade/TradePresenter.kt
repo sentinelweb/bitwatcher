@@ -25,12 +25,12 @@ class TradePresenter @Inject constructor(val view: TradeContract.View) : TradeCo
         return view as View
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
 
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
 
     }

@@ -8,7 +8,7 @@ enum class CurrencyCode(val type:Type) {
     USD(Type.FIAT), GBP(Type.FIAT), EUR(Type.FIAT), AUD(Type.FIAT);
 
     companion object {
-        fun lookup(codeString: String): CurrencyCode? {
+        fun lookup(codeString: String): CurrencyCode {
             for (code in values()) {
                 if (codeString.toUpperCase().equals(code.toString().toUpperCase())) {
                     return code

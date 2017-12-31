@@ -10,8 +10,8 @@ import android.util.Log
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
-import uk.co.sentinelweb.bitwatcher.orchestrator.BalancesOrchestrator
-import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
+import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
+import uk.co.sentinelweb.use_case.UpdateTickersUseCase
 import java.util.*
 import javax.inject.Inject
 
@@ -22,8 +22,8 @@ class AlarmReceiver() : BroadcastReceiver() {
         val INTERVAL_SECS = 5 * 60
     }
 
-    @Inject lateinit var tickerDataOrchestrator: TickerDataOrchestrator
-    @Inject lateinit var balanceDataOrchestrator: BalancesOrchestrator
+    @Inject lateinit var tickersUseCase: UpdateTickersUseCase
+    @Inject lateinit var balanceUpdateUseCase: BalanceUpdateUseCase
 
     private val subscription = CompositeDisposable()
 
@@ -32,14 +32,14 @@ class AlarmReceiver() : BroadcastReceiver() {
         Log.d(TAG, "got alarm @ ${System.currentTimeMillis()}")
 
         subscription
-                .add(tickerDataOrchestrator.downloadTickerToDatabase()
+                .add(tickersUseCase.downloadTickerToRepository()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .subscribe({ _ -> Log.d(TAG, "updated ticker data") },
                                 { e -> Log.d(TAG, "error updating ticker data", e) }))
 
         subscription
-                .add(balanceDataOrchestrator.getBalances()
+                .add(balanceUpdateUseCase.getBalances()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .subscribe({ success -> Log.d(TAG, "updated balance data: ${success}") },

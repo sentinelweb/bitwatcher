@@ -41,7 +41,7 @@ class BalanceItemPresenter constructor(
 
     override fun onCurrencyChanged(value: String) {
         val currencyCode = CurrencyCode.lookup(value)
-        if (currencyCode != null) {
+        if (currencyCode != CurrencyCode.UNKNOWN && currencyCode != CurrencyCode.NONE) {
             val validateCurrencyCode = interactions.validateCurrencyCode(currencyCode)
             if (validateCurrencyCode.code == ValidationError.Type.OK) {
                 state.code = currencyCode
@@ -51,7 +51,7 @@ class BalanceItemPresenter constructor(
                 view.showError(validateCurrencyCode)
             }
         } else {
-            view.showError(ValidationError("Invalid currency code", ValidationError.Type.VALIDATION))
+            view.showError(ValidationError("Invalid currencyFrom code ; ${value}", ValidationError.Type.VALIDATION))
         }
     }
 

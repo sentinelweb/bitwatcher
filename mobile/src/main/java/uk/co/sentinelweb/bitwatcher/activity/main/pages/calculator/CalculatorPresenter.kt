@@ -7,21 +7,22 @@ import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.TickerRateInteractor
-import uk.co.sentinelweb.bitwatcher.common.preference.BitwatcherPreferences
+import uk.co.sentinelweb.bitwatcher.common.preference.CalculatorStateInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
+import uk.co.sentinelweb.domain.mc
+import uk.co.sentinelweb.use_case.TickerUseCase
 import java.math.BigDecimal
 import javax.inject.Inject
 
 
 class CalculatorPresenter @Inject constructor(
         private val view: CalculatorContract.View,
-        private val preferences: BitwatcherPreferences,
+        private val preferences: CalculatorStateInteractor,
         private val state: CalculatorState,
         private val displayMapper: CalculatorStateToModelMapper,
         private val preferenceMapper: CalculatorStateToPreferenceMapper,
-        private val rateInteractor: TickerRateInteractor
+        private val tickerUseCase: TickerUseCase
 ) : CalculatorContract.Presenter {
     companion object {
         val TAG = CalculatorPresenter::class.java.simpleName
@@ -31,7 +32,7 @@ class CalculatorPresenter @Inject constructor(
 
     override fun init() {
         view.setPresenter(this)
-        val oldState: BitwatcherPreferences.CalculatorStatePreferences = preferences.getLastCalculatorState()
+        val oldState: CalculatorStateInteractor.CalculatorStatePreferences = preferences.getLastCalculatorState()
         preferenceMapper.mapPreferencesToState(oldState, state)
         if (!state.linkToRate) {
             calculate()
@@ -50,15 +51,16 @@ class CalculatorPresenter @Inject constructor(
         return view as View
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
         init()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
         cleanup()
     }
+
     override fun onEnter() {
 
     }
@@ -67,38 +69,43 @@ class CalculatorPresenter @Inject constructor(
         view.hideKeyBoard()
     }
 
+    override fun swapCurrencies() {
+        val tmp = state.currencyFrom
+        state.currencyFrom = state.currencyTo
+        state.currencyTo = tmp
+        state.amount = state.value
+        if (state.rate> BigDecimal.ZERO) {
+            state.rate = BigDecimal.ONE.divide(state.rate, mc)
+        }
+        calculate()
+        updateView(CalculatorState.Field.NONE)
+    }
 
     override fun onCurrencyFromButtonClick() {
-        view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyArray())
     }
 
     override fun onCurrencyToButtonClick() {
-        view.showCurrencyPicker(false, CurrencyListGenerator.getCurrencyList())
+        view.showCurrencyPicker(false, CurrencyListGenerator.getCurrencyArray())
     }
 
     override fun setCurrencyFrom(currency: String) {
-        state.currencyFrom = CurrencyCode.lookup(currency)!!
+        state.currencyFrom = CurrencyCode.lookup(currency)
         state.linkToRate = true
         loadRate()
     }
 
     override fun setCurrencyTo(currency: String) {
-        state.currencyTo = CurrencyCode.lookup(currency)!!
+        state.currencyTo = CurrencyCode.lookup(currency)
         state.linkToRate = true
         loadRate()
     }
 
-    override fun onIncrement() {
-    }
-
-    override fun onDecrement() {
-
-    }
 
     override fun onRateChanged(value: String) {
         try {
             state.rate = BigDecimal(value)
-        } catch(nf:NumberFormatException) {
+        } catch (nf: NumberFormatException) {
             state.rate = BigDecimal.ZERO
         }
         state.linkToRate = false
@@ -109,7 +116,7 @@ class CalculatorPresenter @Inject constructor(
     override fun onAmountChanged(value: String) {
         try {
             state.amount = BigDecimal(value)
-        } catch(nf:NumberFormatException) {
+        } catch (nf: NumberFormatException) {
             state.amount = BigDecimal.ZERO
         }
         calculate()
@@ -129,14 +136,14 @@ class CalculatorPresenter @Inject constructor(
         state.value = state.amount.multiply(state.rate)
     }
 
-    private fun updateView(exclude:CalculatorState.Field = CalculatorState.Field.NONE) {
+    private fun updateView(exclude: CalculatorState.Field = CalculatorState.Field.NONE) {
         view.setData(displayMapper.map(state), exclude)
     }
 
     private fun loadRate() {
         if (state.currencyFrom != CurrencyCode.NONE && state.currencyTo != CurrencyCode.NONE) {
             subscriptions.add(
-                    rateInteractor.getRate(state.currencyFrom, state.currencyTo)
+                    tickerUseCase.getRate(state.currencyFrom, state.currencyTo)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ rate ->

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+>
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+    >
+
+
+    <View
+        android:id="@+id/filter_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_peek_height"
+        android:background="@color/colorAccent"
+    />
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Title"
+        android:id="@+id/filter_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_large"
+        android:text="@string/title_filter"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+        tools:ignore="RtlSymmetry"/>
+
+    <TextView
+        android:id="@+id/filter_name_text"
+        style="@android:style/TextAppearance.Material.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_large"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+        app:layout_constraintStart_toEndOf="@id/filter_text"
+        tools:ignore="RtlSymmetry"/>
+
+    <ImageView
+        android:id="@+id/apply_button"
+        android:layout_width="@dimen/button_medium_size"
+        android:layout_height="@dimen/button_medium_size"
+        android:background="@drawable/image_button_background"
+        android:padding="@dimen/margin_medium"
+        android:contentDescription="@string/cd_apply_filter"
+        android:src="@drawable/ic_done_white_48dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+    />
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="@dimen/button_medium_size"
+        android:layout_height="@dimen/button_medium_size"
+        android:background="@drawable/image_button_background"
+        android:padding="@dimen/margin_medium"
+        android:contentDescription="@string/cd_clear_filter"
+        android:src="@drawable/ic_clear_black_48dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+        app:layout_constraintEnd_toStartOf="@id/apply_button"
+    />
+
+    <ImageView
+        android:id="@+id/save_button"
+        android:layout_width="@dimen/button_medium_size"
+        android:layout_height="@dimen/button_medium_size"
+        android:background="@drawable/image_button_background"
+        android:padding="@dimen/margin_medium"
+        android:contentDescription="@string/cd_save_filter"
+        android:src="@drawable/ic_save_black_24dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintEnd_toStartOf="@id/close_button"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+    />
+
+    <ImageView
+        android:id="@+id/list_button"
+        android:layout_width="@dimen/button_medium_size"
+        android:layout_height="@dimen/button_medium_size"
+        android:background="@drawable/image_button_background"
+        android:padding="@dimen/margin_medium"
+        android:contentDescription="@string/cd_load_saved_filter"
+        android:src="@drawable/ic_list_black_24dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintEnd_toStartOf="@id/save_button"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+    />
+
+    <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="@dimen/button_medium_size"
+        android:layout_height="@dimen/button_medium_size"
+        android:background="@drawable/image_button_background"
+        android:padding="@dimen/margin_medium"
+        android:contentDescription="@string/cd_delete_filter"
+        android:src="@drawable/ic_delete_black_24dp"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/filter_header"
+        app:layout_constraintEnd_toStartOf="@id/list_button"
+        app:layout_constraintTop_toTopOf="@id/filter_header"
+    />
+
+    <!-- account selector -->
+    <TextView
+        android:id="@+id/account_title"
+        style="@style/ItemHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_h_item_header"
+        android:layout_marginStart="@dimen/margin_h_item_header"
+        android:text="@string/header_filter_account"
+        app:layout_constraintTop_toBottomOf="@id/filter_header"
+    />
+
+    <Button
+        android:id="@+id/account_selector_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
+        app:layout_constraintTop_toBottomOf="@id/account_title"
+        style="@style/Widget.AppCompat.Button.Borderless"
+    />
+
+    <!-- transaction type selection -->
+    <TextView
+        android:id="@+id/transaction_type_title"
+        style="@style/ItemHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_h_item_header"
+        android:layout_marginStart="@dimen/margin_h_item_header"
+        android:text="@string/header_filter_transaction_type"
+        app:layout_constraintTop_toBottomOf="@id/account_selector_button"
+    />
+
+    <CheckBox
+        android:id="@+id/buy_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_buy_black_24dp"
+        android:drawableTint="@color/colorBuy"
+        android:text="@string/buy"
+        app:layout_constraintTop_toBottomOf="@id/transaction_type_title"
+        tools:targetApi="m"
+    />
+
+    <CheckBox
+        android:id="@+id/sell_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_sell_black_24dp"
+        android:drawableTint="@color/colorSell"
+        android:text="@string/sell"
+        app:layout_constraintLeft_toRightOf="@id/buy_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/buy_checkbox"
+        app:layout_constraintTop_toTopOf="@id/buy_checkbox"
+        tools:targetApi="m"
+    />
+
+    <CheckBox
+        android:id="@+id/deposit_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_deposit_black_24dp"
+        android:drawableTint="@color/colorDeposit"
+        android:text="@string/deposit"
+        app:layout_constraintLeft_toRightOf="@id/sell_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/buy_checkbox"
+        app:layout_constraintTop_toTopOf="@id/buy_checkbox"
+        tools:targetApi="m"/>
+
+    <CheckBox
+        android:id="@+id/withdraw_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_withdraw_black_24dp"
+        android:drawableTint="@color/colorWithdraw"
+        android:text="@string/withdraw"
+        app:layout_constraintLeft_toRightOf="@id/deposit_checkbox"
+        app:layout_constraintTop_toBottomOf="@id/buy_checkbox"
+        app:layout_constraintTop_toTopOf="@id/buy_checkbox"
+        tools:targetApi="m"
+    />
+
+    <!-- markecurrencyFromency -->
+    <TextView
+        android:id="@+id/market_type_title"
+        style="@style/ItemHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_h_item_header"
+        android:layout_marginStart="@dimen/margin_h_item_header"
+        android:text="@string/header_filter_market_currency"
+        app:layout_constraintTop_toBottomOf="@id/buy_checkbox"
+    />
+
+    <Button
+        android:id="@+id/currency_from_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dash"
+        app:layout_constraintTop_toBottomOf="@id/market_type_title"
+        style="@style/Widget.AppCompat.Button.Borderless"
+    />
+
+    <TextView
+        android:id="@+id/currency_divider_text"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="@string/slash"
+        app:layout_constraintBottom_toBottomOf="@id/currency_from_button"
+        app:layout_constraintLeft_toRightOf="@id/currency_from_button"
+        app:layout_constraintTop_toTopOf="@id/currency_from_button"
+    />
+
+    <Button
+        android:id="@+id/currency_to_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="@string/dash"
+        app:layout_constraintBottom_toBottomOf="@id/currency_from_button"
+        app:layout_constraintLeft_toRightOf="@id/currency_divider_text"
+        app:layout_constraintTop_toTopOf="@id/currency_from_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+    />
+
+    <!-- amount -->
+    <TextView
+        android:id="@+id/amount_title"
+        style="@style/ItemHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_h_item_header"
+        android:layout_marginStart="@dimen/margin_h_item_header"
+        android:text="@string/header_filter_amount"
+        app:layout_constraintTop_toBottomOf="@id/currency_from_button"
+    />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/amount_min_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_amount_background"
+        app:layout_constraintTop_toBottomOf="@id/amount_title"
+        app:layout_constraintStart_toStartOf="@id/amount_title"
+        android:layout_marginTop="@dimen/margin_small"
+        android:enabled="false"
+    >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/amount_min_edit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_min_amount"
+            android:inputType="numberDecimal"
+            android:minWidth="@dimen/filter_amount_width"
+            android:padding="@dimen/margin_small"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="@dimen/filter_amount_textsize"
+            android:background="@null"
+            android:importantForAutofill="noExcludeDescendants"
+        />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/amount_dash_text"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:text="@string/dash"
+        app:layout_constraintLeft_toRightOf="@id/amount_min_edit"
+        app:layout_constraintBottom_toBottomOf="@id/amount_min_edit"
+        app:layout_constraintTop_toTopOf="@id/amount_min_edit"
+    />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/amount_max_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_amount_background"
+        android:layout_marginStart="@dimen/margin_large"
+        app:layout_constraintLeft_toRightOf="@id/amount_dash_text"
+        app:layout_constraintBottom_toBottomOf="@id/amount_min_edit"
+        app:layout_constraintTop_toTopOf="@id/amount_min_edit"
+        android:enabled="false"
+    >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/amount_max_edit_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_max_amount"
+            android:inputType="numberDecimal"
+            android:minWidth="@dimen/filter_amount_width"
+            android:padding="@dimen/margin_small"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="@dimen/filter_amount_textsize"
+            android:background="@null"
+            android:importantForAutofill="noExcludeDescendants"
+        />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- date/time range-->
+    <TextView
+        android:id="@+id/date_title"
+        style="@style/ItemHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_h_item_header"
+        android:layout_marginStart="@dimen/margin_h_item_header"
+        android:text="@string/header_filter_date"
+        app:layout_constraintTop_toBottomOf="@id/amount_min_edit"
+    />
+
+    <Button
+        android:id="@+id/date_min_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="@string/star"
+        app:layout_constraintTop_toBottomOf="@id/date_title"
+        style="@style/Widget.AppCompat.Button.Borderless"
+    />
+
+    <TextView
+        android:id="@+id/date_dash_text"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:text="@string/dash"
+        app:layout_constraintLeft_toRightOf="@id/date_min_button"
+        app:layout_constraintBottom_toBottomOf="@id/date_min_button"
+        app:layout_constraintTop_toTopOf="@id/date_min_button"
+    />
+
+    <Button
+        android:id="@+id/date_max_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_large"
+        android:text="@string/star"
+        app:layout_constraintLeft_toRightOf="@id/date_dash_text"
+        app:layout_constraintBottom_toBottomOf="@id/date_min_button"
+        app:layout_constraintTop_toTopOf="@id/date_min_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+    />
+    <!-- loop -->
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

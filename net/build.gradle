@@ -21,18 +21,20 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: "$junit_version"
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
-    testCompile 'org.amshove.kluent:kluent:1.14'
-    testCompile 'com.flextrade.jfixture:jfixture:2.7.2'
+    testCompile "com.nhaarman:mockito-kotlin:$mockito_kotlin_version"
+    testCompile "org.amshove.kluent:kluent:$kluent_version"
+    testCompile "com.flextrade.jfixture:jfixture:$jfixture_version"
 }
 
 test {
     print BITSTAMP_USER
     systemProperty 'BITSTAMP_USER', BITSTAMP_USER ?: null
-    systemProperty 'BAL_API_KEY', BAL_API_KEY ?: null
-    systemProperty 'BAL_SECRET', BAL_SECRET ?: null
-    systemProperty 'TX_API_KEY', TX_API_KEY ?: null
-    systemProperty 'TX_SECRET', TX_SECRET ?: null
+    systemProperty 'BITSTAMP_API_KEY', BITSTAMP_API_KEY ?: null
+    systemProperty 'BITSTAMP_SECRET', BITSTAMP_SECRET ?: null
+
+    systemProperty 'BINANCE_API_KEY', BINANCE_API_KEY ?: null
+    systemProperty 'BINANCE_SECRET', BINANCE_SECRET ?: null
+    systemProperty 'BINANCE_USER', BINANCE_USER ?: null
 }
 
 compileKotlin {

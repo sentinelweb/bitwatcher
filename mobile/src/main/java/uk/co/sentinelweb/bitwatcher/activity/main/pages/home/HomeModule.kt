@@ -19,6 +19,7 @@ class HomeModule {
 
     @Module
     interface Bindings {
+
         @Binds
         @PageScope
         fun bindPresenter(presenter: HomePresenter): HomeContract.Presenter

@@ -11,4 +11,7 @@
         android:text="@string/title_trade"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         />
+
+
+
 </android.support.constraint.ConstraintLayout>

@@ -7,14 +7,15 @@ import uk.co.sentinelweb.bitwatcher.common.database.converter.BigDecimalConverte
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyCode.*
+import uk.co.sentinelweb.use_case.TickerUseCase
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
 
 class TickerRateInteractor @Inject constructor(
-        private val db: BitwatcherDatabase) {
+        private val db: BitwatcherDatabase):TickerUseCase {
 
-    fun getRate(currency: CurrencyCode, base: CurrencyCode): Single<BigDecimal> {
+    override fun getRate(currency: CurrencyCode, base: CurrencyCode): Single<BigDecimal> {
         if (currency.type == Type.CRYPTO && base.type == Type.FIAT) {
             return db.tickerDao().singleTicker(currency.toString(), base.toString())
                     .map { t: TickerEntity -> t.amount }

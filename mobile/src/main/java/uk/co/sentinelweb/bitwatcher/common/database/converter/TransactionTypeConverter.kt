@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.common.database.converter
 
 import android.arch.persistence.room.TypeConverter
-import uk.co.sentinelweb.domain.TransactionDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 
 class TransactionTypeConverter {
 

@@ -3,6 +3,7 @@ package uk.co.sentinelweb.bitwatcher.activity.edit_account
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
+import android.os.Parcelable
 import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,25 +12,18 @@ import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
-import uk.co.sentinelweb.bitwatcher.common.database.BitwatcherDatabase
-import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountSaveInteractor
-import uk.co.sentinelweb.bitwatcher.common.database.mapper.AccountEntityToDomainMapper
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.domain.AccountDomain
-import uk.co.sentinelweb.domain.AccountType
-import uk.co.sentinelweb.domain.BalanceDomain
-import uk.co.sentinelweb.domain.CurrencyCode
-import java.io.Serializable
+import uk.co.sentinelweb.domain.*
+import uk.co.sentinelweb.domain.ColourDomain.Companion.BLACK
+import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import javax.inject.Inject
 
 
 class EditAccountFragmentPresenter @Inject constructor(
         private val view: EditAccountContract.View,
-        private val db: BitwatcherDatabase,
-        private val accountDomainMapper: AccountEntityToDomainMapper,
         private val nameValidator: NameValidator,
         private val accountValidator: AccountValidator,
-        private val saveInteractor: AccountSaveInteractor
+        private val accountsUseCase: AccountsRepositoryUseCase
 ) : EditAccountContract.Presenter, BalanceItemContract.Interactions, LifecycleObserver {
     companion object {
         val TAG = EditAccountFragmentPresenter::class.java.simpleName
@@ -43,9 +37,7 @@ class EditAccountFragmentPresenter @Inject constructor(
     override fun initialise(id: Long?) {
         state = EditAccountState(id)
         if (id != null) {
-            subscription.add(db.fullAccountDao()
-                    .singleFullAccount(id)
-                    .map { entity -> accountDomainMapper.mapFull(entity) }
+            subscription.add(accountsUseCase.singleLoadAccount(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -53,12 +45,9 @@ class EditAccountFragmentPresenter @Inject constructor(
                             { error -> Log.d(TAG, "Could not load account ${id}", error) }
                     )
             )
+        } else {
+            view.updateState(state)
         }
-    }
-
-    override fun restoreState(domain:AccountDomain) {
-        state = EditAccountState(domain.id)
-        mapToState(domain)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -66,10 +55,16 @@ class EditAccountFragmentPresenter @Inject constructor(
         subscription.clear()
     }
 
+    override fun restoreState(domain: AccountDomain) {
+        state = EditAccountState(domain.id)
+        mapToState(domain)
+    }
+
     private fun mapToState(domain: AccountDomain?) {
         state.domain = domain
         state.type = domain?.type
         state.name = domain?.name
+        state.colour = domain?.colour ?: BLACK
         val balances = domain?.balances ?: listOf()
         view.updateState(state)
         balances.forEach({ balanceDomain ->
@@ -125,8 +120,8 @@ class EditAccountFragmentPresenter @Inject constructor(
         val account = accountDomain()
         val validation = accountValidator.validate(account)
         if (validation == ValidationError.OK) {
-            saveInteractor
-                    .save(account)
+            accountsUseCase
+                    .saveAccount(account)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ success ->
@@ -141,15 +136,25 @@ class EditAccountFragmentPresenter @Inject constructor(
         }
     }
 
+    override fun onColorButtonClick() {
+        view.showColorPicker(ColourDomain.toInteger(state.colour))
+    }
+
+    override fun onColorSelected(color: Int) {
+        state.colour = ColourDomain.fromInteger(color)
+        view.updateState(state)
+    }
+
+
     private fun accountDomain(): AccountDomain {
         val balances = mutableListOf<BalanceDomain>()
         balancePresenters.forEach { presenter -> balances.add(presenter.getBalance()) }
-        val account = AccountDomain(state.id, state.name ?: "", state.type ?: AccountType.INITIAL, balances)
+        val account = AccountDomain(state.id, state.name ?: "", state.type ?: AccountType.INITIAL, balances, colour = state.colour)
         return account
     }
 
-    override fun getSaveState(): Serializable {
-        return accountDomain()
+    override fun getSaveState(): Parcelable {
+        return EditAccountStateParcel(accountDomain())
     }
 
 

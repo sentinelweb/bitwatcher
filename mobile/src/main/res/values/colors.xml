@@ -9,4 +9,14 @@
     <color name="colorError">@color/red_400</color>
     <color name="colorRealAcct">@color/grey_800</color>
     <color name="colorGhostAcct">@color/grey_600</color>
+
+    <color name="colorDeposit">@color/blue_700</color>
+    <color name="colorWithdraw">@color/red_700</color>
+    <color name="colorBuy">@color/green_700</color>
+    <color name="colorSell">@color/orange_700</color>
+    <color name="colorTransactionUnknown">@color/grey_300</color>
+    <color name="colorBorderHeavy">@color/grey_600</color>
+    <color name="colorBorder">@color/grey_400</color>
+    <color name="colorBorderLight">@color/grey_200</color>
+
 </resources>

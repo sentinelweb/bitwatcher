@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/activity_margin"
+    android:layout_marginStart="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/activity_margin"
+>
+
+    <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListView
+        android:id="@+id/transactions_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/transactions_filter_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_filter_list_black_48dp"
+        android:tint="@color/white"
+        app:backgroundTint="@color/colorAccent"
+        app:elevation="4dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/grey_300"
+    />
+
+    <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterView
+        android:id="@+id/bottom_sheet"
+        style="@style/TransactionFilterBottomSheet"
+    />
+
+    <ProgressBar
+        android:id="@+id/transactions_loading"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="64dp"
+        android:progressTint="@color/colorAccent"
+    />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -16,10 +16,9 @@ interface CalculatorContract {
         fun onCurrencyToButtonClick()
         fun setCurrencyFrom(currency:String)
         fun setCurrencyTo(currency:String)
-        fun onIncrement()
-        fun onDecrement()
         fun onRateChanged(value:String)
         fun onAmountChanged(value:String)
         fun toggleLinkRate()
+        fun swapCurrencies()
     }
 }

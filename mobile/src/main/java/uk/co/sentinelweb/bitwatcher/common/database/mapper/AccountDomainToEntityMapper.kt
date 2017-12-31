@@ -9,7 +9,7 @@ class AccountDomainToEntityMapper @Inject constructor(
         private val positionMapper: PositionEntityToDomainMapper
 ){
     fun map(input: AccountDomain): AccountEntity {
-        return AccountEntity(input.id, input.name, input.type)
+        return AccountEntity(input.id, input.name, input.type, input.colour)
     }
 
     fun mapFull(input: FullAccountView): AccountDomain {

@@ -1,1 +1,1 @@
-include ':mobile', ':wear', ':net', ':domain'
+include ':mobile', ':wear', ':net', ':domain', ':colorpicker'
