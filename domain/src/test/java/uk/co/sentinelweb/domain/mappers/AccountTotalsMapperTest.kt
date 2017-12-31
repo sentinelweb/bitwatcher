@@ -30,7 +30,7 @@ class AccountTotalsMapperTest {
         val balance = BalanceDomain(-1, CurrencyCode.BTC, BigDecimal(2), BigDecimal(3), BigDecimal(4))
 
         // test
-        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BTC, prices)
+        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BTC, prices, balance.available)
 
         // verify
         assertEquals(BigDecimal(3), actual)
@@ -43,7 +43,7 @@ class AccountTotalsMapperTest {
         val balance = BalanceDomain(-1, CurrencyCode.BTC, BigDecimal(2), BigDecimal(3), BigDecimal(4))
 
         // test
-        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.USD, prices)
+        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.USD, prices, balance.available)
 
         // verify
         assertEquals(BigDecimal(15), actual)
@@ -56,7 +56,7 @@ class AccountTotalsMapperTest {
         val balance = BalanceDomain(-1, CurrencyCode.USD, BigDecimal(2), BigDecimal(3), BigDecimal(4))
 
         // test
-        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BTC, prices)
+        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BTC, prices, balance.available)
 
         // verify
         assertEquals(BigDecimal(15), actual)
@@ -72,7 +72,7 @@ class AccountTotalsMapperTest {
         val balance = BalanceDomain(-1, CurrencyCode.AUD, BigDecimal(2, mc), BigDecimal(3, mc), BigDecimal(4, mc))
 
         // test
-        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.GBP, prices)
+        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.GBP, prices, balance.available)
 
         // verify
         val audbtc = BigDecimal.ONE.divide(BigDecimal(5.0, mc),mc)
@@ -90,12 +90,12 @@ class AccountTotalsMapperTest {
         val balance = BalanceDomain(-1, CurrencyCode.BTC, BigDecimal(2, mc), BigDecimal(3, mc), BigDecimal(4, mc))
 
         // test
-        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BCH, prices)
+        val actual = sut.calculateHoldingInBaseCurrency(balance, CurrencyCode.BCH, prices, balance.available)
 
         // verify
 
         // TODO a small precision error here examin how to remove it
-        val bchbtc = BigDecimal(5, mc).divide(BigDecimal(6, mc), mc);
+        val bchbtc = BigDecimal(5, mc).divide(BigDecimal(6, mc), mc)
         Assert.assertThat(actual, Matchers.closeTo(bchbtc * BigDecimal(3, mc), BigDecimal(0.000000001)))
 
 //        val expected: Any = BigDecimal(6, mc).divide(BigDecimal(5, mc), mc) * BigDecimal(3, mc)

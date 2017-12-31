@@ -57,8 +57,9 @@ class TransactionRowDisplayMapper {
                             TradeDomain.TradeType.BID -> R.color.colorBuy
                             else -> R.color.colorTransactionUnknown
                         },
-                        item.domain.type.toString(),
+                        if (item.domain.type == TradeDomain.TradeType.BID) "BUY" else "SELL" ,
                         "${item.domain.currencyCodeFrom}/${item.domain.currencyCodeTo}",
+                        if (item.domain.status==TradeDomain.TradeStatus.COMPLETED) "" else item.domain.status.toString(),
                         "${item.domain.amount.multiply(item.domain.price).dp(5)}${item.domain.currencyCodeTo} @ ${item.domain.price.dp(4)}",
                         "${item.domain.feesAmount.dp(6)} ${item.domain.feesCurrencyCode}"
                         )

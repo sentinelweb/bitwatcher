@@ -21,5 +21,6 @@
     <dimen name="bottom_sheet_open_height">340dp</dimen>
     <dimen name="filter_amount_width">100dp</dimen>
     <dimen name="filter_amount_textsize">16sp</dimen>
+    <dimen name="icon_large">48dp</dimen>
 
 </resources>

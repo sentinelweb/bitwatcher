@@ -254,7 +254,7 @@ class HomePresenter @Inject constructor(
 
         state.accounts.forEach { account ->
             if (state.selectedAccountIds.isEmpty() || state.selectedAccountIds.contains(account.id)) {
-                val total = AccountTotalsMapper.getTotal(account, state.displayCurrency, state.prices)
+                val total = AccountTotalsMapper.getTotal(account, state.displayCurrency, state.prices, AccountTotalsMapper.BalanceType.BALANCE)
                 if (account.type == AccountType.GHOST) {
                     ghostTotal += total
                 } else {

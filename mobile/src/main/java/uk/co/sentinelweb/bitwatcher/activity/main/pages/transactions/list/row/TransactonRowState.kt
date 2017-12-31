@@ -19,6 +19,7 @@ data class TransactonRowState constructor(var transaction: TransactionItemDomain
                 @ColorRes val iconColor: Int,
                 val type: String,
                 val market: String,
+                val status:String,
                 val quantityAndRate: String,
                 val feeAmount: String
 

@@ -50,6 +50,7 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
         calc_to_link_button.setOnClickListener { _ -> presenter.toggleLinkRate() }
         calc_rate_edit_value.setOnTouchListener(EditTextValueSliderTouchListener(calc_rate_edit_value))
         calc_amount_edit_value.setOnTouchListener(EditTextValueSliderTouchListener(calc_amount_edit_value, 2))
+        swap_button.setOnClickListener({presenter.swapCurrencies()})
     }
 
     override fun setPresenter(p: CalculatorContract.Presenter) {
@@ -65,8 +66,6 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
             calc_rate_edit_value.setText(model.rate)
         }
 
-        calc_rate_increment_button.text = model.increment
-        calc_rate_decrement_button.text = model.decrement
         calc_to_currency_button.setText(model.toCurrency)
         calc_amount_currency_button.setText(model.fromCurrency)
         calc_result_text.text = model.value

@@ -8,10 +8,6 @@ class CalculatorStateToPreferenceMapper @Inject constructor() {
         return CalculatorStatePreferences(
                 state.amount,
                 state.rate,
-                state.increment,
-                state.incrementUnit.toString(),
-                state.decrement,
-                state.decrementUnit.toString(),
                 state.currencyFrom,
                 state.currencyTo,
                 state.linkToRate
@@ -24,9 +20,5 @@ class CalculatorStateToPreferenceMapper @Inject constructor() {
         state.currencyTo = oldState.currencyTo
         state.rate = oldState.rate
         state.linkToRate = oldState.linkToRate
-        state.increment = oldState.increment
-        state.incrementUnit = CalculatorState.Unit.valueOf(oldState.incrementUnit)
-        state.decrement = oldState.decrement
-        state.decrementUnit = CalculatorState.Unit.valueOf(oldState.decrementUnit)
     }
 }

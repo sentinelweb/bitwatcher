@@ -20,7 +20,14 @@ class TradeApiInteractor(
             override fun call(): List<TradeDomain> {
                 val trades = service.tradeService.getTradeHistory(paramsProvider.provide(null))
                 System.err.println("got trades:${trades.userTrades.size}")
-                return mapper.map(trades.userTrades.toList())
+                val tradeDomainList = mapper.map(trades.userTrades.toList()).toMutableList()
+                // TODO move to separate RX call and combine lists in RX
+                val openOrdersParams = service.tradeService.createOpenOrdersParams()
+                val openOrders = service.tradeService.getOpenOrders(openOrdersParams)
+                if (openOrders.openOrders.size>0) {
+                    tradeDomainList.addAll(mapper.mapOpen(openOrders.openOrders))
+                }
+                return tradeDomainList.toList()
             }
         })
     }

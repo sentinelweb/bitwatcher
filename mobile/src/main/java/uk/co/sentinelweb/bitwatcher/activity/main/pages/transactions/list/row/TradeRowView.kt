@@ -17,7 +17,6 @@ class TradeRowView(context: Context) : FrameLayout(context), TransactionRowContr
         if (model is TransactonRowState.DisplayModel.TradeDisplayModel) {
             icon.setImageResource(model.icon)
             icon.setColorFilter(ContextCompat.getColor(context, model.iconColor))
-            //icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, model.iconColor)))
             amount_market.text = model.amount
             fee.text = model.feeAmount
             trade_type.text = model.type
@@ -27,6 +26,7 @@ class TradeRowView(context: Context) : FrameLayout(context), TransactionRowContr
             trade_id.text = model.id
             account.text = model.accountName
             account.background = ColorDrawable(model.accountColor)
+            trade_status.text = model.status
         }
     }
 }

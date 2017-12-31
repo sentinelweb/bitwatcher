@@ -19,7 +19,6 @@
         android:theme="@style/AppTheme">
         <!--android:roundIcon="@drawable/ic_bitcoin_64"
         android:roundIcon="@drawaic_bw_eye_square_64e_64"
-
         -->
         <activity
             android:name=".activity.main.MainActivity"

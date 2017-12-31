@@ -43,7 +43,7 @@ sealed class TransactionItemDomain constructor(open val transactionId: String,
                            val price: BigDecimal,
                            val currencyCodeTo: CurrencyCode,
                            val feesAmount: BigDecimal,
-                           val feesCurrencyCode: String,
+                           val feesCurrencyCode: CurrencyCode,
                            val status: TradeStatus = TradeStatus.INITIAL
     ) : TransactionItemDomain(transactionId, date, amount, currencyCodeFrom) {
         enum class TradeType {
@@ -54,8 +54,10 @@ sealed class TransactionItemDomain constructor(open val transactionId: String,
             INITIAL,
             PENDING,
             PLACED,
+            IN_PROGRESS,
             COMPLETED,
             FAILED,
+            CANCELLED,
             UNKNOWN
         }
     }

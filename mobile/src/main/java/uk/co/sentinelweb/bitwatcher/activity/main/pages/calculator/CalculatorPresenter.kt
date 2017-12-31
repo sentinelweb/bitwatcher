@@ -10,6 +10,7 @@ import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.common.preference.CalculatorStateInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.mappers.CurrencyListGenerator
+import uk.co.sentinelweb.domain.mc
 import uk.co.sentinelweb.use_case.TickerUseCase
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -59,6 +60,7 @@ class CalculatorPresenter @Inject constructor(
     fun onStop() {
         cleanup()
     }
+
     override fun onEnter() {
 
     }
@@ -67,6 +69,17 @@ class CalculatorPresenter @Inject constructor(
         view.hideKeyBoard()
     }
 
+    override fun swapCurrencies() {
+        val tmp = state.currencyFrom
+        state.currencyFrom = state.currencyTo
+        state.currencyTo = tmp
+        state.amount = state.value
+        if (state.rate> BigDecimal.ZERO) {
+            state.rate = BigDecimal.ONE.divide(state.rate, mc)
+        }
+        calculate()
+        updateView(CalculatorState.Field.NONE)
+    }
 
     override fun onCurrencyFromButtonClick() {
         view.showCurrencyPicker(true, CurrencyListGenerator.getCurrencyArray())
@@ -88,17 +101,11 @@ class CalculatorPresenter @Inject constructor(
         loadRate()
     }
 
-    override fun onIncrement() {
-    }
-
-    override fun onDecrement() {
-
-    }
 
     override fun onRateChanged(value: String) {
         try {
             state.rate = BigDecimal(value)
-        } catch(nf:NumberFormatException) {
+        } catch (nf: NumberFormatException) {
             state.rate = BigDecimal.ZERO
         }
         state.linkToRate = false
@@ -109,7 +116,7 @@ class CalculatorPresenter @Inject constructor(
     override fun onAmountChanged(value: String) {
         try {
             state.amount = BigDecimal(value)
-        } catch(nf:NumberFormatException) {
+        } catch (nf: NumberFormatException) {
             state.amount = BigDecimal.ZERO
         }
         calculate()
@@ -129,7 +136,7 @@ class CalculatorPresenter @Inject constructor(
         state.value = state.amount.multiply(state.rate)
     }
 
-    private fun updateView(exclude:CalculatorState.Field = CalculatorState.Field.NONE) {
+    private fun updateView(exclude: CalculatorState.Field = CalculatorState.Field.NONE) {
         view.setData(displayMapper.map(state), exclude)
     }
 

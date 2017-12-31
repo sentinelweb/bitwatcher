@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="4dp"
-    android:paddingTop="4dp">
+    android:paddingBottom="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_small">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/icon_large"
+        android:layout_height="@dimen/icon_large"
         android:contentDescription="@null"
-        android:paddingBottom="4dp"
-        android:paddingEnd="4dp"
-        android:paddingTop="4dp"
+        android:paddingBottom="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_small"
+        android:paddingTop="@dimen/margin_small"
         android:src="@drawable/ic_buy_black_48dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="RtlSymmetry"/>
@@ -33,10 +33,20 @@
         android:id="@+id/market_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="@string/dash"
         app:layout_constraintStart_toEndOf="@id/trade_type"
         tools:text="ETH/BTC"
+    />
+
+    <TextView
+        android:id="@+id/trade_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:text="@string/dash"
+        app:layout_constraintStart_toEndOf="@id/market_name"
+        tools:text="COMPLETE"
     />
 
     <TextView
@@ -62,7 +72,7 @@
         android:id="@+id/fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="@string/dash"
         app:layout_constraintStart_toEndOf="@id/fee_label"
         app:layout_constraintTop_toBottomOf="@id/date"

@@ -16,18 +16,22 @@ class AccountDisplayDataMapper() {
             if (balance.available > BigDecimal.ZERO) {
                 balancesText
                         .append(if (balancesText.isEmpty()) "" else " \u00b7 ")
-                        .append(balance.available.dp(2))
-                        .append(" ")
+                        .append(balance.balance.dp(2))
+                if (balance.balance != balance.available) {
+                    balancesText
+                            .append("/")
+                            .append(balance.available.dp(2))
+                }
+                balancesText.append(" ")
                         .append(balance.currency.toString())
             }
         })
-        val total = AccountTotalsMapper.getTotal(domain, base, prices)
+        val total = AccountTotalsMapper.getTotal(domain, base, prices, AccountTotalsMapper.BalanceType.BALANCE)
         return AccountRowState.DisplayData(
                 domain.name,
                 balancesText.toString(),
                 total.dp(2) + " " + base.toString(),
                 if (domain.type == AccountType.GHOST) R.color.colorGhostAcct else R.color.colorRealAcct)
     }
-
 
 }
