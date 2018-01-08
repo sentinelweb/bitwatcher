@@ -1,14 +1,16 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
-import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagePresenter
 
-interface TradeContract {
+interface TradeContract{
 
-    interface View {
-        fun setData(state: TradeState)
+    interface View{
+        fun setData(model: TradeState.TradeDisplayModel)
     }
 
     interface Presenter : PagePresenter {
-        fun loadData()
+        fun onAccountButtonClick()
+        fun onMarketButtonClick()
+
     }
 }

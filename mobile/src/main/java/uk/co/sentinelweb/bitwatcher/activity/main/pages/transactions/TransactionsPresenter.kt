@@ -40,7 +40,7 @@ class TransactionsPresenter @Inject constructor(
         filterPresenter.init()
     }
 
-    override fun init() {
+    override fun onCreate() {
         state.transactionList.clear()
         state.accountList.clear()
         state.filter = preferences.getTransactionFilter("last")
@@ -63,7 +63,7 @@ class TransactionsPresenter @Inject constructor(
                         }))
     }
 
-    override fun cleanup() {
+    override fun onDestroy() {
         subscriptions.clear()
     }
 
@@ -79,7 +79,7 @@ class TransactionsPresenter @Inject constructor(
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onPause() {
         preferences.saveTransactionFilter("last", filterPresenter.getFilter())
-        cleanup()
+        onDestroy()
     }
 
     override fun onEnter() {

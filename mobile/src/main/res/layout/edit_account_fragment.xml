@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -31,7 +32,7 @@
             android:inputType="text"
             android:maxLength="@integer/validation_account_name_max_length"
             android:maxLines="1"
-        />
+            tools:targetApi="o"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -42,8 +43,10 @@
         android:src="@drawable/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type_text"
+        android:contentDescription="@string/title_select_color"
     />
 
+    <!-- TODO move into textinputlayout -->
     <TextView
         android:id="@+id/name_error_text"
         style="@style/ValidatonError"

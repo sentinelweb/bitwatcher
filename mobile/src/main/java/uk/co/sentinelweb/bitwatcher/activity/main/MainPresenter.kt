@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.activity.main
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
-import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagePresenter
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
@@ -11,7 +11,7 @@ class MainPresenter @Inject constructor(
     private val presenters: MutableMap<Int, PagePresenter> = mutableMapOf()
 
     override fun addPagePresenter(position: Int, presenter: PagePresenter) {
-        presenter.init()
+        presenter.onCreate()
         view.registerLifecycleObserver(presenter)
         presenters[position] = presenter
     }
@@ -19,7 +19,7 @@ class MainPresenter @Inject constructor(
     override fun removePagePresenter(position: Int): PagePresenter? {
         val pagePresenter = presenters[position]
         if (pagePresenter != null) {
-            pagePresenter.cleanup()
+            pagePresenter.onDestroy()
             view.unregisterLifecycleObserver(pagePresenter)
         }
         presenters.remove(position)
