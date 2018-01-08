@@ -13,11 +13,11 @@ class TradePresenter @Inject constructor(val view: TradeContract.View) : TradeCo
     override fun onExit() {
     }
 
-    override fun init() {
+    override fun onCreate() {
 
     }
 
-    override fun cleanup() {
+    override fun onDestroy() {
 
     }
 
@@ -26,16 +26,20 @@ class TradePresenter @Inject constructor(val view: TradeContract.View) : TradeCo
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onStart() {
+    fun onResume() {
 
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onStop() {
+    fun onPause() {
 
     }
 
-    override fun loadData() {
-
+    override fun onAccountButtonClick() {
     }
+
+    override fun onMarketButtonClick() {
+    }
+
+
 }

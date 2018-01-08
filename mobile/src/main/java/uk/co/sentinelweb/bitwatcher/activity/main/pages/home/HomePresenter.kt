@@ -39,7 +39,7 @@ class HomePresenter @Inject constructor(
     private val subscriptions = CompositeDisposable()
     private val accountRowPresenters: MutableMap<Long, AccountRowContract.Presenter> = mutableMapOf()
 
-    override fun init() {
+    override fun onCreate() {
         view.setPresenter(this)
         state.displayCurrency = preferences.getSelectedCurrency() ?: CurrencyCode.GBP
         view.setDisplayCurrency(state.displayCurrency.toString())
@@ -56,12 +56,12 @@ class HomePresenter @Inject constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
-        init()
+        onCreate()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
-        cleanup()
+        onDestroy()
     }
 
     override fun onEnter() {
@@ -70,7 +70,7 @@ class HomePresenter @Inject constructor(
     override fun onExit() {
     }
 
-    override fun cleanup() {
+    override fun onDestroy() {
         subscriptions.dispose()
     }
 

@@ -1,7 +1,7 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.home
 
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagePresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.home.account_row.AccountRowContract
-import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
 
 interface HomeContract {
 
@@ -9,7 +9,6 @@ interface HomeContract {
         fun updateTickerDisplay(tickers: HomeState.TickerDisplay)
         fun addAccount(interactions: AccountRowContract.Interactions): AccountRowContract.Presenter
         fun updateTotalsDisplay(totals: HomeState.TotalsDisplay)
-        fun setPresenter(p:Presenter)
         fun showCurrencyDialog(currencies: Array<String>)
         fun launchEditAccountActivity(id:Long?)
         fun launchAccountOverviewActivity(id:Long)
@@ -18,6 +17,7 @@ interface HomeContract {
         fun clearAccountList()
         fun showDeletedSnackBar()
         fun showSnackBarMessage(message:String)
+        fun setPresenter(homePresenter: Presenter)
     }
 
     interface Presenter : PagePresenter{

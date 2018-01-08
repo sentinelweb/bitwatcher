@@ -9,7 +9,7 @@
 >
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/trade_amount_currency_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -18,13 +18,14 @@
         android:text="USD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/trade_amount_edit"
         android:layout_width="272dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/trade_amount_currency_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,6 +36,7 @@
             android:hint="@string/hint_amount"
             tools:text="40000"/>
     </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/trade_price_edit"
         android:layout_width="match_parent"
@@ -53,6 +55,7 @@
             android:hint="Price"
             tools:text="0.00032"/>
     </android.support.design.widget.TextInputLayout>
+
     <Button
         android:id="@+id/trade_execute_button"
         android:layout_width="0dp"
@@ -81,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/trade_price_edit"
         tools:text="400BTC"/>
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/trade_input_amount_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

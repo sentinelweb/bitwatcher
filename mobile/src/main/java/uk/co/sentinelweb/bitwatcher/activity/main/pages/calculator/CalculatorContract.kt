@@ -1,6 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator
 
-import uk.co.sentinelweb.bitwatcher.activity.pages.PagePresenter
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.PagePresenter
 
 interface CalculatorContract {
 

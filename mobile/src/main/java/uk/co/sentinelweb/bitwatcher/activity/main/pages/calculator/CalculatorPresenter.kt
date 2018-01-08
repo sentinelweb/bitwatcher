@@ -30,7 +30,7 @@ class CalculatorPresenter @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    override fun init() {
+    override fun onCreate() {
         view.setPresenter(this)
         val oldState: CalculatorStateInteractor.CalculatorStatePreferences = preferences.getLastCalculatorState()
         preferenceMapper.mapPreferencesToState(oldState, state)
@@ -42,7 +42,7 @@ class CalculatorPresenter @Inject constructor(
         }
     }
 
-    override fun cleanup() {
+    override fun onDestroy() {
         subscriptions.clear()
         preferences.saveLastCalculatorState(preferenceMapper.mapStateToPreferences(state))
     }
@@ -53,12 +53,12 @@ class CalculatorPresenter @Inject constructor(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onStart() {
-        init()
+        onCreate()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onStop() {
-        cleanup()
+        onDestroy()
     }
 
     override fun onEnter() {

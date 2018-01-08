@@ -81,22 +81,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout">
-        <FrameLayout
+        <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
+            android:id="@+id/trade_buy_view"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <include layout="@layout/view_trade_container"/>
-        </FrameLayout>
-        <FrameLayout
+
+        </uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView>
+        <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
+            android:id="@+id/trade_sell_view"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <include layout="@layout/view_trade_container"/>
-        </FrameLayout>
+
+        </uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView>
     </FrameLayout>
 
 
