@@ -30,7 +30,7 @@ class TransactionMapper() {
 
         private fun mapStatus(status: FundingRecord.Status?): TransactionDomain.TransactionStatus {
             when (status) {
-                FundingRecord.Status.PROCESSING -> return PROCESSING
+                FundingRecord.Status.PROCESSING -> return IN_PROGRESS
                 FundingRecord.Status.CANCELLED -> return CANCELLED
                 FundingRecord.Status.COMPLETE -> return COMPLETE
                 FundingRecord.Status.FAILED -> return FAILED

@@ -33,7 +33,7 @@ class BinanceTickerDataApiInteractor(
                 val binanceMarketDataServiceRaw = ExchangeFactory.INSTANCE
                         .createExchange(BinanceExchange::class.java.name).marketDataService
                         as BinanceMarketDataServiceRaw
-                val ticker = binanceMarketDataServiceRaw.ticker24h(CurrencyPair.getKey(currencyCode, baseCurrencyCode))
+                val ticker = binanceMarketDataServiceRaw.ticker24h(org.knowm.xchange.currency.CurrencyPair(currencyCode.toString(), baseCurrencyCode.toString()))//CurrencyPair.getKey(currencyCode, baseCurrencyCode)
                 return mapper.map(ticker, currencyCode, baseCurrencyCode)
             }
         })
