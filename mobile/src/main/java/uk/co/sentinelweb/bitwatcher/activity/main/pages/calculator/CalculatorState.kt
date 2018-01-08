@@ -23,17 +23,6 @@ class CalculatorState(
             @ColorRes val linkColor: Int
     )
 
-    enum class Unit {
-        PERCENT, NUMBER;
-
-        fun display() {
-            when (this) {
-                PERCENT -> "%"
-                NUMBER -> ""
-            }
-        }
-    }
-
     enum class Field {
         NONE, AMOUNT, RATE
     }
