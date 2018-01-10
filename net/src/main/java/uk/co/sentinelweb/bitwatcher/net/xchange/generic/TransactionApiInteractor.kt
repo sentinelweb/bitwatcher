@@ -16,11 +16,11 @@ class TransactionApiInteractor(
 
     override fun getTransactionsForCurrencies(currencies: List<CurrencyCode>): Observable<List<TransactionDomain>> {
         val currencyObservables = mutableListOf<Observable<List<TransactionDomain>>>()
-        currencies.forEach({code -> currencyObservables.add(getTransactionsforCurrency(code).toObservable())})
+        currencies.forEach({code -> currencyObservables.add(getTransactionsforCurrency(/*code*/).toObservable())})
         return Observable.mergeDelayError(currencyObservables)
     }
 
-    private fun getTransactionsforCurrency(currency:CurrencyCode): Single<List<TransactionDomain>> {
+    private fun getTransactionsforCurrency(/*currency:CurrencyCode*/): Single<List<TransactionDomain>> {
         return Single.fromCallable(object : Callable<List<TransactionDomain>> {
             override fun call(): List<TransactionDomain> {
                 System.err.println("getting transactions ...")

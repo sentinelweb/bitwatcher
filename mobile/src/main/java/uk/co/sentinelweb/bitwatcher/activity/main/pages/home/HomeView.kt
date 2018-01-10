@@ -35,6 +35,8 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
             fabHideListener.toggleFab()
         })
         home_accounts_add_fab.setOnClickListener({ _ -> presenter.onAddAccountClick() })
+        home_accounts_currency_button.setOnClickListener({ _ -> presenter.onCurrencyButtonClick() })
+        home_accounts_real_visible_button.setOnClickListener({ _ -> presenter.onDisplayRealAccountToggle() })
     }
 
     override fun updateTickerDisplay(tickers: HomeState.TickerDisplay) {
@@ -55,10 +57,8 @@ class HomeView(context: Context?) : FrameLayout(context), HomeContract.View {
         iota_eur_ticker_text.text = tickers.iotaEurPriceText
     }
 
-    override fun setPresenter(p: HomeContract.Presenter) {
-        presenter = p
-        home_accounts_currency_button.setOnClickListener({ _ -> presenter.onCurrencyButtonClick() })
-        home_accounts_real_visible_button.setOnClickListener({ _ -> presenter.onDisplayRealAccountToggle() })
+    override fun setPresenter(homePresenter: HomeContract.Presenter) {
+        presenter = homePresenter
     }
 
     override fun updateTotalsDisplay(totals: HomeState.TotalsDisplay) {

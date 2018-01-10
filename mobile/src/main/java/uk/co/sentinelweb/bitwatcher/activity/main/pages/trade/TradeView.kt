@@ -10,10 +10,12 @@ import kotlinx.android.synthetic.main.main_trade_page.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPresenterFactory
+import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.BID
 
 
 class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
-    lateinit var presenter: TradeContract.Presenter
+    private lateinit var presenter: TradeContract.Presenter
 
     init {
         LayoutInflater.from(context).inflate(R.layout.main_trade_page, this, true)
@@ -28,16 +30,17 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
         })
     }
 
-    override fun setViewPresenter(p: TradeContract.Presenter) {
+    override fun setPresenter(p: TradeContract.Presenter) {
         presenter = p
     }
 
     override fun getInputPresenter(
             inputPresenterFactory: TradeInputPresenterFactory,
-            isBuy: Boolean
+            interactions: TradeInputContract.Interactions,
+            type: TransactionItemDomain.TradeDomain.TradeType
     ): TradeInputContract.Presenter {
-        val view = if (isBuy) trade_buy_view else trade_sell_view
-        return inputPresenterFactory.createPresenter(view)
+        val view = if (type == BID) trade_buy_view else trade_sell_view
+        return inputPresenterFactory.createPresenter(view, interactions, type)
     }
 
     override fun showTabContent(isBuy: Boolean) {

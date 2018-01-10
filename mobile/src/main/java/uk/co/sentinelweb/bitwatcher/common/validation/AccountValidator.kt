@@ -1,7 +1,5 @@
-package uk.co.sentinelweb.bitwatcher.activity.edit_account.validators
+package uk.co.sentinelweb.bitwatcher.common.validation
 
-import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
-import uk.co.sentinelweb.bitwatcher.common.validation.Validator
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import javax.inject.Inject

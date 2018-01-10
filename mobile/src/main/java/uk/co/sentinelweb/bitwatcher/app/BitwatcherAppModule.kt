@@ -39,14 +39,19 @@ class BitwatcherAppModule {
         return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create()
     }
 
+    @Provides
+    @Singleton
+    fun provideSchedulers() : BwSchedulers {
+        return RxSchedulers()
+    }
+
+
+
     @Module
     interface Bindings {
         @Binds
         @Singleton
         fun bindsContext(app:BitwatcherApplication):Context
 
-        @Binds
-        @Singleton
-        fun bindsSchedulers(schedulers:RxSchedulers):BwSchedulers
     }
 }

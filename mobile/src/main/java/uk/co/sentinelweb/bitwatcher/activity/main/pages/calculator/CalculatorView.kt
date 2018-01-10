@@ -27,9 +27,7 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
                     presenter.onAmountChanged(p0.toString())
                 }
             }
-
             override fun afterTextChanged(p0: Editable) {}
-
             override fun beforeTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {}
 
         })
@@ -39,11 +37,8 @@ class CalculatorView(context: Context?) : FrameLayout(context), CalculatorContra
                     presenter.onRateChanged(p0.toString())
                 }
             }
-
             override fun afterTextChanged(p0: Editable) {}
-
             override fun beforeTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {}
-
         })
         calc_amount_currency_button.setOnClickListener { _ -> presenter.onCurrencyFromButtonClick() }
         calc_to_currency_button.setOnClickListener { _ -> presenter.onCurrencyToButtonClick() }

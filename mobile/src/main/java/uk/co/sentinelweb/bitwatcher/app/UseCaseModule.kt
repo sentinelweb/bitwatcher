@@ -5,9 +5,7 @@ import dagger.Module
 import dagger.Reusable
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.TickerRateInteractor
-import uk.co.sentinelweb.bitwatcher.orchestrator.BalancesOrchestrator
-import uk.co.sentinelweb.bitwatcher.orchestrator.GetTransactionsOrchestrator
-import uk.co.sentinelweb.bitwatcher.orchestrator.TickerDataOrchestrator
+import uk.co.sentinelweb.bitwatcher.orchestrator.*
 import uk.co.sentinelweb.use_case.*
 
 @Module
@@ -33,5 +31,13 @@ interface UseCaseModule {
     @Binds
     @Reusable
     fun bindGetTransactionsUseCase(useCase: GetTransactionsOrchestrator): GetTransactionsUseCase
+
+    @Binds
+    @Reusable
+    fun bindMarketDataUseCase(useCase: MarketDataInteractor): MarketsDataUseCase
+
+    @Binds
+    @Reusable
+    fun bindTradeUseCase(useCase: TradeOrchestrator): TradeUseCase
 
 }

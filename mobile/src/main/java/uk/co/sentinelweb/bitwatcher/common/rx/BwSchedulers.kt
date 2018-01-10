@@ -2,7 +2,7 @@ package uk.co.sentinelweb.bitwatcher.common.rx;
 
 import io.reactivex.Scheduler
 
-interface BwSchedulers {
+interface BwSchedulers{
     val database: Scheduler
     val disk: Scheduler
     val network: Scheduler

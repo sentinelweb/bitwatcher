@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/currency_edit_button"
         android:layout_toStartOf="@id/currency_edit_button"
+        android:background="@drawable/edit_amount_background"
         tools:ignore="RtlHardcoded">
 
         <!-- java.lang.NullPointerException: Attempt to invoke virtual method 'void android.view.View.getBoundsOnScreen(android.graphics.Rect)' on a null object reference at android.app.assist.AssistStructure$WindowNode.<init>-->

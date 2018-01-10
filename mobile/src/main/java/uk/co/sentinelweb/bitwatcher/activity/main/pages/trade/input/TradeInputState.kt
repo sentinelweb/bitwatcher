@@ -1,15 +1,23 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 
 import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyPair
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.UNKNOWN
 import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 
 data class TradeInputState(
-        var amount:BigDecimal = BigDecimal.ZERO,
-        var price:BigDecimal = BigDecimal.ZERO,
+        var amount:BigDecimal = ZERO,
+        var price:BigDecimal = ZERO,
         var linkedPrice:Boolean = true,
         var account: AccountDomain? = null,
-        var market: CurrencyPair = CurrencyPair.NONE
+        var market: CurrencyPair = CurrencyPair.NONE,
+        var tradeType: TradeType = UNKNOWN,
+        var amountCurrency: CurrencyCode = CurrencyCode.NONE,
+        var currentPrice: BigDecimal = ZERO,
+        var otherAmount: BigDecimal = ZERO
 ){
     data class TradeInputDisplayModel(
         val amount:String,
@@ -20,6 +28,8 @@ data class TradeInputState(
         val executeButtonLabel:String,
         val executeButtonEnabled:Boolean
     )
+
+
 
 
 }

@@ -9,8 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.R
-import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.AccountValidator
-import uk.co.sentinelweb.bitwatcher.activity.edit_account.validators.NameValidator
+import uk.co.sentinelweb.bitwatcher.common.validation.AccountValidator
+import uk.co.sentinelweb.bitwatcher.common.validation.NameValidator
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.view.BalanceItemContract
 import uk.co.sentinelweb.bitwatcher.common.validation.ValidationError
 import uk.co.sentinelweb.domain.*

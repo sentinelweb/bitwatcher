@@ -149,7 +149,6 @@ class CalculatorPresenter @Inject constructor(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(rateSubscriber)
             subscriptions.add(rateSubscriber)
-
         } else {
             state.rate = BigDecimal.ZERO
             calculate()
