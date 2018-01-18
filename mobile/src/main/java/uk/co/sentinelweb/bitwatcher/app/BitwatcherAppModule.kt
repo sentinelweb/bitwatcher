@@ -11,6 +11,8 @@ import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.activity.edit_account.EditAccountComponent
 import uk.co.sentinelweb.bitwatcher.activity.main.MainActivityComponent
+import uk.co.sentinelweb.bitwatcher.common.rx.BwSchedulers
+import uk.co.sentinelweb.bitwatcher.common.rx.RxSchedulers
 import uk.co.sentinelweb.bitwatcher.receiver.AlarmReceiver
 import javax.inject.Singleton
 
@@ -37,10 +39,19 @@ class BitwatcherAppModule {
         return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create()
     }
 
+    @Provides
+    @Singleton
+    fun provideSchedulers() : BwSchedulers {
+        return RxSchedulers()
+    }
+
+
+
     @Module
     interface Bindings {
         @Binds
         @Singleton
         fun bindsContext(app:BitwatcherApplication):Context
+
     }
 }

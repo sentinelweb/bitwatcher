@@ -15,6 +15,8 @@ import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
 import javax.inject.Inject
 import javax.inject.Named
 
+private typealias AccountData = Pair<List<BalanceDomain>, AccountDomain>
+
 class BalancesOrchestrator @Inject constructor(
         private @Named(NetModule.BITSTAMP) var balancesInteractorBitstamp: BalanceDataInteractor,
         private @Named(NetModule.BINANCE) var balancesInteractorBinance: BalanceDataInteractor,
@@ -24,15 +26,15 @@ class BalancesOrchestrator @Inject constructor(
     override fun getBalances(): Observable<Boolean> {
 
         val saveBitstampBalances = Maybe.zip(
-                balancesInteractorBitstamp.getAccountBalance().toMaybe(),
                 accountInteractor.maybeLoadAccountOfType(AccountType.BITSTAMP),
-                BiFunction({ balances: List<BalanceDomain>, account: AccountDomain -> Pair(balances, account) })
+                balancesInteractorBitstamp.getAccountBalance().toMaybe(),
+                BiFunction({ account: AccountDomain, balances: List<BalanceDomain> -> Pair(balances, account) })
         )
 
         val saveBinanceBalances = Maybe.zip(
-                balancesInteractorBinance.getAccountBalance().toMaybe(),
                 accountInteractor.maybeLoadAccountOfType(AccountType.BINANCE),
-                BiFunction({ balances: List<BalanceDomain>, account: AccountDomain -> Pair(balances, account) })
+                balancesInteractorBinance.getAccountBalance().toMaybe(),
+                BiFunction({ account: AccountDomain, balances: List<BalanceDomain> -> Pair(balances, account) })
         )
 
         return Maybe
@@ -41,8 +43,8 @@ class BalancesOrchestrator @Inject constructor(
                 .toObservable()
     }
 
-    inner class SaveAccountTransformer : FlowableTransformer<Pair<List<BalanceDomain>, AccountDomain>, Boolean> {
-        override fun apply(upstream: Flowable<Pair<List<BalanceDomain>, AccountDomain>>): Flowable<Boolean> {
+    inner class SaveAccountTransformer : FlowableTransformer<AccountData, Boolean> {
+        override fun apply(upstream: Flowable<AccountData>): Flowable<Boolean> {
             return upstream.map { pair -> pair.second.copy(balances = pair.first) }
                     .flatMap { accountUpdated -> accountInteractor.saveAccount(accountUpdated).toFlowable() }
         }

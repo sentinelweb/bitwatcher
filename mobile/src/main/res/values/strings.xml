@@ -18,6 +18,8 @@
     <string name="title_edit_account">Edit Account</string>
     <string name="title_select_type">Select Type</string>
     <string name="title_select_currency">Select currency</string>
+    <string name="title_select_account">Select account</string>
+    <string name="title_select_market">Select market</string>
     <string name="done">Done</string>
     <string name="dash">-</string>
     <string name="contentdesc_delete_balance">Delete balance</string>

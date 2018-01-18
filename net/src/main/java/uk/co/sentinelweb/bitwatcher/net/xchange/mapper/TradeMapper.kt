@@ -29,7 +29,7 @@ class TradeMapper() {
                         CurrencyCode.lookup(it.currencyPair.counter.currencyCode),
                         it.feeAmount,
                         CurrencyCode.lookup(it.feeCurrency.currencyCode),
-                        TradeStatus.COMPLETED
+                        TradeStatus.COMPLETE
                 ))
             }
         }
@@ -72,7 +72,7 @@ class TradeMapper() {
             Order.OrderStatus.PENDING_NEW -> PENDING
             Order.OrderStatus.NEW -> PLACED
             Order.OrderStatus.PARTIALLY_FILLED ->IN_PROGRESS
-            Order.OrderStatus.FILLED -> COMPLETED
+            Order.OrderStatus.FILLED -> COMPLETE
             Order.OrderStatus.PENDING_CANCEL -> PENDING
             Order.OrderStatus.CANCELED -> CANCELLED
             Order.OrderStatus.PENDING_REPLACE -> PENDING

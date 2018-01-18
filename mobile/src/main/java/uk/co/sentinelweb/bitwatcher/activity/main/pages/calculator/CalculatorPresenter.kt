@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import uk.co.sentinelweb.bitwatcher.common.preference.CalculatorStateInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
@@ -74,7 +75,7 @@ class CalculatorPresenter @Inject constructor(
         state.currencyFrom = state.currencyTo
         state.currencyTo = tmp
         state.amount = state.value
-        if (state.rate> BigDecimal.ZERO) {
+        if (state.rate > BigDecimal.ZERO) {
             state.rate = BigDecimal.ONE.divide(state.rate, mc)
         }
         calculate()
@@ -142,22 +143,31 @@ class CalculatorPresenter @Inject constructor(
 
     private fun loadRate() {
         if (state.currencyFrom != CurrencyCode.NONE && state.currencyTo != CurrencyCode.NONE) {
-            subscriptions.add(
-                    tickerUseCase.getRate(state.currencyFrom, state.currencyTo)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ rate ->
-                                state.rate = rate
-                                calculate()
-                                updateView()
-                            },
-                                    { error -> Log.d(TAG, "Error gettting ticker", error) })
-            )
+            val rateSubscriber = RateSubscriber()
+            tickerUseCase.getRate(state.currencyFrom, state.currencyTo)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(rateSubscriber)
+            subscriptions.add(rateSubscriber)
         } else {
             state.rate = BigDecimal.ZERO
             calculate()
             updateView()
         }
+    }
+
+    inner class RateSubscriber : DisposableSingleObserver<BigDecimal>() {
+
+        override fun onSuccess(rate: BigDecimal) {
+            state.rate = rate
+            calculate()
+            updateView()
+        }
+
+        override fun onError(exception: Throwable) {
+            Log.d(TAG, "Error gettting ticker", exception)
+        }
+
     }
 
 }

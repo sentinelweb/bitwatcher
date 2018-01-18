@@ -12,6 +12,6 @@ class CurrencyCodeConverter {
 
     @TypeConverter
     fun fromDb(str:String):CurrencyCode {
-        return CurrencyCode.lookup(str)!!
+        return CurrencyCode.lookup(str)
     }
 }

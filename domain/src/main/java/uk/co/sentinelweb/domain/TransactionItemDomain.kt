@@ -27,10 +27,10 @@ sealed class TransactionItemDomain constructor(open val transactionId: String,
         }
 
         enum class TransactionStatus {
-            PROCESSING,
+            IN_PROGRESS,
             COMPLETE,
-            CANCELLED,
             FAILED,
+            CANCELLED,
             UNKNOWN
         }
     }
@@ -55,7 +55,7 @@ sealed class TransactionItemDomain constructor(open val transactionId: String,
             PENDING,
             PLACED,
             IN_PROGRESS,
-            COMPLETED,
+            COMPLETE,
             FAILED,
             CANCELLED,
             UNKNOWN
