@@ -1,5 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 
+import android.support.annotation.ColorRes
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyPair
@@ -26,10 +27,12 @@ data class TradeInputState(
         val amountTrade:String,
         val amountHelp:String,
         val executeButtonLabel:String,
-        val executeButtonEnabled:Boolean
+        val executeButtonEnabled:Boolean,
+        @ColorRes val executeButtonColor:Int
     )
 
-
-
+    enum class Field {
+        AMOUNT, PRICE
+    }
 
 }

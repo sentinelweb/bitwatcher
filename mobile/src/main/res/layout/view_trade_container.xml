@@ -15,7 +15,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:text="USD"
+        tools:text="USD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -54,53 +54,9 @@
             android:id="@+id/trade_price_edit_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Price"
+            android:hint="@string/price"
             tools:text="0.00032"/>
     </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/trade_execute_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-    />
-
-    <TextView
-        android:id="@+id/buy_amount_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/trade_execute_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trade_price_edit"
-        tools:text="400BTC"
-        />
-
-    <TextView
-        android:id="@+id/trade_input_amount_help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buy_amount_text"
-        tools:text="You will buy 40000USD worth of BTC"
-        />
 
     <ImageView
         android:id="@+id/trade_link_button"
@@ -113,6 +69,53 @@
         app:layout_constraintBottom_toBottomOf="@id/trade_price_edit"
         app:layout_constraintStart_toEndOf="@id/trade_price_edit"
         app:layout_constraintTop_toTopOf="@id/trade_price_edit"
-        />
+    />
+
+    <TextView
+        android:id="@+id/buy_amount_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trade_price_edit"
+        tools:text="400BTC"
+    />
+
+    <TextView
+        android:id="@+id/trade_input_amount_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/trade_execute_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buy_amount_text"
+        tools:text="You will buy 40000USD worth of BTC"
+    />
+
+    <Button
+        android:id="@+id/trade_execute_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        tools:text="Execute"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+    />
+
 
 </android.support.constraint.ConstraintLayout>

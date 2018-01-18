@@ -11,7 +11,7 @@ interface TradeContract{
         fun setData(model: TradeState.TradeDisplayModel)
         fun setPresenter(p:Presenter)
         fun getInputPresenter(inputPresenterFactory: TradeInputPresenterFactory,
-                              tradePresenter: TradeInputContract.Interactions,
+                              interactions: TradeInputContract.Interactions,
                               type: TransactionItemDomain.TradeDomain.TradeType)
                 : TradeInputContract.Presenter
         fun showTabContent(isBuy: Boolean)

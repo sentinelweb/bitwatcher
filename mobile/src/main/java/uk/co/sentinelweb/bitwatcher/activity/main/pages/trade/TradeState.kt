@@ -1,7 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import uk.co.sentinelweb.domain.AccountDomain
-import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.CurrencyPair
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
@@ -11,7 +10,7 @@ data class TradeState(
         var accountNames: Array<String>? = null,
         var account: AccountDomain? = null,
         var markets: List<CurrencyPair>? = null,
-        var market: CurrencyPair = CurrencyPair(CurrencyCode.NONE, CurrencyCode.NONE),
+        var market: CurrencyPair = CurrencyPair.NONE,
         var currentPrice: BigDecimal = ZERO
 
 ) {

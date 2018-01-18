@@ -2,12 +2,13 @@ package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
+import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.main_calc_page.view.*
 import kotlinx.android.synthetic.main.view_trade_container.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.common.ui.CurrencySelector
@@ -38,11 +39,11 @@ class TradeInputView(context: Context, attrs: AttributeSet) : FrameLayout(contex
                 }
             }
 
-            override fun afterTextChanged(s: Editable?) {   }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {    }
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
-        trade_price_edit_view.setOnTouchListener(EditTextValueSliderTouchListener(calc_rate_edit_value))
-        trade_amount_edit_view.setOnTouchListener(EditTextValueSliderTouchListener(calc_amount_edit_value, 2))
+        trade_price_edit_view.setOnTouchListener(EditTextValueSliderTouchListener(trade_price_edit_view))
+        trade_amount_edit_view.setOnTouchListener(EditTextValueSliderTouchListener(trade_amount_edit_view, 2))
         trade_link_button.setOnClickListener { _ -> presenter.toggleLinkCurrentPrice() }
     }
 
@@ -50,12 +51,20 @@ class TradeInputView(context: Context, attrs: AttributeSet) : FrameLayout(contex
         presenter = tradeInputPresenter
     }
 
-    override fun setData(model: TradeInputState.TradeInputDisplayModel) {
+    override fun setData(model: TradeInputState.TradeInputDisplayModel, exclude: TradeInputState.Field?) {
+        viewIsUpdating = true
         buy_amount_text.text = model.amountTrade
         trade_input_amount_help.text = model.amountHelp
-        trade_execute_button.text = model.executeButtonLabel
-        trade_amount_edit_view.setText(model.amount)
-        trade_price_edit_view.setText(model.price)
+        trade_execute_button.setText(model.executeButtonLabel)
+        trade_execute_button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, model.executeButtonColor))
+        trade_execute_button.isEnabled = model.executeButtonEnabled
+        if (exclude != TradeInputState.Field.AMOUNT) {
+            trade_amount_edit_view.setText(model.amount)
+        }
+        if (exclude != TradeInputState.Field.PRICE) {
+            trade_price_edit_view.setText(model.price)
+        }
+        viewIsUpdating = false
         // TODO price link button
     }
 

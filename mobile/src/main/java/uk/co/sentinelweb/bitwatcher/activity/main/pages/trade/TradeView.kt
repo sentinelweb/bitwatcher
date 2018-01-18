@@ -51,7 +51,7 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
     override fun setData(model: TradeState.TradeDisplayModel) {
         trade_account_button.text = model.accountButtonLabel
         trade_account_info.text = model.accountInfo
-        trade_market_button.text = model.accountButtonLabel
+        trade_market_button.text = model.marketButtonLabel
         trade_market_info.text = model.marketInfo
     }
 

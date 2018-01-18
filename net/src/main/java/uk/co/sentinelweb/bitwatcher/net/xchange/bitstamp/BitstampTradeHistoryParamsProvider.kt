@@ -9,7 +9,7 @@ import uk.co.sentinelweb.domain.CurrencyPair
 class BitstampTradeHistoryParamsProvider : TradeHistoryParamsProvider {
     override fun provide(pair: CurrencyPair?): TradeHistoryParams {
         val currencyPair = if (pair != null) CurrencyPairLookup.lookup(pair) else null
-        val bitstampTradeHistoryParams = BitstampTradeHistoryParams(currencyPair, 100)
+        val bitstampTradeHistoryParams = BitstampTradeHistoryParams(currencyPair, 500)
         bitstampTradeHistoryParams.pageNumber = 0
         return bitstampTradeHistoryParams
     }

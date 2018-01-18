@@ -23,35 +23,35 @@ class BitwatcherAppModule {
 
     @Provides
     @Singleton
-    fun provideAlarmReceiver() : AlarmReceiver{
+    fun provideAlarmReceiver(): AlarmReceiver {
         return AlarmReceiver()
     }
 
     @Provides
     @Singleton
-    fun providePreferences(app:BitwatcherApplication) : SharedPreferences{
+    fun providePreferences(app: BitwatcherApplication): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(app)
     }
 
     @Provides
     @Singleton
-    fun provideGson() : Gson {
+    fun provideGson(): Gson {
         return GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create()
     }
 
     @Provides
     @Singleton
-    fun provideSchedulers() : BwSchedulers {
+    fun provideSchedulers(): BwSchedulers {
         return RxSchedulers()
     }
 
 
-
     @Module
     interface Bindings {
+
         @Binds
         @Singleton
-        fun bindsContext(app:BitwatcherApplication):Context
+        fun bindsContext(app: BitwatcherApplication): Context
 
     }
 }

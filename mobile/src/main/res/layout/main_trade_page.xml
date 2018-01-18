@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="Bitstamp"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +26,9 @@
             android:id="@+id/trade_account_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="2.45345 BTC / 9.4546 ETH / 20.4564 BCH / 43929 USD"
             app:layout_constraintTop_toBottomOf="@+id/trade_account_button" />
 
         <Button
@@ -41,7 +39,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="BTC/USD"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,10 +49,9 @@
             android:id="@+id/trade_market_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Last price : 1 BTC = 14898 USD"
             app:layout_constraintTop_toBottomOf="@+id/trade_market_button" />
 
         <android.support.design.widget.TabLayout

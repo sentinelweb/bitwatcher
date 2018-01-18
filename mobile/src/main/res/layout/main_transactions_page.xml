@@ -8,11 +8,20 @@
     android:layout_marginStart="@dimen/activity_margin"
     android:layout_marginTop="@dimen/activity_margin"
 >
+    <!-- use linear layout -->
+    <TextView
+        android:id="@+id/transactions_summary"
+        android:layout_width="match_parent"
+        android:layout_height="20sp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+    />
 
     <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListView
         android:id="@+id/transactions_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20sp"
     />
 
     <android.support.design.widget.FloatingActionButton
@@ -27,6 +36,7 @@
         app:elevation="4dp"
         app:fabSize="normal"
         app:rippleColor="@color/grey_300"
+        app:layout_behavior=""
     />
 
     <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterView

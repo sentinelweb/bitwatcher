@@ -4,15 +4,13 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.OnLifecycleEvent
 import android.util.Log
 import android.view.View
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableMaybeObserver
 import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.schedulers.Schedulers
-import uk.co.sentinelweb.bitwatcher.R.id.account
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator.CalculatorPresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPresenterFactory
+import uk.co.sentinelweb.bitwatcher.common.mapper.CurrencyPairMapper
 import uk.co.sentinelweb.bitwatcher.common.rx.BwSchedulers
 import uk.co.sentinelweb.domain.*
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType
@@ -31,8 +29,10 @@ class TradePresenter @Inject constructor(
         private val marketsDataUseCase: MarketsDataUseCase,
         private val tickerUseCase: TickerUseCase,
         private val tradeUseCase: TradeUseCase,
-        private val state: TradeState = TradeState(),
+        private val state: TradeState,
         private val schedulers: BwSchedulers,
+        private val displayMapper:TradeDisplayMapper,
+        private val marketMapper: CurrencyPairMapper,
         inputPresenterFactory: TradeInputPresenterFactory
 ) : TradeContract.Presenter, TradeInputContract.Interactions {
     companion object {
@@ -42,12 +42,15 @@ class TradePresenter @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    private val buyInputPresenter = view.getInputPresenter(inputPresenterFactory, this, TradeType.BID)
+    private val buyInputPresenter:TradeInputContract.Presenter
 
-    private val sellInputPresenter = view.getInputPresenter(inputPresenterFactory, this, TradeType.ASK)
+    private val sellInputPresenter:TradeInputContract.Presenter
 
     init {
         view.setPresenter(this)
+        buyInputPresenter  = view.getInputPresenter(inputPresenterFactory, this, TradeType.BID)
+        sellInputPresenter = view.getInputPresenter(inputPresenterFactory, this, TradeType.ASK)
+        view.setData(displayMapper.mapDisplay(state))
     }
 
     override fun onEnter() {
@@ -123,6 +126,7 @@ class TradePresenter @Inject constructor(
 
     override fun onAccountSelected(index: Int) {
         state.accounts?.get(index)?.let { acct ->
+            state.account = acct
             val marketListDisposable = MarketListDisposable()
             marketsDataUseCase.getMarkets(acct)
                     .observeOn(schedulers.main)
@@ -134,7 +138,7 @@ class TradePresenter @Inject constructor(
 
     override fun onMarketButtonClick() {
         val marketNames = mutableListOf<String>()
-        state.markets?.forEach({ market -> marketNames.add("${market.currency}/${market.base}") })
+        state.markets?.forEach({ market -> marketNames.add(marketMapper.mapName(market)) })
         view.showMarketsSelector(marketNames.toTypedArray())
     }
 
@@ -143,6 +147,7 @@ class TradePresenter @Inject constructor(
         buyInputPresenter.setMarketAndAccount(state.account, state.market)
         sellInputPresenter.setMarketAndAccount(state.account, state.market)
         loadRate()
+        view.setData(displayMapper.mapDisplay(state))
     }
 
     override fun onTabClicked(isBuy: Boolean) {
@@ -180,6 +185,7 @@ class TradePresenter @Inject constructor(
 
         override fun onSuccess(markets: List<CurrencyPair>) {
             state.markets = markets
+            view.setData(displayMapper.mapDisplay(state))
         }
 
         override fun onError(e: Throwable) {
@@ -193,6 +199,7 @@ class TradePresenter @Inject constructor(
             state.currentPrice = rate
             buyInputPresenter.setCurrentPrice(state.currentPrice)
             sellInputPresenter.setCurrentPrice(state.currentPrice)
+            view.setData(displayMapper.mapDisplay(state))
         }
 
         override fun onError(exception: Throwable) {

@@ -1,39 +1,41 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputState.TradeInputDisplayModel
 import uk.co.sentinelweb.bitwatcher.common.extensions.div
-import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.domain.*
 import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 
 class TradeInputPresenter constructor(
         private val view: TradeInputContract.View,
         private val interactions: TradeInputContract.Interactions,
-        tradeType:TransactionItemDomain.TradeDomain.TradeType,
+        private val mapper: TradeInputDisplayMapper,
+        tradeType: TransactionItemDomain.TradeDomain.TradeType,
         private val state: TradeInputState = TradeInputState()
 ) : TradeInputContract.Presenter {
+
     init {
-        state.tradeType = tradeType;
+        state.tradeType = tradeType
+        view.setData(mapper.mapModel(state), null)
     }
 
     override fun onAmountChanged(amountString: String) {
         try {
             state.amount = BigDecimal(amountString)
         } catch (nf: NumberFormatException) {
-            state.amount = BigDecimal.ZERO
+            state.amount = ZERO
         }
         calculateAmounts()
-        view.setData(mapModel())
+        view.setData(mapper.mapModel(state), TradeInputState.Field.AMOUNT)
     }
 
     override fun onPriceChanged(priceString: String) {
         try {
             state.price = BigDecimal(priceString)
         } catch (nf: NumberFormatException) {
-            state.price = BigDecimal.ZERO
+            state.price = ZERO
         }
         calculateAmounts()
-        view.setData(mapModel())
+        view.setData(mapper.mapModel(state), TradeInputState.Field.PRICE)
     }
 
     override fun onCurrencyButtonClick() {
@@ -53,7 +55,7 @@ class TradeInputPresenter constructor(
         } catch (e: Exception) {
         }
         calculateAmounts()
-        view.setData(mapModel())
+        view.setData(mapper.mapModel(state), null)
     }
 
     override fun toggleLinkCurrentPrice() {
@@ -62,19 +64,19 @@ class TradeInputPresenter constructor(
             state.price = state.currentPrice
         }
         calculateAmounts()
-        view.setData(mapModel())
+        view.setData(mapper.mapModel(state), null)
     }
 
     override fun onExecuteButtonClick() {
         // TODO convert currency if other
-        interactions.onExecutePressed(AmountDomain( state.amount,state.amountCurrency), state.price, state.tradeType)
+        interactions.onExecutePressed(AmountDomain(state.amount, state.amountCurrency), state.price, state.tradeType)
     }
 
     override fun setMarketAndAccount(account: AccountDomain?, market: CurrencyPair) {
         state.account = account
         state.market = market
         state.amountCurrency = market.currency
-        view.setData(mapModel())
+        view.setData(mapper.mapModel(state), null)
     }
 
     override fun setCurrentPrice(currentPrice: BigDecimal) {
@@ -82,28 +84,19 @@ class TradeInputPresenter constructor(
         if (state.linkedPrice) {
             state.price = currentPrice
         }
+        calculateAmounts()
+        view.setData(mapper.mapModel(state), null)
     }
 
-    fun mapModel(): TradeInputDisplayModel {
-        return TradeInputDisplayModel(
-                state.amount.dp(2),
-                state.price.dp(5),
-                true,
-                state.otherAmount.dp(4),
-                "help",
-                state.tradeType.toString(),
-                false
-                )
-    }
 
-    private fun calculateAmounts() {
+     private fun calculateAmounts() {
         val otherAmount: BigDecimal
         if (state.amountCurrency == state.market.currency) {
             otherAmount = state.amount * state.price
         } else {
             otherAmount = state.amount * state.price.div(state.price)
         }
-        state.otherAmount =  otherAmount
+        state.otherAmount = otherAmount
     }
 
 

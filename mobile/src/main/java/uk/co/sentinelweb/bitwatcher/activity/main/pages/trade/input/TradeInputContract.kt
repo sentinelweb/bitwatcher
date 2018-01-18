@@ -1,13 +1,15 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 
-import uk.co.sentinelweb.domain.*
+import uk.co.sentinelweb.domain.AccountDomain
+import uk.co.sentinelweb.domain.AmountDomain
+import uk.co.sentinelweb.domain.CurrencyPair
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType
 import java.math.BigDecimal
 
 interface TradeInputContract {
 
     interface View {
-        fun setData(model:TradeInputState.TradeInputDisplayModel)
+        fun setData(model:TradeInputState.TradeInputDisplayModel, exclude:TradeInputState.Field?)
         fun setPresenter(tradeInputPresenter: Presenter)
         fun showCurrencySelector(currencies: Array<String>)
     }

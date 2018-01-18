@@ -60,4 +60,7 @@
     <string name="cd_link_to_ticker_price">Link to ticker price</string>
     <string name="title_select_color">Select colour</string>
     <string name="cd_swap_conversion">Swap conversion</string>
+    <string name="trade_select_account">Select Account</string>
+    <string name="trade_select_market">Select market</string>
+    <string name="price">Price</string>
 </resources>
