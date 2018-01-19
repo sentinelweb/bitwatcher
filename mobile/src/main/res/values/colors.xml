@@ -19,4 +19,6 @@
     <color name="colorBorder">@color/grey_400</color>
     <color name="colorBorderLight">@color/grey_200</color>
 
+    <color name="transparent">#00000000</color>
+
 </resources>

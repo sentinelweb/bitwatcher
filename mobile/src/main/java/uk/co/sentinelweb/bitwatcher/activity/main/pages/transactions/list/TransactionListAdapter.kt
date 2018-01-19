@@ -12,12 +12,18 @@ import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 
 class TransactionListAdapter constructor(
         var list: List<TransactionItemModel>
-) : RecyclerView.Adapter<TransactionListAdapter.TransactionItemViewHolder>() {
+) : RecyclerView.Adapter<TransactionListAdapter.TransactionItemViewHolder>(), TransactionRowContract.Interactions {
 
+    val selection: MutableSet<TransactionItemModel> = mutableSetOf()
+    lateinit var interactions:Interactions
     inner class TransactionItemViewHolder(
             itemView: View,
-            val presenter:TransactionRowContract.Presenter = TransactionRowPresenter(itemView as TransactionRowContract.View)
+            val presenter: TransactionRowContract.Presenter = TransactionRowPresenter(itemView as TransactionRowContract.View, this@TransactionListAdapter)
     ) : RecyclerView.ViewHolder(itemView)
+
+    interface Interactions {
+        fun onSelectionChanged(selection: Set<TransactionItemModel>)
+    }
 
     fun setItems(list: List<TransactionItemModel>) {
         this.list = list
@@ -39,7 +45,8 @@ class TransactionListAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: TransactionItemViewHolder, position: Int) {
-        holder.presenter.bindData(list.get(position))
+        val model = list.get(position)
+        holder.presenter.bindData(model, selection.contains(model))
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -48,4 +55,14 @@ class TransactionListAdapter constructor(
             is TradeDomain -> 1
         }
     }
+
+    override fun onSelect(model: TransactionItemModel) {
+        if (selection.contains(model)) {
+            selection.remove(model)
+        } else {
+            selection.add(model)
+        }
+        interactions.onSelectionChanged(selection)
+    }
+
 }

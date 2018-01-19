@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.view_transaction_list.view.*
 import uk.co.sentinelweb.bitwatcher.R
 
 class TransactionListView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), TransactionListContract.View {
+
     private var adapter = TransactionListAdapter(listOf())
 
     init {
@@ -37,4 +38,9 @@ class TransactionListView(context: Context, attributeSet: AttributeSet) : FrameL
         super.onSaveInstanceState()
         return Bundle()
     }
+
+    override fun setInteractions(interactions: TransactionListAdapter.Interactions) {
+        adapter.interactions = interactions
+    }
+
 }

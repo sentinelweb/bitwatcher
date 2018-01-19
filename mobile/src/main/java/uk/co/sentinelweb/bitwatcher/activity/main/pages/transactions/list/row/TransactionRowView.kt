@@ -10,8 +10,15 @@ import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 
 class TransactionRowView(context: Context?): FrameLayout(context), TransactionRowContract.View {
+    private lateinit var presenter:TransactionRowContract.Presenter
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_transaction_row_transaction, this, true)
+        setOnClickListener({presenter.onSelect()})
+    }
+
+    override fun setPresenter(presenter: TransactionRowContract.Presenter) {
+        this.presenter = presenter
     }
 
     override fun setData(model: TransactonRowState.DisplayModel) {
@@ -26,6 +33,7 @@ class TransactionRowView(context: Context?): FrameLayout(context), TransactionRo
             trans_id.text = model.id
             account.text = model.accountName
             account.background = ColorDrawable(model.accountColor)
+            setBackgroundColor(ContextCompat.getColor(context, model.backgroundColor))
         }
     }
 }

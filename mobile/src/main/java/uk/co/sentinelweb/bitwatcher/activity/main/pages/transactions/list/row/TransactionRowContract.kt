@@ -5,9 +5,15 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.Transa
 interface TransactionRowContract {
     interface View {
         fun setData( model:TransactonRowState.DisplayModel)
+        fun setPresenter(presenter:Presenter)
     }
 
     interface Presenter {
-        fun bindData(model: TransactionItemModel)
+        fun bindData(model: TransactionItemModel, selected: Boolean)
+        fun onSelect()
+    }
+
+    interface Interactions {
+        fun onSelect(model: TransactionItemModel)
     }
 }

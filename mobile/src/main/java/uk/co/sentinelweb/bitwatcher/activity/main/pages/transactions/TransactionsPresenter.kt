@@ -11,8 +11,11 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.Tran
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
+import uk.co.sentinelweb.bitwatcher.common.extensions.dp
 import uk.co.sentinelweb.bitwatcher.common.preference.TransactionFilterInteractor
+import uk.co.sentinelweb.domain.TransactionItemDomain
 import uk.co.sentinelweb.use_case.GetTransactionsUseCase
+import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
 
@@ -22,7 +25,7 @@ class TransactionsPresenter @Inject constructor(
         private val state: TransactionsState,
         filterPresenterFactory: TransactionFilterPresenterFactory,
         private val preferences: TransactionFilterInteractor
-) : TransactionsContract.Presenter, TransactionFilterContract.Interactions {
+) : TransactionsContract.Presenter, TransactionFilterContract.Interactions, TransactionListContract.Interactions {
 
     companion object {
         val TAG = TransactionsPresenter::class.java.simpleName
@@ -35,6 +38,7 @@ class TransactionsPresenter @Inject constructor(
 
     init {
         listPresenter = view.getListPresenter()
+        listPresenter.setInteractions(this)
         filterPresenter = view.getFilterPresenter(filterPresenterFactory)
         filterPresenter.setInteractions(this)
         filterPresenter.init()
@@ -120,6 +124,48 @@ class TransactionsPresenter @Inject constructor(
         })
 
         listPresenter.bindData(state.transactionList)
+        state.summary = makeSelectionSummary(state.transactionList, "All")
+        view.setData(mapModel())
+    }
+
+    override fun onSelectionChanged(selection: Set<TransactionItemModel>) {
+        updateSummary(selection)
+        view.setData(mapModel())
+    }
+
+    private fun updateSummary(selection: Set<TransactionItemModel>) {
+        if (selection.size > 0) {
+            state.summary = makeSelectionSummary(selection, "Selection")
+        } else {
+            state.summary = makeSelectionSummary(state.transactionList, "All")
+        }
+    }
+
+    // TODO split by market (& account?)
+    fun makeSelectionSummary(selection:Collection<TransactionItemModel>, prefix:String):String {
+        var loopTotal = BigDecimal.ZERO
+        var feesTotal = BigDecimal.ZERO
+        selection.forEach({transaction ->
+            when (transaction.domain) {
+                is TransactionItemDomain.TradeDomain ->  {
+                    val amount = transaction.domain.price * transaction.domain.amount
+                    if (transaction.domain.type == TransactionItemDomain.TradeDomain.TradeType.BID) {
+                        loopTotal -= amount
+                    } else {
+                        loopTotal += amount
+                    }
+                    feesTotal += transaction.domain.feesAmount
+                }
+            }
+
+        })
+        return "${prefix}: ${loopTotal.dp(2)} Fees: ${feesTotal.dp(2)}"
+    }
+
+    fun mapModel() : TransactionsState.TransactionsDisplayModel{
+        return TransactionsState.TransactionsDisplayModel(
+                state.summary
+        )
     }
 
 }

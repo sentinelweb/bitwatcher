@@ -8,7 +8,7 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.Transa
 interface TransactionsContract {
 
     interface View {
-        fun setData(model: TransactionsState.TransactionsModel)
+        fun setData(model: TransactionsState.TransactionsDisplayModel)
         fun getListPresenter(): TransactionListContract.Presenter
         fun getFilterPresenter(filterPresenterFactory: TransactionFilterPresenterFactory):TransactionFilterContract.Presenter
         fun showLoading(show:Boolean)

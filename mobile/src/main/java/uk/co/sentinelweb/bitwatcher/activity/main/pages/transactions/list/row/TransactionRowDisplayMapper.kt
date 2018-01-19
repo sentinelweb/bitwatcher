@@ -15,7 +15,7 @@ class TransactionRowDisplayMapper {
     companion object {
         val DATE_FORMATTER = SimpleDateFormat.getDateTimeInstance() //SimpleDateFormat("dd/MM/yyyy @ hh:mm:ss")
     }
-    fun map(item:TransactionItemModel): TransactonRowState.DisplayModel {
+    fun map(item:TransactionItemModel, selected:Boolean): TransactonRowState.DisplayModel {
         return when (item.domain) {
             is TransactionDomain -> {
                 TransactionDisplayModel(
@@ -24,6 +24,7 @@ class TransactionRowDisplayMapper {
                         DATE_FORMATTER.format(item.domain.date),
                         item.account.name,
                         ColourDomain.toInteger(item.account.colour),
+                        if (selected) R.color.grey_100 else R.color.transparent,
                         when (item.domain.type) {
                             TransactionDomain.TransactionType.DEPOSIT -> R.drawable.ic_deposit_black_48dp
                             TransactionDomain.TransactionType.WITHDRAWL -> R.drawable.ic_withdraw_black_48dp
@@ -47,6 +48,7 @@ class TransactionRowDisplayMapper {
                         DATE_FORMATTER.format(item.domain.date),
                         item.account.name,
                         ColourDomain.toInteger(item.account.colour),
+                        if (selected) R.color.grey_100 else R.color.transparent,
                         when (item.domain.type) {
                             TradeDomain.TradeType.ASK -> R.drawable.ic_sell_black_48dp
                             TradeDomain.TradeType.BID -> R.drawable.ic_buy_black_48dp

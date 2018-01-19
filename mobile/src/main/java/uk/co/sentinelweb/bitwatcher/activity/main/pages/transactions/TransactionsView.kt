@@ -35,7 +35,6 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
 
         })
         transactions_filter_fab.setOnClickListener({ bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED) })
-
     }
 
     override fun closeFilter() {
@@ -46,8 +45,9 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
     }
 
-    override fun setData(model: TransactionsState.TransactionsModel) {
-
+    override fun setData(model: TransactionsState.TransactionsDisplayModel) {
+        transactions_summary.text = model.summary
+        transactions_summary.visibility = if (model.summary == null) View.GONE else View.VISIBLE
     }
 
     override fun getListPresenter(): TransactionListContract.Presenter {
