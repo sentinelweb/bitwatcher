@@ -1,10 +1,10 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row
 
 import uk.co.sentinelweb.bitwatcher.R
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TradeDisplayModel
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactonRowState.DisplayModel.TradeDisplayModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 import uk.co.sentinelweb.domain.ColourDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain

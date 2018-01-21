@@ -1,15 +1,21 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row
 
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
 
 data class TransactonRowState constructor(
          var transaction: TransactionItemModel? = null,
          var selected:Boolean = false
 ) {
 
-    sealed class DisplayModel constructor(open val id: String, open val amount: String, open val date: String, open val accountName: String, open val accountColor: Int, @ColorRes open val backgroundColor: Int) {
+    sealed class DisplayModel constructor(
+            open val id: String,
+            open val amount: String,
+            open val date: String,
+            open val accountName: String,
+            open val accountColor: Int,
+            open @ColorRes val backgroundColor: Int) {
 
         data class TradeDisplayModel(
                 override val id: String,
@@ -17,7 +23,7 @@ data class TransactonRowState constructor(
                 override val date: String,
                 override val accountName: String,
                 override val accountColor: Int,
-                @ColorRes override val backgroundColor: Int,
+                override @ColorRes val backgroundColor: Int,
                 @DrawableRes val icon: Int,
                 @ColorRes val iconColor: Int,
                 val type: String,
@@ -34,7 +40,7 @@ data class TransactonRowState constructor(
                 override val date: String,
                 override val accountName: String,
                 override val accountColor: Int,
-                @ColorRes override val backgroundColor: Int,
+                override @ColorRes val backgroundColor: Int,
                 @DrawableRes val icon: Int,
                 @ColorRes val iconColor: Int,
                 val type: String,

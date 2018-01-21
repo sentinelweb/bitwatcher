@@ -10,11 +10,14 @@ import kotlinx.android.synthetic.main.main_trade_page.view.*
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPresenterFactory
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListContract
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListPresenter
 import uk.co.sentinelweb.domain.TransactionItemDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.BID
 
 
 class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
+
     private lateinit var presenter: TradeContract.Presenter
 
     init {
@@ -25,7 +28,7 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabSelected(tab: TabLayout.Tab) {
-                presenter.onTabClicked(tab.position == 0)
+                presenter.onTabClicked(TradeContract.View.Tab.values()[tab.position])
             }
         })
     }
@@ -43,9 +46,10 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
         return inputPresenterFactory.createPresenter(view, interactions, type)
     }
 
-    override fun showTabContent(isBuy: Boolean) {
-        trade_buy_view.visibility = if (isBuy) View.VISIBLE else View.GONE
-        trade_sell_view.visibility = if (!isBuy) View.VISIBLE else View.GONE
+    override fun showTabContent(tab: TradeContract.View.Tab) {
+        trade_list_open.visibility = if (tab == TradeContract.View.Tab.OPEN_TRADES) View.VISIBLE else View.GONE
+        trade_buy_view.visibility = if (tab == TradeContract.View.Tab.BUY) View.VISIBLE else View.GONE
+        trade_sell_view.visibility = if (tab == TradeContract.View.Tab.SELL) View.VISIBLE else View.GONE
     }
 
     override fun setData(model: TradeState.TradeDisplayModel) {
@@ -72,4 +76,9 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
                 .create()
                 .show()
     }
+
+    override fun getListPresenter(): TransactionListContract.Presenter {
+        return TransactionListPresenter(trade_list_open)
+    }
+
 }

@@ -1,12 +1,12 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TradeRowView
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowContract
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowPresenter
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row.TransactionRowView
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TradeRowView
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactionRowContract
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactionRowPresenter
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactionRowView
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TransactionDomain
 

@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.View
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableMaybeObserver
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.DisposableSingleObserver
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator.CalculatorPresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPresenterFactory
 import uk.co.sentinelweb.bitwatcher.common.mapper.CurrencyPairMapper
 import uk.co.sentinelweb.bitwatcher.common.rx.BwSchedulers
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListContract
 import uk.co.sentinelweb.domain.*
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType
 import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
@@ -34,19 +37,20 @@ class TradePresenter @Inject constructor(
         private val displayMapper:TradeDisplayMapper,
         private val marketMapper: CurrencyPairMapper,
         inputPresenterFactory: TradeInputPresenterFactory
-) : TradeContract.Presenter, TradeInputContract.Interactions {
+) : TradeContract.Presenter, TradeInputContract.Interactions, TransactionListContract.Interactions {
     companion object {
 
         val TAG = TradePresenter::class.java.simpleName
     }
 
     private val subscriptions = CompositeDisposable()
-
     private val buyInputPresenter:TradeInputContract.Presenter
-
     private val sellInputPresenter:TradeInputContract.Presenter
+    private val listPresenter: TransactionListContract.Presenter
 
     init {
+        listPresenter = view.getListPresenter()
+        listPresenter.setInteractions(this)
         view.setPresenter(this)
         buyInputPresenter  = view.getInputPresenter(inputPresenterFactory, this, TradeType.BID)
         sellInputPresenter = view.getInputPresenter(inputPresenterFactory, this, TradeType.ASK)
@@ -127,13 +131,28 @@ class TradePresenter @Inject constructor(
     override fun onAccountSelected(index: Int) {
         state.accounts?.get(index)?.let { acct ->
             state.account = acct
+
             val marketListDisposable = MarketListDisposable()
             marketsDataUseCase.getMarkets(acct)
                     .observeOn(schedulers.main)
                     .subscribeOn(schedulers.disk)
                     .subscribe(marketListDisposable)
             subscriptions.add(marketListDisposable)
+
+            val openTradesListDisposable = OpenTradesDisposable()
+            tradeUseCase.getOpenTrades(acct)
+                    .observeOn(schedulers.main)
+                    .subscribeOn(schedulers.network)
+                    .map { openTradeList -> map(openTradeList, acct)}
+                    .subscribe(openTradesListDisposable)
+            subscriptions.add(openTradesListDisposable)
         }
+    }
+
+    private fun map(trades:List<TransactionItemDomain.TradeDomain>, acct:AccountDomain):List<TransactionItemModel> {
+        val modelList = mutableListOf<TransactionItemModel>()
+        trades.forEach { trade -> modelList.add(TransactionItemModel(trade, acct)) }
+        return modelList
     }
 
     override fun onMarketButtonClick() {
@@ -150,8 +169,12 @@ class TradePresenter @Inject constructor(
         view.setData(displayMapper.mapDisplay(state))
     }
 
-    override fun onTabClicked(isBuy: Boolean) {
-        view.showTabContent(isBuy)
+    override fun onSelectionChanged(selection: Set<TransactionItemModel>) {
+    }
+
+
+    override fun onTabClicked(tab: TradeContract.View.Tab) {
+        view.showTabContent(tab)
     }
 
     private fun loadRate() {
@@ -213,6 +236,21 @@ class TradePresenter @Inject constructor(
         override fun onSuccess(trade: TransactionItemDomain.TradeDomain) {
 
         }
+
+        override fun onError(exception: Throwable) {
+            Log.d(CalculatorPresenter.TAG, "Error placing trade", exception)
+        }
+
+    }
+
+    inner class OpenTradesDisposable : DisposableObserver<List<TransactionItemModel>>() {
+        override fun onNext(list: List<TransactionItemModel>) {
+            listPresenter.bindData(list)
+        }
+
+        override fun onComplete() {
+        }
+
 
         override fun onError(exception: Throwable) {
             Log.d(CalculatorPresenter.TAG, "Error placing trade", exception)

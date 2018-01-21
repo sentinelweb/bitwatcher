@@ -6,13 +6,18 @@ import android.util.Log
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
+import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.TradePresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
+import uk.co.sentinelweb.bitwatcher.common.mapper.StringMapper
 import uk.co.sentinelweb.bitwatcher.common.preference.TransactionFilterInteractor
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListContract
+import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain
 import uk.co.sentinelweb.use_case.GetTransactionsUseCase
 import java.math.BigDecimal
@@ -23,8 +28,9 @@ class TransactionsPresenter @Inject constructor(
         private val view: TransactionsContract.View,
         private val getTransactionUseCase: GetTransactionsUseCase,
         private val state: TransactionsState,
-        filterPresenterFactory: TransactionFilterPresenterFactory,
-        private val preferences: TransactionFilterInteractor
+        private val preferences: TransactionFilterInteractor,
+        private val stringMapper: StringMapper,
+        filterPresenterFactory: TransactionFilterPresenterFactory
 ) : TransactionsContract.Presenter, TransactionFilterContract.Interactions, TransactionListContract.Interactions {
 
     companion object {
@@ -49,22 +55,15 @@ class TransactionsPresenter @Inject constructor(
         state.accountList.clear()
         state.filter = preferences.getTransactionFilter("last")
         view.showLoading(true)
-        subscriptions.add(
-                getTransactionUseCase
-                        .getAllTransactionsByAccount()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ account ->
-                            // onNext
-                            state.accountList.add(account)
-                            updateViewListData()
-                        }, { e ->
-                            // onError
-                            Log.d(TAG, "error loading transactions", e)
-                            view.showLoading(false)
-                        }, {
-                            view.showLoading(false)
-                        }))
+
+        val disposable = TransactionListDisposable()
+        getTransactionUseCase
+                .getAllTransactionsByAccount()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(disposable)
+        subscriptions.add(disposable)
+
     }
 
     override fun onDestroy() {
@@ -142,19 +141,21 @@ class TransactionsPresenter @Inject constructor(
     }
 
     // TODO split by market (& account?)
-    fun makeSelectionSummary(selection:Collection<TransactionItemModel>, prefix:String):String {
+    fun makeSelectionSummary(selection: Collection<TransactionItemModel>, prefix: String): String {
         var loopTotal = BigDecimal.ZERO
         var feesTotal = BigDecimal.ZERO
-        selection.forEach({transaction ->
+        selection.forEach({ transaction ->
             when (transaction.domain) {
-                is TransactionItemDomain.TradeDomain ->  {
-                    val amount = transaction.domain.price * transaction.domain.amount
-                    if (transaction.domain.type == TransactionItemDomain.TradeDomain.TradeType.BID) {
-                        loopTotal -= amount
-                    } else {
-                        loopTotal += amount
+                is TransactionItemDomain.TradeDomain -> {
+                    if (transaction.domain.status ==TransactionItemDomain.TradeDomain.TradeStatus.COMPLETE) {
+                        val amount = transaction.domain.price * transaction.domain.amount
+                        if (transaction.domain.type == TransactionItemDomain.TradeDomain.TradeType.BID) {
+                            loopTotal -= amount
+                        } else {
+                            loopTotal += amount
+                        }
+                        feesTotal += transaction.domain.feesAmount
                     }
-                    feesTotal += transaction.domain.feesAmount
                 }
             }
 
@@ -162,10 +163,29 @@ class TransactionsPresenter @Inject constructor(
         return "${prefix}: ${loopTotal.dp(2)} Fees: ${feesTotal.dp(2)}"
     }
 
-    fun mapModel() : TransactionsState.TransactionsDisplayModel{
+    fun mapModel(): TransactionsState.TransactionsDisplayModel {
         return TransactionsState.TransactionsDisplayModel(
                 state.summary
         )
+    }
+
+    inner class TransactionListDisposable : DisposableObserver<AccountDomain>() {
+        override fun onNext(account: AccountDomain) {
+            state.accountList.add(account)
+
+        }
+
+        override fun onComplete() {
+            updateViewListData()
+            view.showLoading(false)
+        }
+
+
+        override fun onError(e: Throwable) {
+            Log.d(TradePresenter.TAG, "Error getting transactions", e)
+            view.showError(stringMapper.getString(R.string.error_load_failed, e.message ?: "unknown"))
+            view.showLoading(false)
+        }
     }
 
 }

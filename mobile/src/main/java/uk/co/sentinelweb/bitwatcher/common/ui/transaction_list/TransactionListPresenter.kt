@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list
 
 class TransactionListPresenter(
         private val view: TransactionListContract.View

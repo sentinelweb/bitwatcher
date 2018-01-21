@@ -21,7 +21,7 @@
             android:visibility="gone"
         />
 
-        <uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListView
+        <uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListView
             android:id="@+id/transactions_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

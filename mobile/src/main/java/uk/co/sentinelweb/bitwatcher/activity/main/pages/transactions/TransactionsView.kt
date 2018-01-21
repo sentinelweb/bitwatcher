@@ -3,6 +3,8 @@ package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -11,8 +13,8 @@ import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterPresenterFactory
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.filter.TransactionFilterView
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListContract
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionListPresenter
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListContract
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListPresenter
 
 
 class TransactionsView(context: Context) : FrameLayout(context), TransactionsContract.View {
@@ -66,6 +68,12 @@ class TransactionsView(context: Context) : FrameLayout(context), TransactionsCon
             ObjectAnimator.ofFloat(transactions_loading, "alpha",  0f).start()
             //transactions_loading.visibility = View.GONE
         }
+    }
+
+    override fun showError(message: String) {
+        val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(context,R.color.colorError))
+        snackbar.show()
     }
 
 }

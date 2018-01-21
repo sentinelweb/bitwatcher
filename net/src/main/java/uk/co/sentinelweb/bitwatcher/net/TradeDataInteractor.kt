@@ -10,4 +10,5 @@ interface TradeDataInteractor {
     fun getUserTradesForPair(pair:CurrencyPair): Single<List<TradeDomain>>
     fun getUserTradesForPairs(currencyPairs: List<CurrencyPair>): Observable<List<TradeDomain>>
     fun getUserTrades(): Observable<List<TradeDomain>>
+    fun getOpenUserTrades(): Observable<List<TradeDomain>>
 }

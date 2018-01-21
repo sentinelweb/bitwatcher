@@ -14,6 +14,15 @@ class TradeApiInteractor(
         private val mapper: TradeMapper = TradeMapper(),
         private val paramsProvider: TradeHistoryParamsProvider
 ) : TradeDataInteractor {
+    override fun getOpenUserTrades(): Observable<List<TradeDomain>> {
+        return Observable.fromCallable(object : Callable<List<TradeDomain>> {
+            override fun call(): List<TradeDomain> {
+                val openOrdersParams = service.tradeService.createOpenOrdersParams()
+                val openOrders = service.tradeService.getOpenOrders(openOrdersParams)
+                return mapper.mapOpen(openOrders.openOrders)
+            }
+        })
+    }
 
     override fun getUserTrades(): Observable<List<TradeDomain>> {
         return Observable.fromCallable(object : Callable<List<TradeDomain>> {
@@ -21,12 +30,6 @@ class TradeApiInteractor(
                 val trades = service.tradeService.getTradeHistory(paramsProvider.provide(null))
                 System.err.println("got trades:${trades.userTrades.size}")
                 val tradeDomainList = mapper.map(trades.userTrades.toList()).toMutableList()
-                // TODO move to separate RX call and combine lists in RX
-                val openOrdersParams = service.tradeService.createOpenOrdersParams()
-                val openOrders = service.tradeService.getOpenOrders(openOrdersParams)
-                if (openOrders.openOrders.size>0) {
-                    tradeDomainList.addAll(mapper.mapOpen(openOrders.openOrders))
-                }
                 return tradeDomainList.toList()
             }
         })

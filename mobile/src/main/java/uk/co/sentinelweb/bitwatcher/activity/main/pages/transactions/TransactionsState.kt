@@ -1,6 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions
 
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.TransactionFilterDomain
 

@@ -1,6 +1,6 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row
 
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.TransactionItemModel
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionItemModel
 
 interface TransactionRowContract {
     interface View {

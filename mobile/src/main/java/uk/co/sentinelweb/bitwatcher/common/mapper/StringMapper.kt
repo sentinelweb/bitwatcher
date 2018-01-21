@@ -10,4 +10,8 @@ class StringMapper @Inject constructor(
     fun getString(@StringRes id:Int):String {
         return context.getString(id)
     }
+
+    fun getString(@StringRes id:Int, vararg args:Any):String {
+        return context.getString(id, *args)
+    }
 }

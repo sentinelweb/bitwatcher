@@ -63,4 +63,6 @@
     <string name="trade_select_account">Select Account</string>
     <string name="trade_select_market">Select market</string>
     <string name="price">Price</string>
+    <string name="error_load_failed">Load failed: %1$s</string>
+    <string name="tab_title_open_trades">Open</string>
 </resources>

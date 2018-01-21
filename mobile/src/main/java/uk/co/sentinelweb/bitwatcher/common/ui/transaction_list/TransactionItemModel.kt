@@ -1,4 +1,4 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list
 
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain

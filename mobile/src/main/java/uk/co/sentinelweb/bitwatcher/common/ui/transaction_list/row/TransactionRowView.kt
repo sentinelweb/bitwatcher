@@ -1,18 +1,19 @@
-package uk.co.sentinelweb.bitwatcher.activity.main.pages.transactions.list.row
+package uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.view_transaction_row_trade.view.*
+import kotlinx.android.synthetic.main.view_transaction_row_transaction.view.*
 import uk.co.sentinelweb.bitwatcher.R
+import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.row.TransactonRowState.DisplayModel.TransactionDisplayModel
 
-class TradeRowView(context: Context) : FrameLayout(context), TransactionRowContract.View {
+class TransactionRowView(context: Context?): FrameLayout(context), TransactionRowContract.View {
     private lateinit var presenter:TransactionRowContract.Presenter
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_transaction_row_trade, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_transaction_row_transaction, this, true)
         setOnClickListener({presenter.onSelect()})
     }
 
@@ -21,19 +22,17 @@ class TradeRowView(context: Context) : FrameLayout(context), TransactionRowContr
     }
 
     override fun setData(model: TransactonRowState.DisplayModel) {
-        if (model is TransactonRowState.DisplayModel.TradeDisplayModel) {
+        if (model is TransactionDisplayModel) {
             icon.setImageResource(model.icon)
             icon.setColorFilter(ContextCompat.getColor(context, model.iconColor))
             amount_market.text = model.amount
             fee.text = model.feeAmount
-            trade_type.text = model.type
-            market_name.text = model.market
-            quantity_rate.text = model.quantityAndRate
+            transaction_type.text = model.type
+            transaction_status.text = model.status
             date.text = model.date
-            trade_id.text = model.id
+            trans_id.text = model.id
             account.text = model.accountName
             account.background = ColorDrawable(model.accountColor)
-            trade_status.text = model.status
             setBackgroundColor(ContextCompat.getColor(context, model.backgroundColor))
         }
     }
