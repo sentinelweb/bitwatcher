@@ -7,6 +7,7 @@ import org.junit.Test
 import org.knowm.xchange.ExchangeFactory
 import org.knowm.xchange.binance.BinanceExchange
 import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw
+import org.knowm.xchange.currency.CurrencyPair
 import uk.co.sentinelweb.domain.CurrencyCode
 import uk.co.sentinelweb.domain.TickerDomain
 import kotlin.test.assertEquals
@@ -36,7 +37,7 @@ class BinanceTickerApiInteractorTest {
     fun getTicker_binanceRawIotaBtc() {
         val binanceMarketDataServiceRaw = ExchangeFactory.INSTANCE.createExchange(BinanceExchange::class.java.name).marketDataService as BinanceMarketDataServiceRaw
 
-        val ticker24h = binanceMarketDataServiceRaw.ticker24h("IOTABTC")
+        val ticker24h = binanceMarketDataServiceRaw.ticker24h(CurrencyPair.IOTA_BTC)
         assertNotNull(ticker24h)
 
     }
