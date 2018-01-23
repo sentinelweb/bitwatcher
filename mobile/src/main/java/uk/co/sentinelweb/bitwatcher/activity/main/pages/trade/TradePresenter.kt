@@ -55,6 +55,7 @@ class TradePresenter @Inject constructor(
         buyInputPresenter  = view.getInputPresenter(inputPresenterFactory, this, TradeType.BID)
         sellInputPresenter = view.getInputPresenter(inputPresenterFactory, this, TradeType.ASK)
         view.setData(displayMapper.mapDisplay(state))
+        view.showTabContent(TradeContract.View.Tab.OPEN_TRADES)
     }
 
     override fun onEnter() {
@@ -104,7 +105,7 @@ class TradePresenter @Inject constructor(
     override fun onExecutePressed(amount: AmountDomain, price: BigDecimal, type: TradeType) {
         state.account?.let { acct ->
             val trade = TransactionItemDomain.TradeDomain(
-                    "",
+                    System.currentTimeMillis().toString(),
                     Date(),
                     amount.amount,
                     amount.currencyCode,
@@ -253,7 +254,7 @@ class TradePresenter @Inject constructor(
 
 
         override fun onError(exception: Throwable) {
-            Log.d(CalculatorPresenter.TAG, "Error placing trade", exception)
+            Log.d(CalculatorPresenter.TAG, "Error getting trades", exception)
         }
 
     }

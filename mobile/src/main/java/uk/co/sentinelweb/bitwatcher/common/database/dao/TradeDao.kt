@@ -9,12 +9,20 @@ import uk.co.sentinelweb.bitwatcher.common.database.converter.TradeTypeConverter
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TradeEntity
 
 @Dao
-@TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class,TradeTypeConverter::class)
+@TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class, TradeTypeConverter::class)
 interface TradeDao {
     @Query("SELECT * From trade")
     fun singleAllTrades(): Single<List<TradeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTrade(t: TradeEntity)
+    fun insertTrade(t: TradeEntity):Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateTrade(t: TradeEntity)
+
+    @Query("SELECT * From trade where account_id=:accountId and tid=:transactionId")
+    fun checkTradeInDb(accountId: Long, transactionId: String): TradeEntity?
+
+
 
 }

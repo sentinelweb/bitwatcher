@@ -2,6 +2,7 @@ package uk.co.sentinelweb.bitwatcher.orchestrator
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import uk.co.sentinelweb.bitwatcher.common.database.interactor.TradeDatabaseInteractor
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TradeDataInteractor
 import uk.co.sentinelweb.domain.AccountDomain
@@ -13,11 +14,17 @@ import javax.inject.Named
 
 class TradeOrchestrator @Inject constructor(
         private @Named(NetModule.BITSTAMP) val bsTradesInteractor: TradeDataInteractor,
-        private @Named(NetModule.BINANCE) val bnTradesInteractor: TradeDataInteractor
+        private @Named(NetModule.BINANCE) val bnTradesInteractor: TradeDataInteractor,
+        private val tradeInteractor:TradeDatabaseInteractor
 ) : TradeUseCase {
 
     override fun placeTrade(account: AccountDomain, trade: TransactionItemDomain.TradeDomain): Single<TransactionItemDomain.TradeDomain> {
-        return Single.just(trade)
+        return when (account.type) {
+            AccountType.GHOST -> {
+                return tradeInteractor.singleInsertOrUpdate(account, trade)
+            }
+            else -> Single.just(trade)
+        }
     }
 
     override fun getOpenTrades(account: AccountDomain): Observable<List<TransactionItemDomain.TradeDomain>> {
