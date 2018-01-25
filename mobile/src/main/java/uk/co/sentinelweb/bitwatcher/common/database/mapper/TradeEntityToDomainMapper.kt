@@ -23,4 +23,8 @@ class TradeEntityToDomainMapper @Inject constructor() {
                 input.status
         )
     }
+
+    fun mapList(entityList: List<TradeEntity>): List<TransactionItemDomain.TradeDomain> {
+        return entityList.flatMap { t -> listOf(map(t)) }.toList() // TODO intermediate list creation
+    }
 }

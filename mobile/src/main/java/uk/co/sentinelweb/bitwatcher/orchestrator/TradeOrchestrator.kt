@@ -41,6 +41,9 @@ class TradeOrchestrator @Inject constructor(
                 //return bnTradesInteractor.getOpenUserTrades()
                 return Observable.empty()
             }
+            AccountType.GHOST -> {
+                return tradeInteractor.singleOpenTradesForAccount(account).toObservable()
+            }
             else -> Observable.empty()
         }
     }

@@ -8,7 +8,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableMaybeObserver
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.observers.DisposableSingleObserver
-import uk.co.sentinelweb.bitwatcher.activity.main.pages.calculator.CalculatorPresenter
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputContract
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPresenterFactory
 import uk.co.sentinelweb.bitwatcher.common.mapper.CurrencyPairMapper
@@ -144,16 +143,10 @@ class TradePresenter @Inject constructor(
             tradeUseCase.getOpenTrades(acct)
                     .observeOn(schedulers.main)
                     .subscribeOn(schedulers.network)
-                    .map { openTradeList -> map(openTradeList, acct)}
+                    .map { openTradeList -> mapTradeList(openTradeList, acct)}
                     .subscribe(openTradesListDisposable)
             subscriptions.add(openTradesListDisposable)
         }
-    }
-
-    private fun map(trades:List<TransactionItemDomain.TradeDomain>, acct:AccountDomain):List<TransactionItemModel> {
-        val modelList = mutableListOf<TransactionItemModel>()
-        trades.forEach { trade -> modelList.add(TransactionItemModel(trade, acct)) }
-        return modelList
     }
 
     override fun onMarketButtonClick() {
@@ -173,9 +166,15 @@ class TradePresenter @Inject constructor(
     override fun onSelectionChanged(selection: Set<TransactionItemModel>) {
     }
 
-
     override fun onTabClicked(tab: TradeContract.View.Tab) {
         view.showTabContent(tab)
+    }
+
+
+    private fun mapTradeList(trades:List<TransactionItemDomain.TradeDomain>, acct:AccountDomain):List<TransactionItemModel> {
+        val modelList = mutableListOf<TransactionItemModel>()
+        trades.forEach { trade -> modelList.add(TransactionItemModel(trade, acct)) }
+        return modelList
     }
 
     private fun loadRate() {
@@ -227,7 +226,7 @@ class TradePresenter @Inject constructor(
         }
 
         override fun onError(exception: Throwable) {
-            Log.d(CalculatorPresenter.TAG, "Error gettting ticker", exception)
+            Log.d(TAG, "Error getting price", exception)
         }
 
     }
@@ -239,7 +238,7 @@ class TradePresenter @Inject constructor(
         }
 
         override fun onError(exception: Throwable) {
-            Log.d(CalculatorPresenter.TAG, "Error placing trade", exception)
+            Log.d(TAG, "Error placing trade", exception)
         }
 
     }
@@ -254,7 +253,7 @@ class TradePresenter @Inject constructor(
 
 
         override fun onError(exception: Throwable) {
-            Log.d(CalculatorPresenter.TAG, "Error getting trades", exception)
+            Log.d(TAG, "Error getting open trades", exception)
         }
 
     }
