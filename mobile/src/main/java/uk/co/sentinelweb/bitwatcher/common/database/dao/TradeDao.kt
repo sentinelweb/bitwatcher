@@ -9,6 +9,7 @@ import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeStatus
 @Dao
 @TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class, TradeTypeConverter::class, TradeStatusConverter::class)
 interface TradeDao {
+
     @Query("SELECT * From trade")
     fun singleAllTrades(): Single<List<TradeEntity>>
 
@@ -21,11 +22,11 @@ interface TradeDao {
     @Query("SELECT * From trade where account_id=:accountId and tid=:transactionId")
     fun checkTradeInDb(accountId: Long, transactionId: String): TradeEntity?
 
-    @Query("SELECT * From trade where account_id=:acctId and status NOT IN :excludeStatuses")//and status IN :includeStatuses
-    fun singleTradesForAccountWithStatus(
+    // FIXME room not processing kotlin lists
+    @Query("SELECT * From trade where account_id=:acctId and status NOT IN (:excludeStatuses)")//and status IN :includeStatuses
+    fun singleTradesForAccountWithOutStatus(
             acctId: Long,
-            //includeStatuses: List<TradeStatus>,
-            excludeStatuses: List<TradeStatus>): Single<List<TradeEntity>>
+            excludeStatuses: java.util.List<TradeStatus>): Single<List<TradeEntity>>
 
     @Query("SELECT * From trade where account_id=:acctId and status = :status")
     fun singleTradesForAccountWithStatus(

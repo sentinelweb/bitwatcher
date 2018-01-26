@@ -37,8 +37,11 @@ class TradeDatabaseInteractor @Inject internal constructor(
     }
 
     fun singleOpenTradesForAccount(acct:AccountDomain):Single<List<TradeDomain>> {
-        return db.tradeDao().singleTradesForAccountWithStatus(acct.id!!,/* listOf(),*/ listOf(TradeDomain.TradeStatus.COMPLETE))
-                .map {entity -> domainMapper.mapList(entity)  }
+        val arrayList:java.util.List<TradeDomain.TradeStatus> = java.util.ArrayList<TradeDomain.TradeStatus>() as java.util.List<TradeDomain.TradeStatus>
+        arrayList.add(TradeDomain.TradeStatus.COMPLETE)
+        return db.tradeDao().
+                singleTradesForAccountWithOutStatus(acct.id!!, arrayList)
+                .map {entityList:List<TradeEntity> -> domainMapper.mapList(entityList)  }
     }
 
 }

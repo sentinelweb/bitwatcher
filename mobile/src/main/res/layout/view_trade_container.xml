@@ -1,121 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_large"
->
-
-    <Button
-        android:id="@+id/trade_amount_currency_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        tools:text="USD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/trade_amount_edit"
-        android:layout_width="272dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edit_amount_background"
-        app:layout_constraintEnd_toStartOf="@+id/trade_amount_currency_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/trade_amount_edit_view"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/hint_amount"
-            tools:text="40000"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/trade_price_edit"
+>
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/edit_amount_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trade_amount_edit">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_large"
+    >
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/trade_price_edit_view"
+        <Button
+            android:id="@+id/trade_amount_currency_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="USD"
+        />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/trade_amount_edit"
+            android:layout_width="272dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edit_amount_background"
+            app:layout_constraintEnd_toStartOf="@+id/trade_amount_currency_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+        >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/trade_amount_edit_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/hint_amount"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                tools:text="40000"
+            />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/trade_price_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/price"
-            tools:text="0.00032"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edit_amount_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trade_amount_edit"
+        >
 
-    <ImageView
-        android:id="@+id/trade_link_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/cd_link_to_ticker_price"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:src="@drawable/ic_link_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@id/trade_price_edit"
-        app:layout_constraintStart_toEndOf="@id/trade_price_edit"
-        app:layout_constraintTop_toTopOf="@id/trade_price_edit"
-    />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/trade_price_edit_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                tools:text="0.00032"
+            />
+        </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/buy_amount_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trade_price_edit"
-        tools:text="400BTC"
-    />
+        <ImageView
+            android:id="@+id/trade_link_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_link_to_ticker_price"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/ic_link_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@id/trade_price_edit"
+            app:layout_constraintStart_toEndOf="@id/trade_price_edit"
+            app:layout_constraintTop_toTopOf="@id/trade_price_edit"
+        />
 
-    <TextView
-        android:id="@+id/trade_input_amount_help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/trade_execute_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buy_amount_text"
-        tools:text="You will buy 40000USD worth of BTC"
-    />
+        <TextView
+            android:id="@+id/buy_amount_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trade_price_edit"
+            tools:text="400BTC"
+        />
 
-    <Button
-        android:id="@+id/trade_execute_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        tools:text="Execute"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-    />
+        <TextView
+            android:id="@+id/trade_input_amount_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/trade_execute_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buy_amount_text"
+            tools:text="You will buy 40000USD worth of BTC"
+        />
 
+        <Button
+            android:id="@+id/trade_execute_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Execute"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
