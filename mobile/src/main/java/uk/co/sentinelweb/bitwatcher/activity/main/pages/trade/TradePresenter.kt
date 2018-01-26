@@ -139,13 +139,7 @@ class TradePresenter @Inject constructor(
                     .subscribe(marketListDisposable)
             subscriptions.add(marketListDisposable)
 
-            val openTradesListDisposable = OpenTradesDisposable()
-            tradeUseCase.getOpenTrades(acct)
-                    .observeOn(schedulers.main)
-                    .subscribeOn(schedulers.network)
-                    .map { openTradeList -> mapTradeList(openTradeList, acct)}
-                    .subscribe(openTradesListDisposable)
-            subscriptions.add(openTradesListDisposable)
+            refreshTrades(acct)
         }
     }
 
@@ -168,6 +162,16 @@ class TradePresenter @Inject constructor(
 
     override fun onTabClicked(tab: TradeContract.View.Tab) {
         view.showTabContent(tab)
+    }
+
+    private fun refreshTrades(acct: AccountDomain): Boolean {
+        val openTradesListDisposable = OpenTradesDisposable()
+        tradeUseCase.getOpenTrades(acct)
+                .observeOn(schedulers.main)
+                .subscribeOn(schedulers.network)
+                .map { openTradeList -> mapTradeList(openTradeList, acct) }
+                .subscribe(openTradesListDisposable)
+        return subscriptions.add(openTradesListDisposable)
     }
 
 
@@ -234,7 +238,7 @@ class TradePresenter @Inject constructor(
     inner class TradeDisposable : DisposableSingleObserver<TransactionItemDomain.TradeDomain>() {
 
         override fun onSuccess(trade: TransactionItemDomain.TradeDomain) {
-
+            state.account?.let { a -> refreshTrades(a) }
         }
 
         override fun onError(exception: Throwable) {

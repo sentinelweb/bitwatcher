@@ -58,6 +58,7 @@ class TradeInputView(context: Context, attrs: AttributeSet) : FrameLayout(contex
         trade_execute_button.setText(model.executeButtonLabel)
         trade_execute_button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, model.executeButtonColor))
         trade_execute_button.isEnabled = model.executeButtonEnabled
+        trade_amount_currency_button.setText(model.amountCurrency)
         if (exclude != TradeInputState.Field.AMOUNT) {
             trade_amount_edit_view.setText(model.amount)
         }

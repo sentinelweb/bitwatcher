@@ -45,14 +45,14 @@ class TradeInputPresenter constructor(
     }
 
     override fun onAmountCurrencySelected(currencyString: String) {
-        try {
-            val newCode = CurrencyCode.valueOf(currencyString)
-            val wasChanged = state.amountCurrency != newCode
-            state.amountCurrency = newCode
-            if (wasChanged) {
-                state.amount = BigDecimal.ONE.div(state.amount)
-            }
-        } catch (e: Exception) {
+        val newCode = CurrencyCode.valueOf(currencyString)
+        val wasChanged = state.amountCurrency != newCode
+        state.amountCurrency = newCode
+        state.otherCurrency = if (newCode == state.market.base) state.market.currency else state.market.base
+        if (wasChanged) {
+            val tmp = state.otherAmount
+            state.otherAmount = state.amount
+            state.amount = tmp
         }
         calculateAmounts()
         view.setData(mapper.mapModel(state), null)
@@ -75,7 +75,8 @@ class TradeInputPresenter constructor(
     override fun setMarketAndAccount(account: AccountDomain?, market: CurrencyPair) {
         state.account = account
         state.market = market
-        state.amountCurrency = market.currency
+        state.amountCurrency = state.market.currency
+        state.otherCurrency = state.market.base
         view.setData(mapper.mapModel(state), null)
     }
 
@@ -89,12 +90,12 @@ class TradeInputPresenter constructor(
     }
 
 
-     private fun calculateAmounts() {
+    private fun calculateAmounts() {
         val otherAmount: BigDecimal
         if (state.amountCurrency == state.market.currency) {
             otherAmount = state.amount * state.price
         } else {
-            otherAmount = state.amount * state.price.div(state.price)
+            otherAmount = state.amount.div(state.price)
         }
         state.otherAmount = otherAmount
     }

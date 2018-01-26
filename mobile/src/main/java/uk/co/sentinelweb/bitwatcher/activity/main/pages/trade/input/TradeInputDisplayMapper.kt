@@ -16,11 +16,12 @@ class TradeInputDisplayMapper constructor(
                 zero(state.amount),
                 zero(state.price, 5),
                 true,
-                state.otherAmount.dp(4),
+                state.otherAmount.dp(4)+ " "+ state.otherCurrency,
                 "help",
                 stringMapper.getString(if (state.tradeType==BID) R.string.buy else R.string.sell ),
                 true,
-                if (state.tradeType == BID) R.color.colorBuy else R.color.colorSell
+                if (state.tradeType == BID) R.color.colorBuy else R.color.colorSell,
+                state.amountCurrency.toString()
         )
     }
 

@@ -17,6 +17,7 @@ data class TradeInputState(
         var market: CurrencyPair = CurrencyPair.NONE,
         var tradeType: TradeType = UNKNOWN,
         var amountCurrency: CurrencyCode = CurrencyCode.NONE,
+        var otherCurrency: CurrencyCode = CurrencyCode.NONE,
         var currentPrice: BigDecimal = ZERO,
         var otherAmount: BigDecimal = ZERO
 ){
@@ -28,7 +29,8 @@ data class TradeInputState(
         val amountHelp:String,
         val executeButtonLabel:String,
         val executeButtonEnabled:Boolean,
-        @ColorRes val executeButtonColor:Int
+        @ColorRes val executeButtonColor:Int,
+        val amountCurrency:String
     )
 
     enum class Field {
