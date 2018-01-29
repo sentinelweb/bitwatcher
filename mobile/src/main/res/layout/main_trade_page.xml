@@ -6,101 +6,108 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 -->
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/trade_top_ctnr"
-            android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/trade_top_ctnr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    >
+
+        <Button
+            android:id="@+id/trade_account_button"
+            style="@android:style/Widget.Material.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Account"
+        />
+
+        <TextView
+            android:id="@+id/trade_account_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/trade_account_button"
+        />
+
+        <Button
+            android:id="@+id/trade_market_button"
+            style="@android:style/Widget.Material.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="BTC/USD"
+        />
+
+        <TextView
+            android:id="@+id/trade_market_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/trade_market_button"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/trade_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trade_top_ctnr"
+    >
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/trade_open_trades_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/tab_title_open_trades"
+        />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/trade_buy_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/buy"
+        />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/trade_sell_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/sell"
+        />
+
+    </android.support.design.widget.TabLayout>
+
+    <FrameLayout
+        android:id="@+id/trade_tab_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/trade_tabs"
         >
 
-            <Button
-                android:id="@+id/trade_account_button"
-                style="@android:style/Widget.Material.Button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Account"
-            />
-
-            <TextView
-                android:id="@+id/trade_account_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/trade_account_button"
-            />
-
-            <Button
-                android:id="@+id/trade_market_button"
-                style="@android:style/Widget.Material.Button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAppearance="@android:style/TextAppearance.Material.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="BTC/USD"
-            />
-
-            <TextView
-                android:id="@+id/trade_market_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/trade_market_button"/>
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/trade_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/trade_top_ctnr">
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/trade_open_trades_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/tab_title_open_trades"
-            />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/trade_buy_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/buy"
-            />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/trade_sell_tab"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/sell"
-            />
-
-        </android.support.design.widget.TabLayout>
-
-        <FrameLayout
-            android:id="@+id/trade_tab_content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/trade_tabs">
-            >
+        >
 
             <uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListView
                 android:id="@+id/trade_list_open"
@@ -109,28 +116,43 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_above="@id/trade_delete_button"
+
             />
-            <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
-                android:id="@+id/trade_buy_view"
+
+            <Button
+                android:id="@+id/trade_delete_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="wrap_content"
+                android:text="@string/button_delete_trades"
+                android:backgroundTint="@color/red_600"
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
             />
 
-            <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
-                android:id="@+id/trade_sell_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:visibility="gone"
-            />
+        </RelativeLayout>
 
-        </FrameLayout>
+        <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
+            android:id="@+id/trade_buy_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+        />
 
-    </RelativeLayout>
+        <uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputView
+            android:id="@+id/trade_sell_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+        />
+
+    </FrameLayout>
+
+</RelativeLayout>
 
     <!--</ScrollView>-->

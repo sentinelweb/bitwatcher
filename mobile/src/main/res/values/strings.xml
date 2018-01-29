@@ -65,4 +65,7 @@
     <string name="price">Price</string>
     <string name="error_load_failed">Load failed: %1$s</string>
     <string name="tab_title_open_trades">Open</string>
+    <string name="message_order_placed">%1$s order placed for %2$s</string>
+    <string name="currency_format">%1$s %2$s</string>
+    <string name="button_delete_trades">Delete trades</string>
 </resources>

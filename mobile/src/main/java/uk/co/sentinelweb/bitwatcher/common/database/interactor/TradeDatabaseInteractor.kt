@@ -37,11 +37,30 @@ class TradeDatabaseInteractor @Inject internal constructor(
     }
 
     fun singleOpenTradesForAccount(acct:AccountDomain):Single<List<TradeDomain>> {
+        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
         val arrayList:java.util.List<TradeDomain.TradeStatus> = java.util.ArrayList<TradeDomain.TradeStatus>() as java.util.List<TradeDomain.TradeStatus>
         arrayList.add(TradeDomain.TradeStatus.COMPLETE)
         return db.tradeDao().
                 singleTradesForAccountWithOutStatus(acct.id!!, arrayList)
                 .map {entityList:List<TradeEntity> -> domainMapper.mapList(entityList)  }
+    }
+
+    /**
+     * deletes a set of trades from the specified account
+     */
+    fun singleDeleteTrades(account: AccountDomain, trades: Set<TradeDomain>): Single<Boolean> {
+        return Single.fromCallable(object : Callable<Boolean> {
+            override fun call(): Boolean {
+                var result = true
+                trades.forEach { trade ->
+                    val tradeEntity = entityMapper.map(trade, account)
+                    result = result && db.tradeDao().deleteTrade(tradeEntity.accountId, tradeEntity.tid) == 1
+
+                }
+                return result
+            }
+        })
+
     }
 
 }

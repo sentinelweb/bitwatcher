@@ -27,6 +27,9 @@ class TransactionListAdapter constructor(
 
     fun setItems(list: List<TransactionItemModel>) {
         this.list = list
+        val filtered = selection.filter { model -> list.contains(model) }
+        selection.clear()
+        selection.addAll(filtered)
         notifyDataSetChanged()
     }
 

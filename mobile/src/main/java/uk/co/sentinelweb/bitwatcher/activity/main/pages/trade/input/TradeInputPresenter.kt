@@ -12,7 +12,6 @@ class TradeInputPresenter constructor(
         tradeType: TransactionItemDomain.TradeDomain.TradeType,
         private val state: TradeInputState = TradeInputState()
 ) : TradeInputContract.Presenter {
-
     init {
         state.tradeType = tradeType
         view.setData(mapper.mapModel(state), null)
@@ -75,8 +74,8 @@ class TradeInputPresenter constructor(
     override fun setMarketAndAccount(account: AccountDomain?, market: CurrencyPair) {
         state.account = account
         state.market = market
-        state.amountCurrency = state.market.currency
-        state.otherCurrency = state.market.base
+        state.amountCurrency = state.market.base
+        state.otherCurrency = state.market.currency
         view.setData(mapper.mapModel(state), null)
     }
 
@@ -89,6 +88,11 @@ class TradeInputPresenter constructor(
         view.setData(mapper.mapModel(state), null)
     }
 
+    override fun clearTrade() {
+        state.amount = ZERO
+        calculateAmounts()
+        view.setData(mapper.mapModel(state), null)
+    }
 
     private fun calculateAmounts() {
         val otherAmount: BigDecimal
@@ -99,6 +103,5 @@ class TradeInputPresenter constructor(
         }
         state.otherAmount = otherAmount
     }
-
 
 }

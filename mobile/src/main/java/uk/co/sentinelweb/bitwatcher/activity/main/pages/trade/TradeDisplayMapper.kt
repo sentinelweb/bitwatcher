@@ -20,7 +20,8 @@ class TradeDisplayMapper @Inject constructor(
                 balancesMapper.mapBalances(state.account),
                 state.account?.name ?: stringMapper.getString(R.string.trade_select_account),
                 state.currentPrice.dp(5),
-                if (state.market != CurrencyPair.NONE) marketMapper.mapName(state.market) else stringMapper.getString(R.string.trade_select_market)
+                if (state.market != CurrencyPair.NONE) marketMapper.mapName(state.market) else stringMapper.getString(R.string.trade_select_market),
+                state.selectedTrades?.size ?: 0 > 0
         )
     }
 

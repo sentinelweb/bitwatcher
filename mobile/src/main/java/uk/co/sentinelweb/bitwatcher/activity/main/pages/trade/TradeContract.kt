@@ -6,9 +6,10 @@ import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputPr
 import uk.co.sentinelweb.bitwatcher.common.ui.transaction_list.TransactionListContract
 import uk.co.sentinelweb.domain.TransactionItemDomain
 
-interface TradeContract{
+interface TradeContract {
 
     interface View {
+
         fun setData(model: TradeState.TradeDisplayModel)
         fun setPresenter(p:Presenter)
         fun getInputPresenter(inputPresenterFactory: TradeInputPresenterFactory,
@@ -19,6 +20,7 @@ interface TradeContract{
         fun showAccountSeletor(accounts: Array<String>)
         fun showMarketsSelector(marketNames: Array<String>)
         fun getListPresenter(): TransactionListContract.Presenter
+        fun showMessage(message: String, isError: Boolean = false)
 
         enum class Tab {
             OPEN_TRADES, BUY, SELL
@@ -31,6 +33,6 @@ interface TradeContract{
         fun onTabClicked(tab: View.Tab)
         fun onAccountSelected(index: Int)
         fun onMarketSelected(index: Int)
-
+        fun onDeleteTradesClick()
     }
 }

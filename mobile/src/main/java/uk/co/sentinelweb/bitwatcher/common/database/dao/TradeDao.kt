@@ -19,6 +19,12 @@ interface TradeDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateTrade(t: TradeEntity)
 
+    @Delete()
+    fun deleteTrade(t: TradeEntity):Int
+
+    @Query("DELETE From trade where account_id=:accountId and tid=:transactionId")
+    fun deleteTrade(accountId: Long, transactionId: String): Int
+
     @Query("SELECT * From trade where account_id=:accountId and tid=:transactionId")
     fun checkTradeInDb(accountId: Long, transactionId: String): TradeEntity?
 
@@ -26,6 +32,7 @@ interface TradeDao {
     @Query("SELECT * From trade where account_id=:acctId and status NOT IN (:excludeStatuses)")//and status IN :includeStatuses
     fun singleTradesForAccountWithOutStatus(
             acctId: Long,
+            @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
             excludeStatuses: java.util.List<TradeStatus>): Single<List<TradeEntity>>
 
     @Query("SELECT * From trade where account_id=:acctId and status = :status")

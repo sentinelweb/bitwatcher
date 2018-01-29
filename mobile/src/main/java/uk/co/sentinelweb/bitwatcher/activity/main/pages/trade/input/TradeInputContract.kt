@@ -23,6 +23,7 @@ interface TradeInputContract {
         fun setCurrentPrice(currentPrice: BigDecimal)
         fun onAmountCurrencySelected(currencyString: String)
         fun toggleLinkCurrentPrice()
+        fun clearTrade()
     }
 
     interface Interactions {

@@ -1,7 +1,9 @@
 package uk.co.sentinelweb.bitwatcher.orchestrator
 
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
+import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.TradeDatabaseInteractor
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TradeDataInteractor
@@ -15,9 +17,9 @@ import javax.inject.Named
 class TradeOrchestrator @Inject constructor(
         private @Named(NetModule.BITSTAMP) val bsTradesInteractor: TradeDataInteractor,
         private @Named(NetModule.BINANCE) val bnTradesInteractor: TradeDataInteractor,
-        private val tradeInteractor:TradeDatabaseInteractor
+        private val tradeInteractor:TradeDatabaseInteractor,
+        private val accountInteractor:AccountInteractor
 ) : TradeUseCase {
-
     override fun placeTrade(account: AccountDomain, trade: TransactionItemDomain.TradeDomain): Single<TransactionItemDomain.TradeDomain> {
         return when (account.type) {
             AccountType.GHOST -> {
@@ -48,4 +50,39 @@ class TradeOrchestrator @Inject constructor(
         }
     }
 
+    override fun cancelOpenTrades(acct: AccountDomain, trades: Set<TransactionItemDomain.TradeDomain>): Single<Boolean> {
+        return when (acct.type) {
+            AccountType.GHOST -> tradeInteractor.singleDeleteTrades(acct, trades)
+            else -> Single.just(false)
+        }
+    }
+
+    override fun checkOpenTrades(): Observable<TransactionItemDomain.TradeDomain> {
+        return Observable.empty()
+//        return accountInteractor
+//                .singleAllAccounts()
+//                .flatMap { account -> checkOpenTrades(account) }
+//                .m
+    }
+
+    override fun checkOpenTrades(acct: AccountDomain): Observable<TransactionItemDomain.TradeDomain> {
+        return Observable.empty()
+    }
+
+    override fun checkOpenTrade(acct: AccountDomain, trade: TransactionItemDomain.TradeDomain): Maybe<TransactionItemDomain.TradeDomain> {
+        return Maybe.empty<TransactionItemDomain.TradeDomain>()
+    }
+
+
+//    override fun cancelOpenTrades(selectedTrades: Map<AccountDomain, Set<TransactionItemDomain.TradeDomain>>): Single<Boolean> {
+//        return Single.fromCallable(object : Callable<Boolean> {
+//            override fun call(): Boolean {
+//                selectedTrades.forEach { account: AccountDomain ->
+//                    return cancelOpenTrades(account, selectedTrades.get(account))
+//                }
+//            }
+//
+//        })
+//
+//    }
 }

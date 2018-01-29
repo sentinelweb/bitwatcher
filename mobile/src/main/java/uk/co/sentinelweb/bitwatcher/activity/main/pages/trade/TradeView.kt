@@ -1,7 +1,9 @@
 package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade
 
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +33,7 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
                 presenter.onTabClicked(TradeContract.View.Tab.values()[tab.position])
             }
         })
+        trade_delete_button.setOnClickListener({presenter.onDeleteTradesClick()})
     }
 
     override fun setPresenter(p: TradeContract.Presenter) {
@@ -57,6 +60,7 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
         trade_account_info.text = model.accountInfo
         trade_market_button.text = model.marketButtonLabel
         trade_market_info.text = model.marketInfo
+        trade_delete_button.visibility = if (model.showDeleteTradesButton) View.VISIBLE else GONE
     }
 
     override fun showAccountSeletor(accounts: Array<String>) {
@@ -81,4 +85,11 @@ class TradeView(context: Context?) : FrameLayout(context), TradeContract.View {
         return TransactionListPresenter(trade_list_open)
     }
 
+    override fun showMessage(message: String, isError:Boolean) {
+        val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
+        if (isError) {
+            snackbar.view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorError))
+        }
+        snackbar.show()
+    }
 }

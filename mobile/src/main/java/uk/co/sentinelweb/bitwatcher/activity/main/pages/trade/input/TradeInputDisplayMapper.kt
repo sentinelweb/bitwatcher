@@ -3,12 +3,14 @@ package uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input
 import uk.co.sentinelweb.bitwatcher.R
 import uk.co.sentinelweb.bitwatcher.activity.main.pages.trade.input.TradeInputState.TradeInputDisplayModel
 import uk.co.sentinelweb.bitwatcher.common.extensions.dp
+import uk.co.sentinelweb.bitwatcher.common.mapper.AmountFormatter
 import uk.co.sentinelweb.bitwatcher.common.mapper.StringMapper
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.BID
 import java.math.BigDecimal
 
 class TradeInputDisplayMapper constructor(
-        private val stringMapper: StringMapper
+        private val stringMapper: StringMapper,
+        private val currencyFormatter:AmountFormatter
 ) {
 
     fun mapModel(state: TradeInputState): TradeInputDisplayModel {
@@ -16,10 +18,10 @@ class TradeInputDisplayMapper constructor(
                 zero(state.amount),
                 zero(state.price, 5),
                 true,
-                state.otherAmount.dp(4)+ " "+ state.otherCurrency,
+                currencyFormatter.format(state.otherAmount, state.otherCurrency),
                 "help",
-                stringMapper.getString(if (state.tradeType==BID) R.string.buy else R.string.sell ),
-                true,
+                stringMapper.getString(if (state.tradeType == BID) R.string.buy else R.string.sell),
+                state.amount > BigDecimal.ZERO,
                 if (state.tradeType == BID) R.color.colorBuy else R.color.colorSell,
                 state.amountCurrency.toString()
         )
