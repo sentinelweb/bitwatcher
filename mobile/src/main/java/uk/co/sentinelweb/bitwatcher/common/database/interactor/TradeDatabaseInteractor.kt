@@ -7,6 +7,9 @@ import uk.co.sentinelweb.bitwatcher.common.database.mapper.TradeDomainToEntityMa
 import uk.co.sentinelweb.bitwatcher.common.database.mapper.TradeEntityToDomainMapper
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeStatus.COMPLETE
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeStatus.PENDING
+import java.util.*
 import java.util.concurrent.Callable
 import javax.inject.Inject
 
@@ -33,20 +36,31 @@ class TradeDatabaseInteractor @Inject internal constructor(
                 }
             }
 
-        }).map {entity -> domainMapper.map(entity)  }
+        }).map { entity -> domainMapper.map(entity) }
     }
 
-    fun singleOpenTradesForAccount(acct:AccountDomain):Single<List<TradeDomain>> {
-        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
-        val arrayList:java.util.List<TradeDomain.TradeStatus> = java.util.ArrayList<TradeDomain.TradeStatus>() as java.util.List<TradeDomain.TradeStatus>
-        arrayList.add(TradeDomain.TradeStatus.COMPLETE)
-        return db.tradeDao().
-                singleTradesForAccountWithOutStatus(acct.id!!, arrayList)
-                .map {entityList:List<TradeEntity> -> domainMapper.mapList(entityList)  }
+    fun singleOpenTradesForAccount(acct: AccountDomain): Single<List<TradeDomain>> {
+        return singleTradesForAccountWithOutStatuses(acct, COMPLETE)
+    }
+
+    fun singlePendingTradesForAccount(acct: AccountDomain): Single<List<TradeDomain>> {
+        return singleTradesForAccountWithStatuses(acct, PENDING)
+    }
+
+    fun singleTradesForAccountWithOutStatuses(acct: AccountDomain, vararg exclude: TradeDomain.TradeStatus): Single<List<TradeDomain>> {
+        return db.tradeDao()
+                .singleTradesForAccountWithOutStatuses(acct.id!!, statusList(*exclude))
+                .map { entityList: List<TradeEntity> -> domainMapper.mapList(entityList) }
+    }
+
+    fun singleTradesForAccountWithStatuses(acct: AccountDomain, vararg include: TradeDomain.TradeStatus): Single<List<TradeDomain>> {
+        return db.tradeDao()
+                .singleTradesForAccountWithStatuses(acct.id!!, statusList(*include))
+                .map { entityList: List<TradeEntity> -> domainMapper.mapList(entityList) }
     }
 
     /**
-     * deletes a set of trades from the specified account
+     * Deletes a set of trades from the specified account
      */
     fun singleDeleteTrades(account: AccountDomain, trades: Set<TradeDomain>): Single<Boolean> {
         return Single.fromCallable(object : Callable<Boolean> {
@@ -61,6 +75,14 @@ class TradeDatabaseInteractor @Inject internal constructor(
             }
         })
 
+    }
+
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private fun statusList(vararg list: TradeDomain.TradeStatus): java.util.List<TradeDomain.TradeStatus> {
+        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN", "UNCHECKED_CAST")
+        val arrayList: java.util.List<TradeDomain.TradeStatus> = ArrayList<TradeDomain.TradeStatus>() as java.util.List<TradeDomain.TradeStatus>
+        arrayList.addAll(list)
+        return arrayList
     }
 
 }

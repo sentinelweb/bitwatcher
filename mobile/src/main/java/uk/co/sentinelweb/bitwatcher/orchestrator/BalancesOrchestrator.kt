@@ -10,8 +10,11 @@ import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.BalanceDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain.TradeType.BID
 import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
+import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -22,6 +25,7 @@ class BalancesOrchestrator @Inject constructor(
         private @Named(NetModule.BINANCE) var balancesInteractorBinance: BalanceDataInteractor,
         private val accountInteractor: AccountsRepositoryUseCase
 ) : BalanceUpdateUseCase {
+
 
     override fun getBalances(): Observable<Boolean> {
 
@@ -43,10 +47,33 @@ class BalancesOrchestrator @Inject constructor(
                 .toObservable()
     }
 
-    inner class SaveAccountTransformer : FlowableTransformer<AccountData, Boolean> {
+    private inner class SaveAccountTransformer : FlowableTransformer<AccountData, Boolean> {
         override fun apply(upstream: Flowable<AccountData>): Flowable<Boolean> {
             return upstream.map { pair -> pair.second.copy(balances = pair.first) }
                     .flatMap { accountUpdated -> accountInteractor.saveAccount(accountUpdated).toFlowable() }
         }
     }
+
+    override fun updateBalanceFromTrade(acct: AccountDomain, trade: TransactionItemDomain.TradeDomain): Maybe<Boolean> {
+        return accountInteractor
+                .singleLoadAccount(acct.id!!)
+                .doOnSuccess { acctLoaded ->
+                    val multiplier = if (trade.type == BID) BigDecimal.ONE else -BigDecimal.ONE
+                    var newBalanceFrom = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeFrom }.first().balance
+                    newBalanceFrom -= trade.amount * multiplier
+                    var newBalanceTo = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeFrom }.first().balance
+                    newBalanceTo += trade.amount * trade.price * multiplier
+                    // TODO save balances
+                }
+                .map { _ -> true }
+                .toMaybe()
+    }
+//                .map{acctLoaded -> acctLoaded.balances}
+//                .flatMapObservable { balances ->  Observable.fromIterable(balances)}
+//                .doOnNext{balance ->
+//                    if (balance.currency == trade.currencyCodeFrom) {
+//                        balance.available
+//                    }
+//                }
+//}
 }

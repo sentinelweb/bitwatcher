@@ -20,7 +20,7 @@ interface TradeDao {
     fun updateTrade(t: TradeEntity)
 
     @Delete()
-    fun deleteTrade(t: TradeEntity):Int
+    fun deleteTrade(t: TradeEntity): Int
 
     @Query("DELETE From trade where account_id=:accountId and tid=:transactionId")
     fun deleteTrade(accountId: Long, transactionId: String): Int
@@ -30,10 +30,17 @@ interface TradeDao {
 
     // FIXME room not processing kotlin lists
     @Query("SELECT * From trade where account_id=:acctId and status NOT IN (:excludeStatuses)")//and status IN :includeStatuses
-    fun singleTradesForAccountWithOutStatus(
+    fun singleTradesForAccountWithOutStatuses(
             acctId: Long,
-            @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-            excludeStatuses: java.util.List<TradeStatus>): Single<List<TradeEntity>>
+            @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") excludeStatuses: java.util.List<TradeStatus>
+    ): Single<List<TradeEntity>>
+
+    // FIXME room not processing kotlin lists
+    @Query("SELECT * From trade where account_id=:acctId and status IN (:includeStatuses)")//and status IN :includeStatuses
+    fun singleTradesForAccountWithStatuses(
+            acctId: Long,
+            @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") includeStatuses: java.util.List<TradeStatus>
+    ): Single<List<TradeEntity>>
 
     @Query("SELECT * From trade where account_id=:acctId and status = :status")
     fun singleTradesForAccountWithStatus(
