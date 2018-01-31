@@ -16,7 +16,7 @@ class TransactionApiInteractor(
 
     override fun getTransactionsForCurrencies(currencies: List<CurrencyCode>): Observable<List<TransactionDomain>> {
         val currencyObservables = mutableListOf<Observable<List<TransactionDomain>>>()
-        currencies.forEach({code -> currencyObservables.add(getTransactionsforCurrency(/*code*/).toObservable())})
+        currencies.forEach({_ -> currencyObservables.add(getTransactionsforCurrency(/*code*/).toObservable())})
         return Observable.mergeDelayError(currencyObservables)
     }
 

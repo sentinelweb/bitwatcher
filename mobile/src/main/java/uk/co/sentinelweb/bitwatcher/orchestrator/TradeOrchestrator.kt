@@ -65,7 +65,7 @@ class TradeOrchestrator @Inject constructor(
         return accountInteractor
                 .singleAllAccounts()
                 .flatMapObservable { accountList -> Observable.fromIterable(accountList) }
-                .flatMap { account: AccountDomain -> checkOpenTrades() }
+                .flatMap { account: AccountDomain -> checkOpenTrades(account) }
     }
 
     override fun checkOpenTrades(acct: AccountDomain): Observable<TransactionItemDomain.TradeDomain> {
