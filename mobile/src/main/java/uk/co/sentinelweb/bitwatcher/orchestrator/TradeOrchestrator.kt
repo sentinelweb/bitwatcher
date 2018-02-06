@@ -80,14 +80,12 @@ class TradeOrchestrator @Inject constructor(
             AccountType.GHOST -> {
                 tickerRateInteractor
                         .getRate(trade.currencyCodeTo, trade.currencyCodeFrom)
-                        .filter { rate -> (trade.price - rate).abs() < rate.div(BigDecimal(500)) } //maybe
+                        .filter { rate -> (trade.price - rate).abs() < rate.div(BigDecimal(500)) } // maybe
                         .map { _ ->
                             trade.copy(status = TransactionItemDomain.TradeDomain.TradeStatus.COMPLETE)
                         }
                         //.doOnSuccess { tradeUdpated -> a } // TODO update balances
                         .flatMap { tradeUpdated -> tradeInteractor.singleInsertOrUpdate(acct, tradeUpdated).toMaybe() }
-
-
             }
             else -> Maybe.empty()
         }
