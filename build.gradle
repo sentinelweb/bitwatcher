@@ -7,7 +7,7 @@ buildscript {
     ext.rx_version = '2.1.5'
     ext.rx_android_version = '2.0.1'
     ext.dagger_version = '2.12'
-    ext.play_services = '11.6.2'
+    ext.play_services = '11.8.0'
     ext.lifecycle = '1.1.0'
     ext.lifecycle_compiler = '1.1.0'
     ext.lifecycle_room = '1.0.0'
