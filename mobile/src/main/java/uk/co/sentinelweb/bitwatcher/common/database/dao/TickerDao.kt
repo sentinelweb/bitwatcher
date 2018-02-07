@@ -8,26 +8,31 @@ import uk.co.sentinelweb.bitwatcher.common.database.converter.CurrencyCodeConver
 import uk.co.sentinelweb.bitwatcher.common.database.converter.DateConverter
 import uk.co.sentinelweb.bitwatcher.common.database.entities.TickerEntity
 import uk.co.sentinelweb.domain.CurrencyCode
+import uk.co.sentinelweb.domain.TickerDomain
 import java.math.BigDecimal
 import java.util.*
 
 @Dao
 @TypeConverters(CurrencyCodeConverter::class, BigDecimalConverter::class, DateConverter::class)
 interface TickerDao {
-//    @Query("SELECT * From ticker_data")
-//    fun flowAllTickers(): Flowable<List<TickerEntity>>
 
-    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
-    fun flowTicker(code:String, base:String): Publisher<TickerEntity>
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name='current'")
+    fun flowTicker(code:CurrencyCode, base:CurrencyCode): Publisher<TickerEntity>
 
-    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
-    fun singleTicker(code:String, base:String): Single<TickerEntity>
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name='current'")
+    fun singleTicker(code:CurrencyCode, base:CurrencyCode): Single<TickerEntity>
 
-    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base")
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name=:name")
+    fun singleTickerNamed(code:CurrencyCode, base:CurrencyCode, name:String): Single<TickerEntity>
+
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name='current'")
     fun loadTicker(code:CurrencyCode, base:CurrencyCode): TickerEntity?
 
-    @Query("SELECT id From ticker_data WHERE currencyCode=:code AND baseCode=:base")
-    fun getTickerId(code:CurrencyCode, base:CurrencyCode): Long?
+    @Query("SELECT * From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name=:name")
+    fun loadTickerNamed(code:CurrencyCode, base:CurrencyCode, name:String): TickerEntity?
+
+    @Query("SELECT id From ticker_data WHERE currencyCode=:code AND baseCode=:base AND name=:name")
+    fun getTickerIdNamed(code:CurrencyCode, base:CurrencyCode, name:String): Long?
 
     @Query("SELECT count(*) From ticker_data")
     fun count(): Int

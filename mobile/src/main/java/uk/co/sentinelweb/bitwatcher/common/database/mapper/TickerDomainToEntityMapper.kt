@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class TickerDomainToEntityMapper @Inject constructor() {
     fun map(input:TickerDomain ):TickerEntity  {
-        return TickerEntity(0, "", input.currencyCode, input.baseCurrencyCode, input.last,input.from)
+        return TickerEntity(0, "", input.currencyCode, input.baseCurrencyCode, input.last, input.from)
     }
 }

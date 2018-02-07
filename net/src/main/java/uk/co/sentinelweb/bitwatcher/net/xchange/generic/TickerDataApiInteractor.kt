@@ -39,7 +39,7 @@ class TickerDataApiInteractor(
     class TickerMapper {
         fun map(ticker: Ticker): TickerDomain {
             return TickerDomain(
-                    TickerDomain.BASIC,
+                    TickerDomain.NAME_CURRENT,
                     ticker.timestamp ?: Date(),
                     ticker.last,
                     CurrencyCode.lookup(ticker.currencyPair.base.currencyCode),

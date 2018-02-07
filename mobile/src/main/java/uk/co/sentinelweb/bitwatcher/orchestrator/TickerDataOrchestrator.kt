@@ -9,60 +9,67 @@ import uk.co.sentinelweb.bitwatcher.net.interactor.TickerMergeInteractor
 import uk.co.sentinelweb.domain.CurrencyCode.*
 import uk.co.sentinelweb.domain.TickerDomain
 import uk.co.sentinelweb.use_case.UpdateTickersUseCase
+import java.math.BigDecimal
+import java.util.*
 import javax.inject.Inject
 
 class TickerDataOrchestrator @Inject constructor(
         private val tickersInteractor: TickerMergeInteractor,
         private val db: BitwatcherDatabase,
-        private val entityMapper: TickerDomainToEntityMapper,
-        private val tickerEntityMapper: TickerEntityToDomainMapper
+        private val tickerEntityMapper: TickerDomainToEntityMapper,
+        private val tickerDomainMapper: TickerEntityToDomainMapper
 ) : UpdateTickersUseCase {
 
     override fun downloadTickerToRepository(): Observable<TickerDomain> {
         return tickersInteractor.getMergedTickers()
-                .map { domain -> Pair(domain, entityMapper.map(domain)) }
-                .doOnNext { (_, entity) ->
-                    val loadTicker = db.tickerDao().getTickerId(entity.currencyCode, entity.baseCode)
+                //.map { tickerDomain -> Pair(tickerDomain, entityMapper.map(tickerDomain)) }
+                .doOnNext { domain ->
+                    val loadTicker = db.tickerDao().loadTickerNamed(domain.currencyCode, domain.baseCurrencyCode, TickerDomain.NAME_CURRENT)
+                    val loadTickerPrev = db.tickerDao().loadTickerNamed(domain.currencyCode, domain.baseCurrencyCode, TickerDomain.NAME_PREVIOUS)
                     if (loadTicker != null) {
-                        db.tickerDao().updateTicker(entity.currencyCode, entity.baseCode, entity.amount, entity.dateStamp)
-                        db.tickerDao().updateName(entity.currencyCode, entity.baseCode, TickerDomain.BASIC)
+                        db.tickerDao().updateTicker(domain.currencyCode, domain.baseCurrencyCode, domain.last, domain.from)
                     } else {
-                        db.tickerDao().insertTicker(entity)
+                        db.tickerDao().insertTicker(tickerEntityMapper.map(domain))
                     }
-                }.map { pair -> pair.first }
+                    if (loadTickerPrev != null) {
+                        db.tickerDao().updateTicker(domain.currencyCode, domain.baseCurrencyCode, loadTicker?.amount?: BigDecimal.ZERO, domain.from)
+                    } else {
+                        db.tickerDao().insertTicker(tickerEntityMapper.map(domain).copy(name = TickerDomain.NAME_PREVIOUS))
+                    }
+                }
     }
 
     override fun observeTickersFromRepository(): Observable<TickerDomain> {
         return Flowable.merge(
                 Flowable.merge(
-                        db.tickerDao().flowTicker(BTC.toString(), GBP.toString()),
-                        db.tickerDao().flowTicker(BTC.toString(), EUR.toString()),
-                        db.tickerDao().flowTicker(BTC.toString(), USD.toString())
+                        db.tickerDao().flowTicker(BTC, GBP),
+                        db.tickerDao().flowTicker(BTC, EUR),
+                        db.tickerDao().flowTicker(BTC, USD)
                 ),
                 Flowable.merge(
-                        db.tickerDao().flowTicker(ETH.toString(), GBP.toString()),
-                        db.tickerDao().flowTicker(ETH.toString(), EUR.toString()),
-                        db.tickerDao().flowTicker(ETH.toString(), USD.toString())
+                        db.tickerDao().flowTicker(ETH, GBP),
+                        db.tickerDao().flowTicker(ETH, EUR),
+                        db.tickerDao().flowTicker(ETH, USD)
                 ),
                 Flowable.merge(
-                        db.tickerDao().flowTicker(BCH.toString(), GBP.toString()),
-                        db.tickerDao().flowTicker(BCH.toString(), EUR.toString()),
-                        db.tickerDao().flowTicker(BCH.toString(), USD.toString())
+                        db.tickerDao().flowTicker(BCH, GBP),
+                        db.tickerDao().flowTicker(BCH, EUR),
+                        db.tickerDao().flowTicker(BCH, USD)
                 ),
                 Flowable.merge(
                         Flowable.merge(
-                                db.tickerDao().flowTicker(XRP.toString(), GBP.toString()),
-                                db.tickerDao().flowTicker(XRP.toString(), EUR.toString()),
-                                db.tickerDao().flowTicker(XRP.toString(), USD.toString())
+                                db.tickerDao().flowTicker(XRP, GBP),
+                                db.tickerDao().flowTicker(XRP, EUR),
+                                db.tickerDao().flowTicker(XRP, USD)
                         ),
 
                         Flowable.merge(
-                                db.tickerDao().flowTicker(IOTA.toString(), GBP.toString()),
-                                db.tickerDao().flowTicker(IOTA.toString(), EUR.toString()),
-                                db.tickerDao().flowTicker(IOTA.toString(), USD.toString())
+                                db.tickerDao().flowTicker(IOTA, GBP),
+                                db.tickerDao().flowTicker(IOTA, EUR),
+                                db.tickerDao().flowTicker(IOTA, USD)
                         )
                 )
-        ).map({ tickerEntity -> tickerEntityMapper.map(tickerEntity) })
+        ).map({ tickerEntity -> tickerDomainMapper.map(tickerEntity) })
                 .toObservable()
     }
 }

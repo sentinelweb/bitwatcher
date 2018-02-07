@@ -7,7 +7,6 @@ import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h
 import org.knowm.xchange.binance.service.BinanceMarketDataServiceRaw
 import uk.co.sentinelweb.bitwatcher.net.TickerDataInteractor
 import uk.co.sentinelweb.domain.CurrencyCode
-import uk.co.sentinelweb.domain.CurrencyPair
 import uk.co.sentinelweb.domain.TickerDomain
 import java.util.*
 import java.util.concurrent.Callable
@@ -42,7 +41,7 @@ class BinanceTickerDataApiInteractor(
     class TickerMapper {
         fun map(ticker: BinanceTicker24h, currency:CurrencyCode, base:CurrencyCode): TickerDomain {
             return TickerDomain(
-                    TickerDomain.BASIC,
+                    TickerDomain.NAME_CURRENT,
                     Date(),
                     ticker.lastPrice,
                     currency,

@@ -69,7 +69,7 @@ class TickerMergeInteractor @Inject constructor(
                         val xrpUsdRate = priceCache.get(CurrencyPair.getKey(XRP, USD))
                         val usdGbpRate = btcGbpTicker.last.divide(btcUsdRate, 8, RoundingMode.HALF_EVEN)
                         val convertedPrice = xrpUsdRate?.multiply(usdGbpRate) ?: BigDecimal.ZERO
-                        return TickerDomain(TickerDomain.BASIC, Date(), convertedPrice, XRP, GBP)
+                        return TickerDomain(TickerDomain.NAME_CURRENT, Date(), convertedPrice, XRP, GBP)
                     }
                 }).doOnError { e -> Log.d(TAG, "Error convert XRP->GBP ticker ", e) }
         )

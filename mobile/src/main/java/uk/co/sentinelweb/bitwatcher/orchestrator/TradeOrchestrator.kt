@@ -6,14 +6,12 @@ import io.reactivex.Single
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.AccountInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.TickerRateInteractor
 import uk.co.sentinelweb.bitwatcher.common.database.interactor.TradeDatabaseInteractor
-import uk.co.sentinelweb.bitwatcher.common.extensions.div
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.bitwatcher.net.TradeDataInteractor
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.TransactionItemDomain
 import uk.co.sentinelweb.use_case.TradeUseCase
-import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -79,8 +77,8 @@ class TradeOrchestrator @Inject constructor(
         return when (acct.type) {
             AccountType.GHOST -> {
                 tickerRateInteractor
-                        .getRate(trade.currencyCodeTo, trade.currencyCodeFrom)
-                        .filter { rate -> (trade.price - rate).abs() < rate.div(BigDecimal(500)) } // maybe
+                        .getRateRange(trade.currencyCodeTo, trade.currencyCodeFrom)
+                        .filter { ratePair -> (trade.price.toDouble() in ratePair.first.min(ratePair.second).toDouble().rangeTo(ratePair.first.max(ratePair.second).toDouble())) } // maybe
                         .map { _ ->
                             trade.copy(status = TransactionItemDomain.TradeDomain.TradeStatus.COMPLETE)
                         }
