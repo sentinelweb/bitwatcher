@@ -12,20 +12,20 @@ class PagesAdapter @Inject constructor(
         private val pagesFactory: PagesFactory
 ) : PagerAdapter() {
 
-    override fun instantiateItem(container: ViewGroup?, position: Int): Any? {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val pagePresenter = pagesFactory.createPagePresenter(container, position)
         presenter.addPagePresenter(position, pagePresenter)
         Log.d("MainActivity", "add item ${position}")
         return pagePresenter.view()
     }
 
-    override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         Log.d("MainActivity", "remove item ${position}")
         val removePagePresenter = presenter.removePagePresenter(position)
-        container?.removeView(removePagePresenter?.view())
+        container.removeView(removePagePresenter?.view())
     }
 
-    override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
     }
 

@@ -2,9 +2,11 @@ package uk.co.sentinelweb.bitwatcher.orchestrator
 
 import com.flextrade.jfixture.FixtureAnnotations
 import com.flextrade.jfixture.annotations.Fixture
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
+import org.amshove.kluent.shouldEqual
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -39,15 +41,13 @@ class TickerDataOrchestratorTest {
     }
 
     @Test
-    fun downloadTickerToRepository() {
-        whenever(mockTickersInteractor.getMergedTickers())
-                .thenReturn(Observable.just(tickerDomain))
+    fun downloadTickerToRepository_hasCurrentAndPrevious() {
+        whenever(mockTickersInteractor.getMergedTickers()).thenReturn(Observable.just(tickerDomain))
         whenever(mockDb.tickerDao()).thenReturn(mockTickerDao)
         whenever(mockTickerDao.loadTickerNamed(tickerDomain.currencyCode, tickerDomain.baseCurrencyCode, TickerDomain.NAME_CURRENT))
                 .thenReturn(tickerEntity)
-        whenever(mockTickerDao.loadTickerNamed(tickerDomain.currencyCode, tickerDomain.baseCurrencyCode, TickerDomain.NAME_CURRENT))
+        whenever(mockTickerDao.loadTickerNamed(tickerDomain.currencyCode, tickerDomain.baseCurrencyCode, TickerDomain.NAME_PREVIOUS))
                 .thenReturn(previousTickerEntity)
-        // TODO these might not be right
         whenever(mockTickerDomainMapper.map(tickerEntity)).thenReturn(tickerDomain)
         whenever(mockTickerEntityMapper.map(tickerDomain)).thenReturn(tickerEntity)
 
@@ -55,9 +55,24 @@ class TickerDataOrchestratorTest {
 
         sut.downloadTickerToRepository().subscribe(testObserver)
 
+        verify(mockTickerDao).updateTicker(
+                tickerDomain.currencyCode,
+                tickerDomain.baseCurrencyCode,
+                TickerDomain.NAME_CURRENT,
+                tickerDomain.last,
+                tickerDomain.from)
+
+        verify(mockTickerDao).updateTicker(
+                tickerDomain.currencyCode,
+                tickerDomain.baseCurrencyCode,
+                TickerDomain.NAME_PREVIOUS,
+                tickerEntity.amount,
+                tickerEntity.dateStamp)
+
         testObserver.assertComplete()
         testObserver.assertNoErrors()
         testObserver.assertValueCount(1)
+        testObserver.values().get(0) shouldEqual tickerDomain
     }
 
     @Test

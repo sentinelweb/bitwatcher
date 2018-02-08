@@ -13,7 +13,7 @@ import uk.co.sentinelweb.use_case.AccountsRepositoryUseCase
 import java.util.concurrent.Callable
 import javax.inject.Inject
 
-// TODO try to setup foreign keys and cascading deletion for positionItems
+// TODO setup foreign keys and cascading deletion for positionItems
 class AccountInteractor @Inject constructor(
         private val accountEntityMapper: AccountDomainToEntityMapper,
         private val positionEntityMapper: PositionDomainToEntityMapper,
@@ -93,7 +93,7 @@ class AccountInteractor @Inject constructor(
 
 }
 
-// TODO convert save to proper Rx chain
+// TODO convert save to better Rx chain
 //        val accountUpdate: Single<AccountEntity>
 //        if (account.id == null) {
 //            accountUpdate = db.accountDao()

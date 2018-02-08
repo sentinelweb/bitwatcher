@@ -35,15 +35,15 @@ class AlarmReceiver() : BroadcastReceiver() {
                 .add(tickersUseCase.downloadTickerToRepository()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ _ -> Log.d(TAG, "updated ticker data") },
-                                { e -> Log.d(TAG, "error updating ticker data", e) }))
+                        .subscribe({ _ -> Log.d(TAG, "updated ticker data in background") },
+                                { e -> Log.d(TAG, "error updating ticker data in background", e) }))
 
         subscription
                 .add(balanceUpdateUseCase.getBalances()
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe({ success -> Log.d(TAG, "updated balance data: ${success}") },
-                                { e -> Log.d(TAG, "error updating ticker data", e) })
+                        .subscribe({ success -> Log.d(TAG, "updated balance data in background: ${success}") },
+                                { e -> Log.d(TAG, "error updating ticker data in background", e) })
                 )
     }
 

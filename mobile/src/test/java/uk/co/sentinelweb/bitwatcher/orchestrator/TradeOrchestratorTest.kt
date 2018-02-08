@@ -35,13 +35,13 @@ class TradeOrchestratorTest {
     @Mock
     lateinit var mockTickerRateInteractor: TickerRateInteractor
 
+    //@Fixture lateinit var account:AccountDomain
     val account = AccountDomain(1,
             "test",
             AccountType.GHOST,
             listOf(),
             listOf(),// problem with fixture and wildcards for TransactionItemDomain
             ColourDomain.RED)
-    //    @Fixture lateinit var account:AccountDomain
     @Fixture
     lateinit var trade: TradeDomain
 

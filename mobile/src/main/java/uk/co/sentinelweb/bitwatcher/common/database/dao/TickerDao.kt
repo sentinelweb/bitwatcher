@@ -39,10 +39,10 @@ interface TickerDao {
 
     @Query("Update ticker_data  " +
             "SET amount = :amount,  dateStamp = :dateStamp " +
-            "WHERE currencyCode = :currencyCode AND baseCode = :baseCode " +
+            "WHERE currencyCode = :currencyCode AND baseCode = :baseCode  AND name = :name " +
             ";"
     )
-    fun updateTicker(currencyCode: CurrencyCode, baseCode: CurrencyCode, amount: BigDecimal, dateStamp: Date)
+    fun updateTicker(currencyCode: CurrencyCode, baseCode: CurrencyCode, name: String, amount: BigDecimal, dateStamp: Date)
 
     @Query("Update ticker_data  " +
             "SET name = :name " +

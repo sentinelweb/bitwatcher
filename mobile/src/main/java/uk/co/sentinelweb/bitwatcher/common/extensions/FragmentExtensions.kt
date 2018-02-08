@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 fun Fragment.putExtras(a: AppCompatActivity) {
     this.arguments = Bundle()
     if (a.intent.extras != null) {
-        this.arguments.putAll(a.intent.extras)
+        this.arguments?.putAll(a.intent.extras)
     }
 }
 

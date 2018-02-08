@@ -1,5 +1,6 @@
 package uk.co.sentinelweb.bitwatcher.activity.edit_account
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
@@ -50,10 +51,10 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         return inflater.inflate(R.layout.edit_account_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         type_text.setOnClickListener({ _ -> fragmentPresenter.onTypeChangeClick() })
-        (activity.applicationContext as BitwatcherApplication)
+        (activity?.applicationContext as BitwatcherApplication)
                 .component
                 .editAccountBuilder()
                 .editAccountFragment(this)
@@ -65,7 +66,7 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
             Log.d(TAG, "restoring account : ${restoreState}")
             restoreState.account?.let { fragmentPresenter.restoreState(it) }
         } else {
-            val id = if (arguments.containsKey(EXTRA_ACCOUNT_ID)) arguments.getLong(EXTRA_ACCOUNT_ID) else null
+            val id = if (arguments?.containsKey(EXTRA_ACCOUNT_ID)?: false) arguments?.getLong(EXTRA_ACCOUNT_ID) else null
             fragmentPresenter.initialise(id)
         }
         balances_add_button.setOnClickListener({ fragmentPresenter.addBalance() })
@@ -108,7 +109,7 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
     override fun createAndShowTypeDialog() {
         val items = arrayOfNulls<CharSequence>(AccountType.values().size - 1)
         AccountType.values().forEachIndexed { index, type -> if (index > 0) items[index - 1] = type.toString() }
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(context!!)
                 .setTitle(getString(R.string.title_select_type))
                 .setItems(items, { _: DialogInterface, idx: Int -> fragmentPresenter.onTypeSelected(idx + 1) })
                 .create()
@@ -158,42 +159,45 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
         outState.putParcelable(STATE_KEY, saveState)
     }
 
+    @SuppressLint("InflateParams")
     override fun showColorPicker(@ColorInt selectedColor: Int) {
         //val colorPickerDialog = ColorPickerDialog()
         //var color = selectedColor
+
         val colours = intArrayOf(
-                ContextCompat.getColor(context, R.color.red_500),
-                ContextCompat.getColor(context, R.color.green_500),
-                ContextCompat.getColor(context, R.color.blue_500),
-                ContextCompat.getColor(context, R.color.indigo_500),
-                ContextCompat.getColor(context, R.color.teal_500),
-                ContextCompat.getColor(context, R.color.grey_500),
-                ContextCompat.getColor(context, R.color.orange_500),
-                ContextCompat.getColor(context, R.color.yellow_500),
-                ContextCompat.getColor(context, R.color.deep_orange_500),
-                ContextCompat.getColor(context, R.color.deep_purple_500),
-                ContextCompat.getColor(context, R.color.light_blue_500),
-                ContextCompat.getColor(context, R.color.light_green_500),
-                ContextCompat.getColor(context, R.color.blue_grey_500),
-                ContextCompat.getColor(context, R.color.pink_500),
-                ContextCompat.getColor(context, R.color.cyan_500),
-                ContextCompat.getColor(context, R.color.amber_500),
-                ContextCompat.getColor(context, R.color.brown_500),
-                ContextCompat.getColor(context, R.color.lime_500),
-                ContextCompat.getColor(context, R.color.black),
-                ContextCompat.getColor(context, R.color.grey_300)
+                ContextCompat.getColor(context!!, R.color.red_500),
+                ContextCompat.getColor(context!!, R.color.green_500),
+                ContextCompat.getColor(context!!, R.color.blue_500),
+                ContextCompat.getColor(context!!, R.color.indigo_500),
+                ContextCompat.getColor(context!!, R.color.teal_500),
+                ContextCompat.getColor(context!!, R.color.grey_500),
+                ContextCompat.getColor(context!!, R.color.orange_500),
+                ContextCompat.getColor(context!!, R.color.yellow_500),
+                ContextCompat.getColor(context!!, R.color.deep_orange_500),
+                ContextCompat.getColor(context!!, R.color.deep_purple_500),
+                ContextCompat.getColor(context!!, R.color.light_blue_500),
+                ContextCompat.getColor(context!!, R.color.light_green_500),
+                ContextCompat.getColor(context!!, R.color.blue_grey_500),
+                ContextCompat.getColor(context!!, R.color.pink_500),
+                ContextCompat.getColor(context!!, R.color.cyan_500),
+                ContextCompat.getColor(context!!, R.color.amber_500),
+                ContextCompat.getColor(context!!, R.color.brown_500),
+                ContextCompat.getColor(context!!, R.color.lime_500),
+                ContextCompat.getColor(context!!, R.color.black),
+                ContextCompat.getColor(context!!, R.color.grey_300)
         )
 
         var dialog:AlertDialog? = null
         val layoutInflater = LayoutInflater.from(context)
+        //noinspection inflateparams
         val colorPickerPalette = layoutInflater.inflate(R.layout.view_colour_picker, null) as ColorPickerPalette
         colorPickerPalette.init(colours.size, 5, { c: Int ->
             fragmentPresenter.onColorSelected(c)
             dialog?.dismiss()
-        });
-        colorPickerPalette.drawPalette(colours, selectedColor);
+        })
+        colorPickerPalette.drawPalette(colours, selectedColor)
 
-        dialog = AlertDialog.Builder(context, R.style.ColourDialogTheme)
+        dialog = AlertDialog.Builder(context!!, R.style.ColourDialogTheme)
                 .setTitle(R.string.title_select_color)
                 .setView(colorPickerPalette)
                 .create()

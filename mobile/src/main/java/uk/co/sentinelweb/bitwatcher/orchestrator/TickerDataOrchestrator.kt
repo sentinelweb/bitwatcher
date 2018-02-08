@@ -22,19 +22,32 @@ class TickerDataOrchestrator @Inject constructor(
 
     override fun downloadTickerToRepository(): Observable<TickerDomain> {
         return tickersInteractor.getMergedTickers()
-                //.map { tickerDomain -> Pair(tickerDomain, entityMapper.map(tickerDomain)) }
                 .doOnNext { domain ->
                     val loadTicker = db.tickerDao().loadTickerNamed(domain.currencyCode, domain.baseCurrencyCode, TickerDomain.NAME_CURRENT)
                     val loadTickerPrev = db.tickerDao().loadTickerNamed(domain.currencyCode, domain.baseCurrencyCode, TickerDomain.NAME_PREVIOUS)
                     if (loadTicker != null) {
-                        db.tickerDao().updateTicker(domain.currencyCode, domain.baseCurrencyCode, domain.last, domain.from)
+                        db.tickerDao().updateTicker(
+                                domain.currencyCode,
+                                domain.baseCurrencyCode,
+                                TickerDomain.NAME_CURRENT,
+                                domain.last,
+                                domain.from)
                     } else {
                         db.tickerDao().insertTicker(tickerEntityMapper.map(domain))
                     }
                     if (loadTickerPrev != null) {
-                        db.tickerDao().updateTicker(domain.currencyCode, domain.baseCurrencyCode, loadTicker?.amount?: BigDecimal.ZERO, domain.from)
+                        db.tickerDao().updateTicker(
+                                domain.currencyCode,
+                                domain.baseCurrencyCode,
+                                TickerDomain.NAME_PREVIOUS,
+                                loadTicker?.amount?: BigDecimal.ZERO,
+                                loadTicker?.dateStamp?:Date())
                     } else {
-                        db.tickerDao().insertTicker(tickerEntityMapper.map(domain).copy(name = TickerDomain.NAME_PREVIOUS))
+                        val newPreviousEntity =
+                                tickerEntityMapper
+                                        .map(domain)
+                                        .copy(name = TickerDomain.NAME_PREVIOUS)
+                        db.tickerDao().insertTicker(newPreviousEntity)
                     }
                 }
     }
