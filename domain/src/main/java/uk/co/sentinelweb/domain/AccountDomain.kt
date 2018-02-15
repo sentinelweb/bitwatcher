@@ -2,7 +2,7 @@ package uk.co.sentinelweb.domain
 
 import java.io.Serializable
 
-
+//@kotlinx.serialization.Serializable
 data class AccountDomain(val id: Long?,
                          val name: String,
                          val type: AccountType,

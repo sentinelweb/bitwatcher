@@ -161,32 +161,9 @@ class EditAccountFragment : Fragment(), EditAccountContract.View {
 
     @SuppressLint("InflateParams")
     override fun showColorPicker(@ColorInt selectedColor: Int) {
-        //val colorPickerDialog = ColorPickerDialog()
-        //var color = selectedColor
-
-        val colours = intArrayOf(
-                ContextCompat.getColor(context!!, R.color.red_500),
-                ContextCompat.getColor(context!!, R.color.green_500),
-                ContextCompat.getColor(context!!, R.color.blue_500),
-                ContextCompat.getColor(context!!, R.color.indigo_500),
-                ContextCompat.getColor(context!!, R.color.teal_500),
-                ContextCompat.getColor(context!!, R.color.grey_500),
-                ContextCompat.getColor(context!!, R.color.orange_500),
-                ContextCompat.getColor(context!!, R.color.yellow_500),
-                ContextCompat.getColor(context!!, R.color.deep_orange_500),
-                ContextCompat.getColor(context!!, R.color.deep_purple_500),
-                ContextCompat.getColor(context!!, R.color.light_blue_500),
-                ContextCompat.getColor(context!!, R.color.light_green_500),
-                ContextCompat.getColor(context!!, R.color.blue_grey_500),
-                ContextCompat.getColor(context!!, R.color.pink_500),
-                ContextCompat.getColor(context!!, R.color.cyan_500),
-                ContextCompat.getColor(context!!, R.color.amber_500),
-                ContextCompat.getColor(context!!, R.color.brown_500),
-                ContextCompat.getColor(context!!, R.color.lime_500),
-                ContextCompat.getColor(context!!, R.color.black),
-                ContextCompat.getColor(context!!, R.color.grey_300)
-        )
-
+        val colours = (context?.getResources()?.getIntArray(R.array.color_selection) ?: intArrayOf())
+//                .map{ContextCompat.getColor(context!!, it)}
+//                .toIntArray()
         var dialog:AlertDialog? = null
         val layoutInflater = LayoutInflater.from(context)
         //noinspection inflateparams
