@@ -3,6 +3,7 @@ package uk.co.sentinelweb.bitwatcher.orchestrator
 import com.flextrade.jfixture.FixtureAnnotations
 import com.flextrade.jfixture.annotations.Fixture
 import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
@@ -20,6 +21,7 @@ import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.ColourDomain
 import uk.co.sentinelweb.domain.TransactionItemDomain.TradeDomain
+import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
 import java.math.BigDecimal
 
 class TradeOrchestratorTest {
@@ -34,6 +36,8 @@ class TradeOrchestratorTest {
     lateinit var mockAccountInteractor: AccountInteractor
     @Mock
     lateinit var mockTickerRateInteractor: TickerRateInteractor
+    @Mock
+    lateinit var mockBalancesUseCase: BalanceUpdateUseCase
 
     //@Fixture lateinit var account:AccountDomain
     val account = AccountDomain(1,
@@ -52,7 +56,7 @@ class TradeOrchestratorTest {
         MockitoAnnotations.initMocks(this)
         FixtureAnnotations.initFixtures(this)
         sut = TradeOrchestrator(mockBsTradesInteractor, mockBnTradesInteractor, mockTradeInteractor,
-                mockAccountInteractor, mockTickerRateInteractor)
+                mockAccountInteractor, mockTickerRateInteractor, mockBalancesUseCase)
     }
 
     @Test
@@ -70,6 +74,8 @@ class TradeOrchestratorTest {
         testObserver.assertValueCount(1)
         //assertThat(testObserver.values().get(0).status, `is`(TradeDomain.TradeStatus.COMPLETE))
         testObserver.values().get(0).status shouldEqual TradeDomain.TradeStatus.COMPLETE
+
+        verify(mockBalancesUseCase).updateBalanceFromTrade(account, trade)
     }
 
     @Test
@@ -84,6 +90,8 @@ class TradeOrchestratorTest {
         testObserver.assertComplete()
         testObserver.assertNoErrors()
         testObserver.assertNoValues()
+
+        verify(mockBalancesUseCase).updateBalanceFromTrade(account, trade)
     }
 
 

@@ -11,6 +11,7 @@ import uk.co.sentinelweb.bitwatcher.net.TradeDataInteractor
 import uk.co.sentinelweb.domain.AccountDomain
 import uk.co.sentinelweb.domain.AccountType
 import uk.co.sentinelweb.domain.TransactionItemDomain
+import uk.co.sentinelweb.use_case.BalanceUpdateUseCase
 import uk.co.sentinelweb.use_case.TradeUseCase
 import javax.inject.Inject
 import javax.inject.Named
@@ -20,7 +21,8 @@ class TradeOrchestrator @Inject constructor(
         private @Named(NetModule.BINANCE) val bnTradesInteractor: TradeDataInteractor,
         private val tradeInteractor: TradeDatabaseInteractor,
         private val accountInteractor: AccountInteractor,
-        private val tickerRateInteractor: TickerRateInteractor
+        private val tickerRateInteractor: TickerRateInteractor,
+        private val balancesUseCase: BalanceUpdateUseCase
 ) : TradeUseCase {
     override fun placeTrade(account: AccountDomain, trade: TransactionItemDomain.TradeDomain): Single<TransactionItemDomain.TradeDomain> {
         return when (account.type) {
@@ -82,7 +84,7 @@ class TradeOrchestrator @Inject constructor(
                         .map { _ ->
                             trade.copy(status = TransactionItemDomain.TradeDomain.TradeStatus.COMPLETE)
                         }
-                        //.doOnSuccess { tradeUdpated -> a } // TODO update balances
+                        .doOnSuccess { tradeUpdated -> balancesUseCase.updateBalanceFromTrade(acct, tradeUpdated) }
                         .flatMap { tradeUpdated -> tradeInteractor.singleInsertOrUpdate(acct, tradeUpdated).toMaybe() }
             }
             else -> Maybe.empty()

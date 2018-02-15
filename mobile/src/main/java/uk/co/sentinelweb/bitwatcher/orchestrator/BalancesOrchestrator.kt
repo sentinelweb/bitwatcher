@@ -5,6 +5,7 @@ import io.reactivex.FlowableTransformer
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
+import uk.co.sentinelweb.bitwatcher.common.repository.BalanceRepository
 import uk.co.sentinelweb.bitwatcher.net.BalanceDataInteractor
 import uk.co.sentinelweb.bitwatcher.net.NetModule
 import uk.co.sentinelweb.domain.AccountDomain
@@ -23,7 +24,9 @@ private typealias AccountData = Pair<List<BalanceDomain>, AccountDomain>
 class BalancesOrchestrator @Inject constructor(
         private @Named(NetModule.BITSTAMP) var balancesInteractorBitstamp: BalanceDataInteractor,
         private @Named(NetModule.BINANCE) var balancesInteractorBinance: BalanceDataInteractor,
-        private val accountInteractor: AccountsRepositoryUseCase
+        private val accountInteractor: AccountsRepositoryUseCase,
+        private val balanceRepository: BalanceRepository
+
 ) : BalanceUpdateUseCase {
 
 
@@ -57,23 +60,25 @@ class BalancesOrchestrator @Inject constructor(
     override fun updateBalanceFromTrade(acct: AccountDomain, trade: TransactionItemDomain.TradeDomain): Maybe<Boolean> {
         return accountInteractor
                 .singleLoadAccount(acct.id!!)
-                .doOnSuccess { acctLoaded ->
-                    val multiplier = if (trade.type == BID) BigDecimal.ONE else -BigDecimal.ONE
-                    var newBalanceFrom = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeFrom }.first().balance
-                    newBalanceFrom -= trade.amount * multiplier
-                    var newBalanceTo = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeFrom }.first().balance
-                    newBalanceTo += trade.amount * trade.price * multiplier
-                    // TODO save balances
+                .map { acctLoaded ->
+                    val multiplier = if (trade.type == BID) -BigDecimal.ONE else BigDecimal.ONE
+                    val balanceFrom = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeFrom }.first()
+                    val newBalanceFrom = balanceFrom.copy(balance = balanceFrom.balance - trade.amount * multiplier)
+                    balanceRepository.saveBalance(acctLoaded.id!!, newBalanceFrom)
+
+                    val balanceTo = acctLoaded.balances.filter { bal -> bal.currency == trade.currencyCodeTo }.first()
+                    val newBalanceTo = balanceTo.copy(balance = balanceTo.balance + trade.amount * trade.price * multiplier)
+                    balanceRepository.saveBalance(acctLoaded.id!!, newBalanceTo)
+
+//                    val newBalances = acctLoaded.balances.toMutableList()
+//                    newBalances.map({ balance ->
+//                        if (balance.id == newBalanceFrom.id) newBalanceFrom
+//                        else if (balance.id == newBalanceTo.id) newBalanceTo
+//                        else balance
+//                    })
+//                    acctLoaded = acctLoaded.copy(balances = newBalances.toList())
+                    true // to change return type
                 }
-                .map { _ -> true }
                 .toMaybe()
     }
-//                .map{acctLoaded -> acctLoaded.balances}
-//                .flatMapObservable { balances ->  Observable.fromIterable(balances)}
-//                .doOnNext{balance ->
-//                    if (balance.currency == trade.currencyCodeFrom) {
-//                        balance.available
-//                    }
-//                }
-//}
 }

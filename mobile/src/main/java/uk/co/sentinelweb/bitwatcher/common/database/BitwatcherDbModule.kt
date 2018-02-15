@@ -1,16 +1,19 @@
 package uk.co.sentinelweb.bitwatcher.common.database
 
 import android.arch.persistence.room.Room
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import uk.co.sentinelweb.bitwatcher.app.BitwatcherApplication
 import uk.co.sentinelweb.bitwatcher.common.database.migration.Migration1To2
 import uk.co.sentinelweb.bitwatcher.common.database.migration.Migration2to3
 import uk.co.sentinelweb.bitwatcher.common.database.migration.Migration3to4
+import uk.co.sentinelweb.bitwatcher.common.database.repository.PositionItemRoomRepository
 import uk.co.sentinelweb.bitwatcher.common.database.test.DbInitialiser
+import uk.co.sentinelweb.bitwatcher.common.repository.BalanceRepository
 import javax.inject.Singleton
 
-@Module
+@Module(includes = arrayOf(BitwatcherDbModule.Bindings::class))
 class BitwatcherDbModule {
 
 //    @Provides
@@ -37,5 +40,13 @@ class BitwatcherDbModule {
     @Singleton
     fun provideDbInitialiser(db: BitwatcherDatabase): DbInitialiser {
         return DbInitialiser(db)
+    }
+
+    @Module
+    interface Bindings {
+
+        @Binds
+        @Singleton
+        fun bindsBalanceRepo(impl:PositionItemRoomRepository):BalanceRepository
     }
 }
